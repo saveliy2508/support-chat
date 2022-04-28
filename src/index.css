@@ -1,1 +1,5 @@
-/*@import 'null.css';*/
+@import 'null.css';
+
+body > div {
+    height: 100%;
+}

@@ -1,12 +1,13 @@
 import s from './App.module.scss';
-import Basic from "./components/AuthorizationForm";
+import AuthorizationForm from "./components/AuthorizationForm";
 
 function App() {
   return (
     <div className={s.App}>
       <div className={s.appWrapper}>
-        <Basic />
+        <AuthorizationForm />
       </div>
+        <div className={s.footer}></div>
     </div>
   );
 }

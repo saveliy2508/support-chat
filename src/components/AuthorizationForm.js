@@ -10,7 +10,7 @@ const AuthorizationForm = (props) => {
                 password: ''
             },
             validationSchema: yup.object({
-                email: yup.string().email('Неверный емейл').required('Обязательное поле'),
+                email: yup.string().email('Неверный формат').required('Обязательное поле'),
                 password: yup.string().required('Введите пароль')
             }),
             onSubmit: (values) => {
@@ -20,29 +20,31 @@ const AuthorizationForm = (props) => {
     )
 
     return (
-        <div className={s.authorizationForm}>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="email">Email</label><br/>
-                <input
-                    type="text"
-                    name='email'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                /><br/>
-                {formik.errors.email && formik.touched.email ? <p>{formik.errors.email}</p> : null}
-                <label htmlFor="password">Password</label><br/>
-                <input
-                    type="password"
-                    name='password'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                /><br/>
-                {formik.errors.password && formik.touched.password ? <p>{formik.errors.password}</p> : null}
-                <button type='submit'>SUBMIT</button>
-            </form>
-        </div>
+            <div className={s.authorizationForm}>
+                <img src="./img/logo.png" alt="Логотип"/>
+                <div className={s.text}>Войти в React chat</div>
+                <form onSubmit={formik.handleSubmit}>
+                    <label htmlFor="email">Почта</label>
+                    <input
+                        type="text"
+                        name='email'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email}
+                    />
+                    <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
+                    <label htmlFor="password">Пароль</label>
+                    <input
+                        type="password"
+                        name='password'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.password}
+                    />
+                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null}</p>
+                    <button type='submit'>Войти</button>
+                </form>
+            </div>
     );
 };
 
