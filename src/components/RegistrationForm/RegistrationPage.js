@@ -6,6 +6,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import {useDispatch} from 'react-redux'
 import {setUser} from "../../redux/actions/userActions";
+import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const AuthorizationForm = (props) => {
     const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const AuthorizationForm = (props) => {
     return (
         <div className={s.authorizationForm}>
             <img src="./img/logo.png" alt="Логотип"/>
-            <div className={s.text}>Регистрация в React chat</div>
+            <div className={s.text}>Регистрация в Rocket chat</div>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="email">Почта</label>
                 <input
@@ -62,8 +64,8 @@ const AuthorizationForm = (props) => {
                     value={formik.values.password}
                 />
                 <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null}</p>
-                <p className={s.isAccount}>Есть аккаунт? <Link to='/login'>Войти</Link></p>
-                <button type='submit'>Войти</button>
+                <p className={s.isAccount}>Есть аккаунт? <Link to='/login'>Войти<FontAwesomeIcon className={s.doorIcon} icon={faDoorOpen}/></Link></p>
+                <button type='submit'>Регистрация</button>
             </form>
         </div>
     );

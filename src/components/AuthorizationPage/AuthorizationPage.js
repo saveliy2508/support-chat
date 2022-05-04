@@ -43,7 +43,7 @@ const AuthorizationPage = (props) => {
     return (
         <div className={s.authorizationForm}>
             <img src="./img/logo.png" alt="Логотип"/>
-            <div className={s.text}>Войти в React chat</div>
+            <div className={s.text}>Войти в Rocket chat</div>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="email">Почта</label>
                 <input
@@ -62,9 +62,10 @@ const AuthorizationPage = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
                 />
-                <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
+                <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password: null || errorMessage}</p>
                 <p className={s.isAccount}>Нет аккаунта? <Link to='/registration'>Регистрация</Link></p>
-                <button type='submit'>Войти</button>
+                <button type='submit'>Войти
+                </button>
             </form>
         </div>
     );
