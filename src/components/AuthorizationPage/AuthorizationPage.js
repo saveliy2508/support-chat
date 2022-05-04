@@ -1,9 +1,29 @@
 import React from 'react';
-import s from './AuthorizationForm.module.scss'
+import s from './AuthorizationPage.module.scss'
 import {useFormik} from 'formik';
 import * as yup from 'yup'
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch} from 'react-redux'
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {setUser} from './../../redux/actions/userActions'
 
-const AuthorizationForm = (props) => {
+const AuthorizationPage = (props) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const handleLogin = (email, password) => {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+            .then(({user}) => {
+                dispatch(setUser({
+                    email:user.email,
+                    id: user.uid,
+                    token: user.accessToken
+                }))
+                navigate('/')
+            })
+            .catch(console.error)
+    }
+
     const formik = useFormik({
             initialValues: {
                 email: '',
@@ -14,7 +34,7 @@ const AuthorizationForm = (props) => {
                 password: yup.string().required('Введите пароль')
             }),
             onSubmit: (values) => {
-                console.log(values)
+                handleLogin(values.email, values.password)
             }
         }
     )
@@ -42,10 +62,11 @@ const AuthorizationForm = (props) => {
                         value={formik.values.password}
                     />
                     <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null}</p>
+                    <p className={s.isAccount}>Нет аккаунта? <Link to='/registration'>Регистрация</Link></p>
                     <button type='submit'>Войти</button>
                 </form>
             </div>
     );
 };
 
-export default AuthorizationForm;
+export default AuthorizationPage;
