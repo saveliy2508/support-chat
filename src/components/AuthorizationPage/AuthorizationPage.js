@@ -4,8 +4,10 @@ import {useFormik} from 'formik';
 import * as yup from 'yup'
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux'
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import {authError, setUser} from './../../redux/actions/userActions'
+import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
+import {authError, authErrorWithSocials, setUser} from './../../redux/actions/userActions'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 
 const AuthorizationPage = (props) => {
     const dispatch = useDispatch()
@@ -23,6 +25,22 @@ const AuthorizationPage = (props) => {
                 navigate('/')
             })
             .catch(() => dispatch(authError()))
+    }
+
+    const provider = new GoogleAuthProvider();
+    const handleRegisterWithGoogle = () => {
+        const auth = getAuth();
+        signInWithPopup(auth, provider)
+            .then((responce) => {
+                const user = responce.user
+                dispatch(setUser({
+                    email: user.email,
+                    id: user.uid,
+                    token: user.accessToken
+                }))
+                navigate('/')
+            })
+            .catch(() => dispatch(authErrorWithSocials()))
     }
 
     const formik = useFormik({
@@ -43,7 +61,7 @@ const AuthorizationPage = (props) => {
     return (
         <div className={s.authorizationForm}>
             <img src="./img/logo.png" alt="Логотип"/>
-            <div className={s.text}>Войти в Rocket chat</div>
+            <div className={s.text}>Войти в Rocket support</div>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="email">Почта</label>
                 <input
@@ -64,6 +82,12 @@ const AuthorizationPage = (props) => {
                 />
                 <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password: null || errorMessage}</p>
                 <p className={s.isAccount}>Нет аккаунта? <Link to='/registration'>Регистрация</Link></p>
+                <div className={s.registrationWith}>
+                    <div>Войти через <br/>
+                        <FontAwesomeIcon className={s.vkIcon} icon={faVk}/></div>
+                    <div onClick={handleRegisterWithGoogle}>Войти через <br/>
+                        <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
+                </div>
                 <button type='submit'>Войти
                 </button>
             </form>
