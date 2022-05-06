@@ -3,7 +3,13 @@ import s from '../AuthorizationPage/AuthorizationPage.module.scss'
 import {useFormik} from 'formik';
 import * as yup from 'yup'
 import {Link, useNavigate} from "react-router-dom";
-import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider} from "firebase/auth";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    GithubAuthProvider
+} from "firebase/auth";
 import {useDispatch, useSelector} from 'react-redux'
 import {authErrorWithSocials, setUser} from "../../redux/actions/userActions";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
@@ -44,7 +50,6 @@ const AuthorizationForm = (props) => {
             })
             .catch(() => dispatch(authErrorWithSocials()))
     }
-
     const formik = useFormik({
             initialValues: {
                 email: '',
@@ -52,7 +57,12 @@ const AuthorizationForm = (props) => {
             },
             validationSchema: yup.object({
                 email: yup.string().email('Неверный формат').required('Обязательное поле'),
-                password: yup.string().required('Введите пароль')
+                password: yup.string()
+                    .min(8, 'Слишком короткий пароль. Минимум 8 знаков')
+                    .matches(/(?=,*[a-z])/, 'Минимум одна буква нижнего регистра')
+                    .matches(/(?=,*[A-Z])/, 'Минимум одна буква верхнего регистра')
+                    .matches(/(?=,*[0-9])/, 'Минимум одна цифра')
+                    .required('Введите пароль')
             }),
             onSubmit: (values) => {
                 handleRegister(values.email, values.password)
@@ -76,7 +86,7 @@ const AuthorizationForm = (props) => {
                 <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
                 <label htmlFor="password">Пароль</label>
                 <input
-                    type="password"
+                    type="text"
                     name='password'
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
