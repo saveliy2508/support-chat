@@ -1,18 +1,16 @@
 import React from 'react';
-import s from '../AuthorisationStyles.module.scss'
+import s from '../AuthorisationStyles.module.scss';
 import {useFormik} from 'formik';
-import * as yup from 'yup'
+import * as yup from 'yup';
 import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from 'react-redux'
-import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithEmailAndPassword,
-    signInWithPopup
-} from "firebase/auth";
-import {authError, authErrorWithSocials, setUser} from '../../../redux/actions/userActions'
+import {useDispatch, useSelector} from 'react-redux';
+import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
+import {authError, authErrorWithSocials, setUser} from '../../../redux/actions/userActions';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
+import Form from './../AuthorizationComponents/Form/Form';
+import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
+import Input from "../AuthorizationComponents/Input/Input";
 
 const LogInPage = (props) => {
     const dispatch = useDispatch()
@@ -71,20 +69,19 @@ const LogInPage = (props) => {
 
     return (
         <div className={s.authorizationForm}>
-            <img src="./img/logo.png" alt="Логотип"/>
-            <div className={s.text}>Войти в Rocket support</div>
+            <Form formTitle='Войти в Rocket support'/>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="email">Почта</label>
-                <input
-                    type="text"
-                    name='email'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
+                <Input
+                type='text'
+                name='email'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
                 />
                 <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
                 <label htmlFor="password">Пароль</label>
-                <input
+                <Input
                     type="password"
                     name='password'
                     onChange={formik.handleChange}
@@ -102,8 +99,7 @@ const LogInPage = (props) => {
                     <div onClick={handleRegisterWithGoogle}>Войти через <br/>
                         <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
                 </div>
-                <button type='submit'>Войти
-                </button>
+                <SubmitButton text='Войти' handleClick={handleLogin}/>
             </form>
         </div>
     );

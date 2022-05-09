@@ -13,19 +13,6 @@
     }
   }
 
-  img {
-    width: 100px;
-    margin: 30px auto 40px auto;
-    display: block;
-    text-align: center;
-  }
-
-  .text {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-  }
-
   form, .form {
     margin: 30px 15px 30px 15px;
   }
@@ -36,34 +23,10 @@
     font-weight: 700;
   }
 
-  input {
-    display: block;
-    font-size: 14px;
-    width: 100%;
-    height: 50px;
-    border: 2px solid #00b1f0;
-    border-radius: 5px;
-    padding: 15px;
-    margin-top: 15px;
-    color: black;
-  }
-
   .error {
     color: red;
     height: 16px;
     margin: 5px 0 10px 0;
-  }
-
-  button {
-    display: block;
-    margin: 0 auto;
-    color: black;
-    background: #00b1f0;
-    border-radius: 15px;
-    width: 150px;
-    height: 50px;
-    font-size: 15px;
-    font-weight: 600;
   }
   .isAccount{
     padding-bottom: 15px;

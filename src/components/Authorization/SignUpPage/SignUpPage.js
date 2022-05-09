@@ -14,6 +14,9 @@ import {authErrorWithSocials, setUser} from "../../../redux/actions/userActions"
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faVk, faGoogle} from "@fortawesome/free-brands-svg-icons";
+import Form from './../AuthorizationComponents/Form/Form'
+import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
+import Input from "../AuthorizationComponents/Input/Input";
 
 const AuthorizationForm = (props) => {
     const {errorMessage} = useSelector((user) => user.user)
@@ -71,11 +74,10 @@ const AuthorizationForm = (props) => {
 
     return (
         <div className={s.authorizationForm}>
-            <img src="./img/logo.png" alt="Логотип"/>
-            <div className={s.text}>Регистрация в Rocket support</div>
+            <Form formTitle='Регистрация в Rocket support'/>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="email">Почта</label>
-                <input
+                <Input
                     type="text"
                     name='email'
                     onChange={formik.handleChange}
@@ -84,7 +86,7 @@ const AuthorizationForm = (props) => {
                 />
                 <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
                 <label htmlFor="password">Пароль</label>
-                <input
+                <Input
                     type="password"
                     name='password'
                     onChange={formik.handleChange}
@@ -101,7 +103,7 @@ const AuthorizationForm = (props) => {
                     <div onClick={handleLoginWithGoogle}>Войти через <br/>
                         <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
                 </div>
-                <button type='submit'>Регистрация</button>
+                <SubmitButton handleClick={handleRegister} text='Отправить ссылку'/>
             </form>
         </div>
     );
