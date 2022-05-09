@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {removeUser} from "../../redux/actions/userActions";
+import {removeUser} from "../../../redux/actions/userActions";
 import {signOut} from "firebase/auth";
-import {auth} from "../../firebase";
+import {auth} from "../../../firebase";
 
 const MainPage = () => {
     const dispatch = useDispatch()

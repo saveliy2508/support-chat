@@ -1,28 +1,27 @@
 import React from 'react';
-import s from '../AuthorizationPage/AuthorizationPage.module.scss'
+import s from '../AuthorisationStyles.module.scss'
 import {useFormik} from 'formik';
 import * as yup from 'yup'
 import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux'
 import {
     getAuth,
-    createUserWithEmailAndPassword,
-    signInWithPopup,
     GoogleAuthProvider,
-    GithubAuthProvider
+    signInWithEmailAndPassword,
+    signInWithPopup
 } from "firebase/auth";
-import {useDispatch, useSelector} from 'react-redux'
-import {authErrorWithSocials, setUser} from "../../redux/actions/userActions";
-import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
+import {authError, authErrorWithSocials, setUser} from '../../../redux/actions/userActions'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faVk, faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 
-const AuthorizationForm = (props) => {
+const LogInPage = (props) => {
+    const dispatch = useDispatch()
     const {errorMessage} = useSelector((user) => user.user)
-    const dispatch = useDispatch();
     const navigate = useNavigate()
-    const handleRegister = (email, password) => {
+    const auth = getAuth()
+    const handleLogin = (email, password) => {
         const auth = getAuth();
-        createUserWithEmailAndPassword(auth, email, password)
+        return signInWithEmailAndPassword(auth, email, password)
             .then(({user}) => {
                 dispatch(setUser({
                     email: user.email,
@@ -31,12 +30,16 @@ const AuthorizationForm = (props) => {
                 }))
                 navigate('/')
             })
-            .catch(console.error)
+            .catch(() => dispatch(authError()))
+            // })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
     }
 
-
     const provider = new GoogleAuthProvider();
-    const handleLoginWithGoogle = () => {
+    const handleRegisterWithGoogle = () => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((responce) => {
@@ -50,6 +53,7 @@ const AuthorizationForm = (props) => {
             })
             .catch(() => dispatch(authErrorWithSocials()))
     }
+
     const formik = useFormik({
             initialValues: {
                 email: '',
@@ -57,15 +61,10 @@ const AuthorizationForm = (props) => {
             },
             validationSchema: yup.object({
                 email: yup.string().email('Неверный формат').required('Обязательное поле'),
-                password: yup.string()
-                    .min(8, 'Слишком короткий пароль. Минимум 8 знаков')
-                    .matches(/(?=,*[a-z])/, 'Минимум одна буква нижнего регистра')
-                    .matches(/(?=,*[A-Z])/, 'Минимум одна буква верхнего регистра')
-                    .matches(/(?=,*[0-9])/, 'Минимум одна цифра')
-                    .required('Введите пароль')
+                password: yup.string().required('Введите пароль')
             }),
             onSubmit: (values) => {
-                handleRegister(values.email, values.password)
+                handleLogin(values.email, values.password)
             }
         }
     )
@@ -73,7 +72,7 @@ const AuthorizationForm = (props) => {
     return (
         <div className={s.authorizationForm}>
             <img src="./img/logo.png" alt="Логотип"/>
-            <div className={s.text}>Регистрация в Rocket support</div>
+            <div className={s.text}>Войти в Rocket support</div>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="email">Почта</label>
                 <input
@@ -86,26 +85,28 @@ const AuthorizationForm = (props) => {
                 <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
                 <label htmlFor="password">Пароль</label>
                 <input
-                    type="text"
+                    type="password"
                     name='password'
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
                 />
                 <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
-                <p className={s.isAccount}>Есть аккаунт? <Link to='/login'>Войти<FontAwesomeIcon className={s.doorIcon}
-                                                                                                 icon={faDoorOpen}/></Link>
-                </p>
+                <div className={s.footer}>
+                    <p className={s.isAccount}>Нет аккаунта? <br/><Link to='/registration'>Регистрация</Link></p>
+                    <p className={s.isAccount}>Забыли пароль? <br/><Link to='/forgetPassword'>Восстановить</Link></p>
+                </div>
                 <div className={s.registrationWith}>
                     <div>Войти через <br/>
                         <FontAwesomeIcon className={s.vkIcon} icon={faVk}/></div>
-                    <div onClick={handleLoginWithGoogle}>Войти через <br/>
+                    <div onClick={handleRegisterWithGoogle}>Войти через <br/>
                         <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
                 </div>
-                <button type='submit'>Регистрация</button>
+                <button type='submit'>Войти
+                </button>
             </form>
         </div>
     );
 };
 
-export default AuthorizationForm;
+export default LogInPage;
