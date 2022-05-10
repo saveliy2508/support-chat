@@ -16,24 +16,25 @@ function App() {
     const auth = getAuth()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    React.useEffect(() => {
-        return () => {
-            onAuthStateChanged(auth, user => {
-                user ?
-                    dispatch(setUser({
-                        email: user.email,
-                        id: user.uid,
-                        token: user.accessToken
-                    })) && navigate('/')
-                    :
-                    dispatch(setUser({
-                        email: null,
-                        id: null,
-                        token: null
-                    }))
-            });
-        };
-    }, []);
+
+    // React.useEffect(() => {
+    //     return () => {
+    //         onAuthStateChanged(auth, user => {
+    //             user ?
+    //                 dispatch(setUser({
+    //                     email: user.email,
+    //                     id: user.uid,
+    //                     token: user.accessToken
+    //                 })) && navigate('/')
+    //                 :
+    //                 dispatch(setUser({
+    //                     email: null,
+    //                     id: null,
+    //                     token: null
+    //                 }))
+    //         });
+    //     };
+    // }, []);
 
     return (
         <div className={s.App}>

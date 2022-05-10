@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeUser} from "../../../redux/actions/userActions";
 import {signOut} from "firebase/auth";
 import {auth} from "../../../firebase";
+import s from './mainPage.module.scss'
 
 const MainPage = () => {
     const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const MainPage = () => {
         await signOut(auth)
         dispatch(removeUser())
     }
+
     return (
         <div>
             <h1>HOMEPAGE</h1>
