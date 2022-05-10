@@ -2,7 +2,7 @@ import s from './App.module.scss';
 import React from "react";
 import LogInPage from "./components/Authorization/LogInPage/LogInPage";
 import RegistrationForm from "./components/Authorization/SignUpPage/SignUpPage";
-import MainPage from "./components/MainContentPage/MainPage/MainPage";
+import NewDialogsPage from "./components/ContentPage/NewDialogsPage/NewDialogsPage";
 import {Routes, Route, Navigate} from "react-router-dom";
 import './firebase';
 import {useDispatch, useSelector} from "react-redux";
@@ -40,10 +40,11 @@ function App() {
         <div className={s.App}>
             <div className={s.appWrapper}>
                 <Routes>
-                    <Route path='/*' element={!!email ? <MainPage/> : <Navigate to='/login'/>}/>
-                    <Route path='/login' element={<LogInPage/>}/>
-                    <Route path='/registration' element={<RegistrationForm/>}/>
-                    <Route path='/forgetPassword' element={<ForgetPassword/>}/>
+                    <Route path='/' element={!!email ? <NewDialogsPage/> : <Navigate to='authorization/login'/>}/>
+                    <Route path='/authorization/login' element={<LogInPage/>}/>
+                    <Route path='/authorization/registration' element={<RegistrationForm/>}/>
+                    <Route path='/authorization/forgetPassword' element={<ForgetPassword/>}/>
+                    <Route path='/contentPage' element={<NewDialogsPage/>}/>
                 </Routes>
             </div>
             <div className={s.footer}></div>

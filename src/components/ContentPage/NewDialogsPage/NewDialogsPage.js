@@ -3,15 +3,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeUser} from "../../../redux/actions/userActions";
 import {signOut} from "firebase/auth";
 import {auth} from "../../../firebase";
-import s from './mainPage.module.scss'
+import s from './newDialogsPage.module.scss'
+import {useNavigate} from "react-router-dom";
 
-const MainPage = () => {
+const NewDialogsPage = () => {
     const dispatch = useDispatch()
     const {email} = useSelector(state => state.user)
+    const navigate = useNavigate()
 
     const handleSignOut = async () => {
         await signOut(auth)
         dispatch(removeUser())
+        navigate('/authorization/login')
     }
 
     return (
@@ -22,4 +25,4 @@ const MainPage = () => {
     );
 };
 
-export default MainPage;
+export default NewDialogsPage;

@@ -26,14 +26,9 @@ const LogInPage = (props) => {
                     id: user.uid,
                     token: user.accessToken
                 }))
-                navigate('/')
+                navigate('/contentPage/')
             })
             .catch(() => dispatch(authError()))
-            // })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
     }
 
     const provider = new GoogleAuthProvider();
@@ -47,7 +42,7 @@ const LogInPage = (props) => {
                     id: user.uid,
                     token: user.accessToken
                 }))
-                navigate('/')
+                navigate('/contentPage/')
             })
             .catch(() => dispatch(authErrorWithSocials()))
     }
@@ -90,8 +85,8 @@ const LogInPage = (props) => {
                 />
                 <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
                 <div className={s.footer}>
-                    <p className={s.isAccount}>Нет аккаунта? <br/><Link to='/registration'>Регистрация</Link></p>
-                    <p className={s.isAccount}>Забыли пароль? <br/><Link to='/forgetPassword'>Восстановить</Link></p>
+                    <p className={s.isAccount}>Нет аккаунта? <br/><Link to='/authorization/registration'>Регистрация</Link></p>
+                    <p className={s.isAccount}>Забыли пароль? <br/><Link to='/authorization/forgetPassword'>Восстановить</Link></p>
                 </div>
                 <div className={s.registrationWith}>
                     <div>Войти через <br/>

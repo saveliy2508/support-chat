@@ -30,7 +30,7 @@ const ForgetPassword = (props) => {
                 notify()
             })
         await delay(6000)
-        navigate('/login')
+        navigate('/authorization/login')
     }
 
     return (
@@ -60,8 +60,8 @@ const ForgetPassword = (props) => {
                     <SubmitButton handleClick={handleResetPassword} text='Отправить ссылку'/>
                 </div>
                 <div className={s.directions}>
-                    <Link to='/login'>Войти</Link>
-                    <Link to='/registration'>Регистрация</Link>
+                    <Link to='/authorization/login'>Войти</Link>
+                    <Link to='/authorization/registration'>Регистрация</Link>
                 </div>
             </div>
         </>

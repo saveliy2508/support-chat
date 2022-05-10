@@ -31,7 +31,7 @@ const AuthorizationForm = (props) => {
                     id: user.uid,
                     token: user.accessToken
                 }))
-                navigate('/')
+                navigate('/contentPage/')
             })
             .catch(console.error)
     }
@@ -48,7 +48,7 @@ const AuthorizationForm = (props) => {
                     id: user.uid,
                     token: user.accessToken
                 }))
-                navigate('/')
+                navigate('/contentPage/')
             })
             .catch(() => dispatch(authErrorWithSocials()))
     }
