@@ -1,12 +1,15 @@
-.img {
+.imgWrapper {
+  height: 100px;
+  .img {
     width: 100px;
     margin: 30px auto 40px auto;
     display: block;
     text-align: center;
+  }
 }
 
 .text {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
 }

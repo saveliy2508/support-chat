@@ -1,4 +1,7 @@
 // убрать все padding и margin с переиспользуемых элементов
+.authorizationFormConteiner{
+  padding-top: 50px;
+}
 .authorizationForm {
   max-width: 400px;
   margin: auto;

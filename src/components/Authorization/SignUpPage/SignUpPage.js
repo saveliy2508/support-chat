@@ -73,38 +73,41 @@ const AuthorizationForm = (props) => {
     )
 
     return (
-        <div className={s.authorizationForm}>
-            <Form formTitle='Регистрация в Rocket support'/>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="email">Почта</label>
-                <Input
-                    type="text"
-                    name='email'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                />
-                <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
-                <label htmlFor="password">Пароль</label>
-                <Input
-                    type="password"
-                    name='password'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                />
-                <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
-                <p className={s.isAccount}>Есть аккаунт? <Link to='/login'>Войти<FontAwesomeIcon className={s.doorIcon}
-                                                                                                 icon={faDoorOpen}/></Link>
-                </p>
-                <div className={s.registrationWith}>
-                    <div>Войти через <br/>
-                        <FontAwesomeIcon className={s.vkIcon} icon={faVk}/></div>
-                    <div onClick={handleLoginWithGoogle}>Войти через <br/>
-                        <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
-                </div>
-                <SubmitButton handleClick={handleRegister} text='Отправить ссылку'/>
-            </form>
+        <div className={s.authorizationFormConteiner}>
+            <div className={s.authorizationForm}>
+                <Form formTitle='Регистрация в Rocket support'/>
+                <form onSubmit={formik.handleSubmit}>
+                    <label htmlFor="email">Почта</label>
+                    <Input
+                        type="text"
+                        name='email'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email}
+                    />
+                    <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
+                    <label htmlFor="password">Пароль</label>
+                    <Input
+                        type="password"
+                        name='password'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.password}
+                    />
+                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
+                    <p className={s.isAccount}>Есть аккаунт? <Link to='/login'>Войти<FontAwesomeIcon
+                        className={s.doorIcon}
+                        icon={faDoorOpen}/></Link>
+                    </p>
+                    <div className={s.registrationWith}>
+                        <div>Войти через <br/>
+                            <FontAwesomeIcon className={s.vkIcon} icon={faVk}/></div>
+                        <div onClick={handleLoginWithGoogle}>Войти через <br/>
+                            <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
+                    </div>
+                    <SubmitButton handleClick={handleRegister} text='Отправить ссылку'/>
+                </form>
+            </div>
         </div>
     );
 };

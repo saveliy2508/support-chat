@@ -34,7 +34,7 @@ const ForgetPassword = (props) => {
     }
 
     return (
-        <>
+        <div className={s.authorizationFormConteiner}>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -64,7 +64,7 @@ const ForgetPassword = (props) => {
                     <Link to='/authorization/registration'>Регистрация</Link>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
