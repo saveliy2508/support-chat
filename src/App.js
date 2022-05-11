@@ -42,9 +42,9 @@ function App() {
                 <Routes>
                     <Route path='/*' element={!!email ? <Navigate to='contentPage'/> : <Navigate to='authorization/login'/>}/>
                     <Route path='/contentPage' element={!!email ? <ContentPage/> : <Navigate to='authorization/login'/>}/>
-                    <Route path='/authorization/login' element={<LogInPage/>}/>
-                    <Route path='/authorization/registration' element={<RegistrationForm/>}/>
-                    <Route path='/authorization/forgetPassword' element={<ForgetPassword/>}/>
+                    <Route path='/authorization/login' element={!!email ? <Navigate to='contentPage'/> : <LogInPage/>}/>
+                    <Route path='/authorization/registration' element={!!email ? <Navigate to='contentPage'/> : <RegistrationForm/>}/>
+                    <Route path='/authorization/forgetPassword' element={!!email ? <Navigate to='contentPage'/> : <ForgetPassword/>}/>
                     <Route path='/contentPage' element={<ContentPage/>}/>
                 </Routes>
             </div>

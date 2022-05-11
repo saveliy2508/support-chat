@@ -1,4 +1,4 @@
-import {SET_USER, REMOVE_USER, AUTHORIZATION_ERROR, AUTHORIZATION_ERROR_WITH_SOCIAL} from '../reducers/userReducer'
+import {SET_USER, REMOVE_USER, AUTHORIZATION_ERROR, AUTHORIZATION_ERROR_WITH_SOCIAL, CLEAR_AUTH_ERROR} from '../reducers/userReducer'
 
 export const setUser = (user) => ({
     type: SET_USER,
@@ -15,4 +15,8 @@ export const authError = () => ({
 
 export const authErrorWithSocials = () => ({
     type: AUTHORIZATION_ERROR_WITH_SOCIAL
+})
+
+export const clearAuthError = () => ({
+    type: CLEAR_AUTH_ERROR
 })

@@ -2,6 +2,7 @@ export const SET_USER = 'SET_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const AUTHORIZATION_ERROR = 'AUTHORIZATION_ERROR'
 export const AUTHORIZATION_ERROR_WITH_SOCIAL = 'AUTHORIZATION_ERROR_WITH_SOCIAL'
+export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR'
 
 const initialState = {
     email: null,
@@ -29,6 +30,11 @@ const userReducer = (state = initialState, action) => {
             return{
                 ...state,
                 errorMessage: 'Ошибка входа'
+            }
+        case CLEAR_AUTH_ERROR:
+            return{
+                ...state,
+                errorMessage: ''
             }
         case REMOVE_USER:
             return {

@@ -1,0 +1,13 @@
+.navbarWrapper {
+  height: 100%;
+  border-right: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  .dialogsSwitcher {
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    height: 100%;
+  }
+}
