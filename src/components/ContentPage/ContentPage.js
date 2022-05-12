@@ -28,6 +28,7 @@ const ContentPage = () => {
     //test. need to remove in future
     const [state, setState] = React.useState([]);
     //
+    const [filterInput, setFilterInput] = React.useState('');
 
     React.useEffect(() => {
         return () => {
@@ -47,8 +48,9 @@ const ContentPage = () => {
                     <NavbarContentPage/>
                 </div>
                 <div className={s.dialogs}>
+                    <Input type="text" value={filterInput} onChange={(e) => setFilterInput(e.target.value)} placeholder='Фильтрация по тексту'/>
                     <div>
-                        {state.map((item, index) => (
+                        {state.filter(item => item.textMessage.includes(filterInput)).map((item, index) => (
                             <div>
                                 <p>OperatorId: {item.writtenBy}</p>
                                 <p>{item.textMessage}</p>
