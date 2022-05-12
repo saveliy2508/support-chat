@@ -6,6 +6,9 @@ import {sendPasswordResetEmail} from 'firebase/auth'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useNavigate} from "react-router-dom";
+import Form from './../AuthorizationComponents/Form/Form'
+import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
+import Input from "../AuthorizationComponents/Input/Input";
 
 const ForgetPassword = (props) => {
     const notify = () => toast.info('Проверьте вашу почту', {
@@ -20,6 +23,7 @@ const ForgetPassword = (props) => {
     const navigate = useNavigate()
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
     const [emailInput, setEmailInput] = React.useState('');
+
     const handleResetPassword = async () => {
         await sendPasswordResetEmail(auth, emailInput)
             .then(() => {
@@ -43,19 +47,17 @@ const ForgetPassword = (props) => {
                 pauseOnHover
             />
             <div className={s.authorizationForm}>
-                <img src="./img/logo.png" alt="Логотип"/>
-                <div className={s.text}>Восстановление пароля</div>
+                <Form formTitle='Восстановление пароля'/>
                 <div className={s.form}>
                     <label htmlFor="email">Почта</label>
-                    <input
+                    <Input
                         type="text"
                         name='email'
                         value={emailInput}
                         onChange={e => setEmailInput(e.target.value)}
                     />
                     <p className={s.error}></p>
-                    <button onClick={handleResetPassword}>Отправить ссылку
-                    </button>
+                    <SubmitButton handleClick={handleResetPassword} text='Отправить ссылку'/>
                 </div>
                 <div className={s.directions}>
                     <Link to='/login'>Войти</Link>

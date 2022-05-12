@@ -11,7 +11,6 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import ForgetPassword from "./components/Authorization/ForgotPasswordPage/ForgotPasswordPage";
 
-
 function App() {
     const {email} = useSelector((state) => state.user)
     const auth = getAuth()
