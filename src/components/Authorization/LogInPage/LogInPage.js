@@ -12,7 +12,7 @@ import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
 
-const LogInPage = (props) => {
+const LogInPage = () => {
     const dispatch = useDispatch()
     const {errorMessage} = useSelector((user) => user.user)
     const navigate = useNavigate()

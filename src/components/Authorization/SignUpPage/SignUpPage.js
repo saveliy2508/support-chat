@@ -3,12 +3,7 @@ import s from '../AuthorisationStyles.module.scss'
 import {useFormik} from 'formik';
 import * as yup from 'yup'
 import {Link, useNavigate} from "react-router-dom";
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithPopup,
-    GoogleAuthProvider
-} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 import {useDispatch, useSelector} from 'react-redux'
 import {authErrorWithSocials, setUser} from "../../../redux/actions/userActions";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +13,7 @@ import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
 
-const AuthorizationForm = (props) => {
+const AuthorizationForm = () => {
     const {errorMessage} = useSelector((user) => user.user)
     const dispatch = useDispatch();
     const navigate = useNavigate()

@@ -1,7 +1,7 @@
 import s from "./form.module.scss";
 import React from "react";
 
-const Form = (props) => {
+const Form = ({formTitle}) => {
     return (
         <>
             <div className={s.headerForm}>
@@ -11,7 +11,7 @@ const Form = (props) => {
                           alt="Логотип"
                 />
                 </div>
-                <div className={s.text}>{props.formTitle}</div>
+                <div className={s.text}>{formTitle}</div>
             </div>
         </>
     );

@@ -10,7 +10,7 @@ import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
 
-const ForgetPassword = (props) => {
+const ForgetPassword = () => {
     const notify = () => toast.info('Проверьте вашу почту', {
         position: "top-right",
         autoClose: 5000,

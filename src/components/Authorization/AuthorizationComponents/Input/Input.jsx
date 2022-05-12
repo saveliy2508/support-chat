@@ -2,15 +2,15 @@ import React from 'react';
 import s from './input.module.scss'
 import {Input} from "reactstrap";
 
-const authInput = (props) => {
+const authInput = ({type, name, onChange, onBlur, value}) => {
     return (
         <Input
             className={s.input}
-            type={props.type}
-            name={props.name}
-            onChange={props.onChange}
-            onBlur={props.onBlur}
-            value={props.value}
+            type={type}
+            name={name}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
             bsSize=""
         />
     );
