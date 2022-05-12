@@ -1,30 +1,14 @@
 import React from 'react';
 import s from './navbarContentPage.module.scss'
-import {Link} from "react-router-dom";
+import TypeDialogsSwitcher from "../DialogsComponents/typeDialogsSwitcher/TypeDialogsSwitcher";
 
 const NavbarContentPage = () => {
     return (
         <div className={s.navbarWrapper}>
-            <div className={s.dialogsSwitcher}>
-                <Link to='/contentPage/newDialogs'>
-                    newDialogsSwitcher
-                </Link>
-            </div>
-            <div className={s.dialogsSwitcher}>
-                <Link to='/contentPage/activeDialogs'>
-                    activeDialogsSwitcher
-                </Link>
-            </div>
-            <div className={s.dialogsSwitcher}>
-                <Link to='/contentPage/savedDialogs'>
-                    savedDialogsSwitcher
-                </Link>
-            </div>
-            <div className={s.dialogsSwitcher}>
-                <Link to='/contentPage/endedDialogs'>
-                    endedDialogsSwitcher
-                </Link>
-            </div>
+            <TypeDialogsSwitcher path={'/newDialogs'} title='Новые диалоги' counter={1} text='клиентов ожидают очереди'/>
+            <TypeDialogsSwitcher path={'/activeDialogs'} title='Активные диалоги' counter={1} text='клиентов ожидают ответа'/>
+            <TypeDialogsSwitcher path={'/endedDialogs'} title='Завершенные диалоги' counter={1} />
+            <TypeDialogsSwitcher path={'/savedDialogs'} title='Сохраненные диалоги' counter={1} />
         </div>
     );
 };

@@ -6,6 +6,8 @@ import {Route, Routes} from "react-router-dom";
 import {useSelector} from "react-redux";
 import ActiveDialogsPage from "./dialogsPages/ActiveDialogsPage/ActiveDialogsPage";
 import NewDialogsPage from "./dialogsPages/NewDialogsPage/NewDialogsPage";
+import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
+import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
 
 const ContentPage = () => {
     const {email} = useSelector(state => state.user)
@@ -21,6 +23,8 @@ const ContentPage = () => {
                     <Routes>
                         <Route path='newDialogs' element={<NewDialogsPage/>}/>
                         <Route path='activeDialogs' element={<ActiveDialogsPage/>}/>
+                        <Route path='savedDialogs' element={<SavedDialogsPage/>}/>
+                        <Route path='endedDialogs' element={<EndedDialogsPage/>}/>
                     </Routes>
                 </div>
             </div>

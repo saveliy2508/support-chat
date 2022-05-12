@@ -42,12 +42,11 @@ function App() {
         <div className={s.App}>
             <div className={s.appWrapper}>
                 <Routes>
-                    <Route path="*" element={!!email ? <Navigate to='/contentPage/newDialogs'/> : <LogInPage/>} />
-                    <Route path='/*' element={!!email ? <Navigate to='/contentPage/newDialogs'/> : <Navigate to='authorization/login'/>}/>
-                    <Route path='/contentPage/*' element={!!email ? <ContentPage/> : <Navigate to='authorization/login'/>}/>
+                    <Route path="*" element={!!email ? <Navigate to='/contentPage/newDialogs'/> : <Navigate to='/authorization/login'/>} />
                     <Route path='/authorization/login' element={!!email ? <Navigate to='/contentPage/newDialogs'/> : <LogInPage/>}/>
                     <Route path='/authorization/registration' element={!!email ? <Navigate to='/contentPage/newDialogs'/> : <RegistrationForm/>}/>
                     <Route path='/authorization/forgetPassword' element={!!email ? <Navigate to='/contentPage/newDialogs'/> : <ForgetPassword/>}/>
+                    <Route path='/contentPage/*' element={!!email ? <ContentPage/> : <Navigate to='/authorization/login'/>}/>
                 </Routes>
             </div>
             <div className={s.footer}></div>

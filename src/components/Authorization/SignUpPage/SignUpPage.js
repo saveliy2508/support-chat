@@ -100,7 +100,7 @@ const AuthorizationForm = () => {
                         <div onClick={handleLoginWithGoogle}>Войти через <br/>
                             <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
                     </div>
-                    <SubmitButton handleClick={handleRegister} text='Отправить ссылку'/>
+                    <SubmitButton handleClick={handleRegister} text='Зарегистрироваться'/>
                 </form>
             </div>
         </div>
