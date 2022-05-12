@@ -10,6 +10,8 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import ForgetPassword from "./components/Authorization/ForgotPasswordPage/ForgotPasswordPage";
 import ContentPage from "./components/ContentPage/ContentPage";
+import {onValue, ref} from "firebase/database";
+import {dataBase} from "./firebase";
 
 function App() {
     const {email} = useSelector((state) => state.user)
