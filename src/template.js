@@ -1,6 +1,6 @@
 import React from 'react';
 import HeaderContentPage from "./HeaderContentPage/HeaderContentPage";
-import s from './contentPage.module.scss'
+import s from './contentPage.module.scss';
 import NavbarContentPage from "./NavbarContentPage/NavbarContentPage";
 import {dataBase} from "../../firebase";
 import {ref, set, onValue} from "firebase/database";
@@ -26,7 +26,7 @@ const ContentPage = () => {
     }
 
     //test. need to remove in future
-    const [state, setState] = React.useState([]);
+    const [state, setState]= React.useState([]);
     //
     const [filterInput, setFilterInput] = React.useState('');
 

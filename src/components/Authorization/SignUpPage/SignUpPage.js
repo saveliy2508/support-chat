@@ -12,6 +12,8 @@ import {faVk, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
+import {ref, set} from "firebase/database";
+import {dataBase} from "../../../firebase";
 
 const AuthorizationForm = () => {
     const {errorMessage} = useSelector((user) => user.user)
@@ -26,6 +28,10 @@ const AuthorizationForm = () => {
                     id: user.uid,
                     token: user.accessToken
                 }))
+                set(ref(dataBase, `users/${user.uid}`), {
+                    email: user.email,
+                    id: user.uid,
+                });
                 navigate('/contentPage/')
             })
             .catch(console.error)
@@ -43,6 +49,10 @@ const AuthorizationForm = () => {
                     id: user.uid,
                     token: user.accessToken
                 }))
+                set(ref(dataBase, `users/${user.uid}`), {
+                    email: user.email,
+                    id: user.uid,
+                });
                 navigate('/contentPage/')
             })
             .catch(() => dispatch(authErrorWithSocials()))

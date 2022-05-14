@@ -11,12 +11,13 @@ import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
+import {ref, set} from "firebase/database";
+import {dataBase} from "../../../firebase";
 
 const LogInPage = () => {
     const dispatch = useDispatch()
     const {errorMessage} = useSelector((user) => user.user)
     const navigate = useNavigate()
-    const auth = getAuth()
     const handleLogin = (email, password) => {
         const auth = getAuth();
         return signInWithEmailAndPassword(auth, email, password)
@@ -42,6 +43,10 @@ const LogInPage = () => {
                     id: user.uid,
                     token: user.accessToken
                 }))
+                set(ref(dataBase, `users/${user.uid}`), {
+                    email: user.email,
+                    id: user.uid,
+                });
                 navigate('/contentPage/')
             })
             .catch(() => dispatch(authErrorWithSocials()))

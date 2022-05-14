@@ -12,13 +12,23 @@ import ForgetPassword from "./components/Authorization/ForgotPasswordPage/Forgot
 import ContentPage from "./components/ContentPage/ContentPage";
 import {onValue, ref} from "firebase/database";
 import {dataBase} from "./firebase";
+import {setUserData} from "./redux/actions/dataActions";
 
 function App() {
-    const {email} = useSelector((state) => state.user)
+    const {email, id} = useSelector((state) => state.user)
     const auth = getAuth()
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    React.useEffect(() => {
+        return () => {
+            const dialogsRef = ref(dataBase, `users/${id}`);
+            onValue(dialogsRef, (snapshot) => {
+                let data = snapshot.val();
+                dispatch(setUserData(data))
+            });
+        };
+    }, []);
     // React.useEffect(() => {
     //     return () => {
     //         onAuthStateChanged(auth, user => {

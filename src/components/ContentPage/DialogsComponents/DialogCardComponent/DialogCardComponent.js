@@ -1,5 +1,6 @@
 import React from 'react';
 import s from "./DialogCardComponent.module.scss";
+import {Button} from "reactstrap";
 
 const DialogCardComponent = () => {
     return (
@@ -11,9 +12,9 @@ const DialogCardComponent = () => {
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab cum dolorem hic in maxime minus molestiae molestias neque nisi, nulla obcaecati porro!
             </div>
             <div className={s.dialogInfo}>
-                <button>Продолжить</button>
+                <Button color='primary' block>Продолжить</Button>
                 <p>12 дней назад</p>
-                <button>Сохранить</button>
+                <Button color='primary' block>Сохранить</Button>
             </div>
         </div>
     );
