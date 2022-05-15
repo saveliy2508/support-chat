@@ -1,10 +1,18 @@
 import React from 'react';
 import DialogCardComponent from "./ActiveDialogsCardComponent/ActiveDialogCardComponent";
 import s from './activeDialogsPage.module.scss'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentDialog} from "../../../../redux/actions/userActions";
+import {useNavigate} from "react-router-dom";
 
 const ActiveDialogsPage = () => {
     const {activeDialogs} = useSelector(state => state.data)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const handleContinue = (dialogId) => {
+        dispatch(setCurrentDialog(dialogId))
+        navigate(`/contentPage/${dialogId}`)
+    }
     return (
         <>
             <div className={s.title}>
@@ -19,6 +27,7 @@ const ActiveDialogsPage = () => {
                                 startTime={item.startTime}
                                 dialogData={item}
                                 messages={item.messages}
+                                handleContinue={handleContinue}
                             />
                         </div>
                     ))

@@ -7,12 +7,11 @@ import {push, ref, set} from "firebase/database";
 import {dataBase} from "../../../../firebase";
 
 const ChatWindow = () => {
-    const arrayTest = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     const navigate = useNavigate()
     const handleNavigateBack = () => {
         navigate(-1)
     }
-    const {currentDialog} = useSelector(state => state.user)
+    const {currentDialog, email} = useSelector(state => state.user)
     const {activeDialogs} = useSelector(state => state.data)
     const dialog = activeDialogs[`${currentDialog}`]
     const [textarea, setTextarea] = React.useState('');
@@ -24,7 +23,8 @@ const ChatWindow = () => {
         set(newMessageRef, {
             messageId: newMessageRef._path.pieces_[Object.keys(newMessageRef._path.pieces_).length - 1],
             text: textarea,
-            timestamp: date.getTime()
+            timestamp: date.getTime(),
+            senderName: email,
         });
     }
 
@@ -37,7 +37,14 @@ const ChatWindow = () => {
             <div className={s.chat}>
                 <div className={s.messages}>
                     {Object.values(dialog.messages).map((item, index) => (
-                            <div>{item.text}</div>
+                            <div className={s.message}>
+                                <div className={s.text}>
+                                    {item.text}
+                                </div>
+                                <div className={s.name}>
+                                    {item.senderName}
+                                </div>
+                            </div>
                         )
                     )}
                 </div>

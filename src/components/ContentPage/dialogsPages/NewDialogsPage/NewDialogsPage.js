@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {setCurrentDialog} from "../../../../redux/actions/userActions";
 
 const NewDialogsPage = () => {
+
     // На время тестов, пока нет приложения для клиента. После - удалить
     const [clientName, setClientName] = React.useState('');
     const [firstMessage, setFirstMessage] = React.useState('');
@@ -17,7 +18,6 @@ const NewDialogsPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {newDialogs} = useSelector(state => state.data)
-    const {currentDialog} = useSelector(state => state.user)
 
     const handleAddNewDialog = () => {
         const date = new Date()
@@ -33,7 +33,8 @@ const NewDialogsPage = () => {
         set(firstMessageRef, {
             messageId: firstMessageRef._path.pieces_[Object.keys(firstMessageRef._path.pieces_).length - 1],
             text: firstMessage,
-            timestamp: date.getTime()
+            timestamp: date.getTime(),
+            senderName: 'client'
         });
     }
 
@@ -70,6 +71,7 @@ const NewDialogsPage = () => {
                                 dialogData={item}
                                 handleAddToActiveDialogs={handleAddToActiveDialogs}
                                 messages={item.messages}
+                                senderName={item.senderName}
                             />
                         </div>
                     ))
