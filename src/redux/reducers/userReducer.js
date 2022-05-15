@@ -3,11 +3,13 @@ export const REMOVE_USER = 'REMOVE_USER'
 export const AUTHORIZATION_ERROR = 'AUTHORIZATION_ERROR'
 export const AUTHORIZATION_ERROR_WITH_SOCIAL = 'AUTHORIZATION_ERROR_WITH_SOCIAL'
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR'
+export const SET_CURRENT_DIALOG = 'SET_CURRENT_DIALOG'
 
 const initialState = {
     email: null,
     token: null,
     id: null,
+    currentDialog: null,
     errorMessage: ''
 }
 
@@ -22,17 +24,17 @@ const userReducer = (state = initialState, action) => {
                 errorMessage: ''
             }
         case AUTHORIZATION_ERROR:
-            return{
+            return {
                 ...state,
                 errorMessage: 'Неверная почта или пароль'
             }
         case AUTHORIZATION_ERROR_WITH_SOCIAL:
-            return{
+            return {
                 ...state,
                 errorMessage: 'Ошибка входа'
             }
         case CLEAR_AUTH_ERROR:
-            return{
+            return {
                 ...state,
                 errorMessage: ''
             }
@@ -43,6 +45,11 @@ const userReducer = (state = initialState, action) => {
                 token: null,
                 id: null,
                 errorMessage: ''
+            }
+        case SET_CURRENT_DIALOG:
+            return {
+                ...state,
+                currentDialog: action.payload,
             }
     }
     return state

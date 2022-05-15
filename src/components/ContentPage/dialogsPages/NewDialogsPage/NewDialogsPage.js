@@ -1,10 +1,12 @@
 import React from 'react';
-import DialogCardComponent from "../../DialogsComponents/DialogCardComponent/DialogCardComponent";
+import NewDialogCardComponent from "./NewDialogCardComponent/NewDialogCardComponent";
 import s from './newDialogsPage.module.scss'
 import {Button, Input} from "reactstrap";
 import {dataBase} from "../../../../firebase";
 import {set, ref, push} from "firebase/database";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {setCurrentDialog} from "../../../../redux/actions/userActions";
 
 const NewDialogsPage = () => {
     // На время тестов, пока нет приложения для клиента. После - удалить
@@ -12,7 +14,11 @@ const NewDialogsPage = () => {
     const [firstMessage, setFirstMessage] = React.useState('');
     //
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const {newDialogs} = useSelector(state => state.data)
+    const {currentDialog} = useSelector(state => state.user)
+
     const handleAddNewDialog = () => {
         const date = new Date()
         const dialogsListRef = ref(dataBase, `newDialogs`);
@@ -22,15 +28,25 @@ const NewDialogsPage = () => {
             clientName: clientName,
             startTime: date.getTime()
         });
+        const firstMessageListRef = ref(dataBase, `newDialogs/${newDialogRef._path.pieces_[Object.keys(newDialogRef._path.pieces_).length - 1]}/messages`);
+        const firstMessageRef = push(firstMessageListRef);
+        set(firstMessageRef, {
+            messageId: firstMessageRef._path.pieces_[Object.keys(firstMessageRef._path.pieces_).length - 1],
+            text: firstMessage,
+            timestamp: date.getTime()
+        });
     }
 
-    const handleAddToActiveDialogs = (clientName, dialogId, startTime) => {
+    const handleAddToActiveDialogs = (clientName, dialogId, startTime, messages) => {
         set(ref(dataBase, `activeDialogs/${dialogId}`), {
             clientName: clientName,
             dialogId: dialogId,
-            startTime: startTime
+            startTime: startTime,
+            messages: messages,
         })
         set(ref(dataBase, `newDialogs/${dialogId}`), null)
+        dispatch(setCurrentDialog(dialogId))
+        navigate(`/contentPage/${dialogId}`)
     }
 
     return (
@@ -48,11 +64,12 @@ const NewDialogsPage = () => {
                 {newDialogs ?
                     Object.values(newDialogs).map((item, index) => (
                         <div className={s.card} key={item.dialogId + index}>
-                            <DialogCardComponent
+                            <NewDialogCardComponent
                                 clientName={item.clientName}
                                 startTime={item.startTime}
                                 dialogData={item}
                                 handleAddToActiveDialogs={handleAddToActiveDialogs}
+                                messages={item.messages}
                             />
                         </div>
                     ))

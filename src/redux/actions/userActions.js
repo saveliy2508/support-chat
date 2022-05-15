@@ -1,4 +1,4 @@
-import {SET_USER, REMOVE_USER, AUTHORIZATION_ERROR, AUTHORIZATION_ERROR_WITH_SOCIAL, CLEAR_AUTH_ERROR} from '../reducers/userReducer'
+import {SET_USER, REMOVE_USER, AUTHORIZATION_ERROR, AUTHORIZATION_ERROR_WITH_SOCIAL, CLEAR_AUTH_ERROR, SET_CURRENT_DIALOG} from '../reducers/userReducer'
 
 export const setUser = (user) => ({
     type: SET_USER,
@@ -19,4 +19,9 @@ export const authErrorWithSocials = () => ({
 
 export const clearAuthError = () => ({
     type: CLEAR_AUTH_ERROR
+})
+
+export const setCurrentDialog = (dialogId) => ({
+    type: SET_CURRENT_DIALOG,
+    payload: dialogId
 })

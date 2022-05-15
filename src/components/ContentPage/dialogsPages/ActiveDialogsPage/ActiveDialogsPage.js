@@ -1,9 +1,7 @@
 import React from 'react';
-import DialogCardComponent from "../../DialogsComponents/DialogCardComponent/DialogCardComponent";
+import DialogCardComponent from "./ActiveDialogsCardComponent/ActiveDialogCardComponent";
 import s from './activeDialogsPage.module.scss'
 import {useSelector} from "react-redux";
-import {push, ref, set} from "firebase/database";
-import {dataBase} from "../../../../firebase";
 
 const ActiveDialogsPage = () => {
     const {activeDialogs} = useSelector(state => state.data)
@@ -19,7 +17,9 @@ const ActiveDialogsPage = () => {
                             <DialogCardComponent
                                 clientName={item.clientName}
                                 startTime={item.startTime}
-                                dialogData={item}/>
+                                dialogData={item}
+                                messages={item.messages}
+                            />
                         </div>
                     ))
                     : null

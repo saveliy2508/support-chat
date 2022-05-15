@@ -7,8 +7,12 @@ import ActiveDialogsPage from "./dialogsPages/ActiveDialogsPage/ActiveDialogsPag
 import NewDialogsPage from "./dialogsPages/NewDialogsPage/NewDialogsPage";
 import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
 import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
+import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
+import {useSelector} from "react-redux";
 
 const ContentPage = () => {
+    const {currentDialog} = useSelector(state => state.user)
+
     return (
         <div className={s.contentWrapper}>
             <HeaderContentPage/>
@@ -22,6 +26,7 @@ const ContentPage = () => {
                         <Route path='activeDialogs' element={<ActiveDialogsPage/>}/>
                         <Route path='savedDialogs' element={<SavedDialogsPage/>}/>
                         <Route path='endedDialogs' element={<EndedDialogsPage/>}/>
+                        <Route path={currentDialog} element={<ChatWindow/>}/>
                     </Routes>
                 </div>
             </div>
