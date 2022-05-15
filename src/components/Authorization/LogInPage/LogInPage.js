@@ -11,8 +11,9 @@ import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
-import {ref, set} from "firebase/database";
+import {get, ref, set} from "firebase/database";
 import {dataBase} from "../../../firebase";
+import {setActiveDialogs, setNewDialogs, setUserData} from "../../../redux/actions/dataActions";
 
 const LogInPage = () => {
     const dispatch = useDispatch()
@@ -28,6 +29,18 @@ const LogInPage = () => {
                     token: user.accessToken
                 }))
                 navigate('/contentPage/')
+
+                const newDialogsRef = ref(dataBase, `newDialogs`);
+                get(newDialogsRef, (snapshot) => {
+                    let dialogs = snapshot.val();
+                    dispatch(setNewDialogs(dialogs))
+                });
+
+                const activeDialogsRef = ref(dataBase, `activeDialogs`);
+                get(activeDialogsRef, (snapshot) => {
+                    let dialogs = snapshot.val();
+                    dispatch(setActiveDialogs(dialogs))
+                });
             })
             .catch(() => dispatch(authError()))
     }
@@ -47,6 +60,20 @@ const LogInPage = () => {
                     email: user.email,
                     id: user.uid,
                 });
+
+                const newDialogsRef = ref(dataBase, `newDialogs`);
+                get(newDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setNewDialogs(dialogs))
+                    });
+
+                const activeDialogsRef = ref(dataBase, `activeDialogs`);
+                get(activeDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setActiveDialogs(dialogs))
+                    });
                 navigate('/contentPage/')
             })
             .catch(() => dispatch(authErrorWithSocials()))

@@ -10,6 +10,7 @@ const initialState = {
     token: null,
     id: null,
     currentDialog: null,
+    savedDialogsId: null,
     errorMessage: ''
 }
 
@@ -21,6 +22,7 @@ const userReducer = (state = initialState, action) => {
                 email: action.payload.email,
                 token: action.payload.token,
                 id: action.payload.id,
+                savedDialogsId: action.payload.savedDialogsId,
                 errorMessage: ''
             }
         case AUTHORIZATION_ERROR:
@@ -44,6 +46,8 @@ const userReducer = (state = initialState, action) => {
                 email: null,
                 token: null,
                 id: null,
+                currentDialog: null,
+                savedDialogsId: null,
                 errorMessage: ''
             }
         case SET_CURRENT_DIALOG:

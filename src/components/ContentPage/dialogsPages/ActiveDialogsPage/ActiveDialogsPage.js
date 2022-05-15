@@ -4,15 +4,24 @@ import s from './activeDialogsPage.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentDialog} from "../../../../redux/actions/userActions";
 import {useNavigate} from "react-router-dom";
+import {ref, set} from "firebase/database";
+import {dataBase} from "../../../../firebase";
 
 const ActiveDialogsPage = () => {
     const {activeDialogs} = useSelector(state => state.data)
+    const {id} = useSelector(state => state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const handleContinue = (dialogId) => {
         dispatch(setCurrentDialog(dialogId))
         navigate(`/contentPage/${dialogId}`)
     }
+
+    const handleSaveDialog = (dialogId) => {
+        console.log('saved!')
+        set(ref(dataBase, `users/${id}/savedDialogsId`), 1);
+    }
+
     return (
         <>
             <div className={s.title}>
@@ -28,6 +37,7 @@ const ActiveDialogsPage = () => {
                                 dialogData={item}
                                 messages={item.messages}
                                 handleContinue={handleContinue}
+                                handleSaveDialog={handleSaveDialog}
                             />
                         </div>
                     ))

@@ -1,4 +1,4 @@
-import {SET_USER_DATA, SET_NEW_DIALOGS, SET_ACTIVE_DIALOGS} from '../reducers/dataReducer'
+import {SET_USER_DATA, SET_NEW_DIALOGS, SET_ACTIVE_DIALOGS, REMOVE_DATA} from '../reducers/dataReducer'
 
 export const setUserData = (data) => ({
     type: SET_USER_DATA,
@@ -13,4 +13,8 @@ export const setNewDialogs = (newDialogs) => ({
 export const setActiveDialogs = (activeDialogs) => ({
     type: SET_ACTIVE_DIALOGS,
     payload: activeDialogs
+})
+
+export const removeData = () => ({
+    type: REMOVE_DATA,
 })

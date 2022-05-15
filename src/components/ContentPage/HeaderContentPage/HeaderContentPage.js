@@ -5,6 +5,7 @@ import {signOut} from "firebase/auth";
 import {auth} from "../../../firebase";
 import {removeUser} from "../../../redux/actions/userActions";
 import s from './headerContentPage.module.scss'
+import {removeData} from "../../../redux/actions/dataActions";
 
 const HeaderContentPage = () => {
     const dispatch = useDispatch()
@@ -13,6 +14,7 @@ const HeaderContentPage = () => {
     const handleSignOut = async () => {
         await signOut(auth)
         dispatch(removeUser())
+        dispatch(removeData())
     }
     return (
         <div className={s.headerWrapper}>

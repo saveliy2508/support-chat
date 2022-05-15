@@ -1,6 +1,9 @@
+import {REMOVE_USER} from "./userReducer";
+
 export const SET_USER_DATA = 'SET_USER_DATA'
 export const SET_NEW_DIALOGS = 'SET_NEW_DIALOGS'
 export const SET_ACTIVE_DIALOGS = 'SET_ACTIVE_DIALOGS'
+export const REMOVE_DATA = 'REMOVE_DATA'
 
 const initialState = {
     email: null,
@@ -27,6 +30,14 @@ const dataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 activeDialogs: action.payload
+            }
+        case REMOVE_DATA:
+            return {
+                ...state,
+                email: null,
+                id: null,
+                newDialogs: null,
+                activeDialogs: null,
             }
     }
     return state
