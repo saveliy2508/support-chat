@@ -1,9 +1,12 @@
 export const SET_USER_DATA = 'SET_USER_DATA'
+export const SET_NEW_DIALOGS = 'SET_NEW_DIALOGS'
+export const SET_ACTIVE_DIALOGS = 'SET_ACTIVE_DIALOGS'
 
 const initialState = {
     email: null,
     id: null,
-    dialogs: null,
+    newDialogs: null,
+    activeDialogs: null,
 }
 
 const dataReducer = (state = initialState, action) => {
@@ -13,7 +16,17 @@ const dataReducer = (state = initialState, action) => {
                 ...state,
                 email: action.payload.email,
                 id: action.payload.id,
-                dialogs: action.payload.dialogs,
+                newDialogs: action.payload.activeDialogs,
+            }
+        case SET_NEW_DIALOGS:
+            return {
+                ...state,
+                newDialogs: action.payload
+            }
+        case SET_ACTIVE_DIALOGS:
+            return {
+                ...state,
+                activeDialogs: action.payload
             }
     }
     return state

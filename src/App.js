@@ -12,7 +12,7 @@ import ForgetPassword from "./components/Authorization/ForgotPasswordPage/Forgot
 import ContentPage from "./components/ContentPage/ContentPage";
 import {onValue, ref} from "firebase/database";
 import {dataBase} from "./firebase";
-import {setUserData} from "./redux/actions/dataActions";
+import {setActiveDialogs, setNewDialogs, setUserData} from "./redux/actions/dataActions";
 
 function App() {
     const {email, id} = useSelector((state) => state.user)
@@ -22,31 +22,25 @@ function App() {
 
     React.useEffect(() => {
         return () => {
-            const dialogsRef = ref(dataBase, `users/${id}`);
-            onValue(dialogsRef, (snapshot) => {
+            const userRef = ref(dataBase, `users/${id}`);
+            onValue(userRef, (snapshot) => {
                 let data = snapshot.val();
                 dispatch(setUserData(data))
             });
+
+            const newDialogsRef = ref(dataBase, `newDialogs`);
+            onValue(newDialogsRef, (snapshot) => {
+                let dialogs = snapshot.val();
+                dispatch(setNewDialogs(dialogs))
+            });
+
+            const activeDialogsRef = ref(dataBase, `activeDialogs`);
+            onValue(activeDialogsRef, (snapshot) => {
+                let dialogs = snapshot.val();
+                dispatch(setActiveDialogs(dialogs))
+            });
         };
     }, []);
-    // React.useEffect(() => {
-    //     return () => {
-    //         onAuthStateChanged(auth, user => {
-    //             user ?
-    //                 dispatch(setUser({
-    //                     email: user.email,
-    //                     id: user.uid,
-    //                     token: user.accessToken
-    //                 })) && navigate('/')
-    //                 :
-    //                 dispatch(setUser({
-    //                     email: null,
-    //                     id: null,
-    //                     token: null
-    //                 }))
-    //         });
-    //     };
-    // }, []);
 
     return (
         <div className={s.App}>

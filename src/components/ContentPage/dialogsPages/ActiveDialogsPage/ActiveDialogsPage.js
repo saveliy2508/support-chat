@@ -1,29 +1,28 @@
 import React from 'react';
 import DialogCardComponent from "../../DialogsComponents/DialogCardComponent/DialogCardComponent";
 import s from './activeDialogsPage.module.scss'
-import {Button} from "reactstrap";
-import {dataBase} from "../../../../firebase";
-import {set, ref, push} from "firebase/database";
 import {useSelector} from "react-redux";
+import {push, ref, set} from "firebase/database";
+import {dataBase} from "../../../../firebase";
 
 const ActiveDialogsPage = () => {
-    const {data} = useSelector((state) => state)
-    const {dialogs} = useSelector(state => state.data)
-
+    const {activeDialogs} = useSelector(state => state.data)
     return (
         <>
             <div className={s.title}>
                 ActiveDialogsPage
             </div>
             <div className={s.dialogsCards}>
-                {dialogs ?
-                    Object.values(dialogs).map((item, index) => (
+                {activeDialogs ?
+                    Object.values(activeDialogs).map((item, index) => (
                         <div className={s.card}>
-                            <DialogCardComponent/>
+                            <DialogCardComponent
+                                clientName={item.clientName}
+                                startTime={item.startTime}
+                                dialogData={item}/>
                         </div>
                     ))
-                    :
-                    null
+                    : null
                 }
             </div>
         </>
