@@ -13,7 +13,7 @@ const userReducer = (state = initialState, action) => {
         case LOG_IN_ERROR:
             return {
                 ...state,
-                logInErrorMessage: 'Неверная почта или пароль'
+                logInErrorMessage: 'Ошибка входа'
             }
         case SIGN_UP_ERROR:
             return {

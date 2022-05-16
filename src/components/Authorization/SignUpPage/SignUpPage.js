@@ -16,8 +16,18 @@ import Input from "../AuthorizationComponents/Input/Input";
 import {get, ref, set} from "firebase/database";
 import {dataBase} from "../../../firebase";
 import {setActiveDialogs, setNewDialogs} from "../../../redux/actions/dataActions";
+import {toast} from "react-toastify";
 
 const AuthorizationForm = () => {
+    const notify = () => toast.info('Ошибка', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
     const {errorMessage} = useSelector((user) => user.user)
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -65,7 +75,7 @@ const AuthorizationForm = () => {
                     });
                 navigate('/contentPage/')
             })
-            .catch(console.error)
+            .catch(() => notify())
     }
 
 
@@ -105,7 +115,7 @@ const AuthorizationForm = () => {
                     });
                 navigate('/contentPage/')
             })
-            .catch(() => dispatch(authErrorWithSocials()))
+            .catch(() => notify())
     }
     const formik = useFormik({
             initialValues: {

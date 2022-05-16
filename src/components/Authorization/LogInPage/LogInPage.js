@@ -6,7 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
 import {setUser} from '../../../redux/actions/userActions';
-import {logInError,authErrorWithSocials} from "../../../redux/actions/authErrorActions";
+import {logInError, authErrorWithSocials, clearError} from "../../../redux/actions/authErrorActions";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 import Form from './../AuthorizationComponents/Form/Form';
@@ -15,10 +15,19 @@ import Input from "../AuthorizationComponents/Input/Input";
 import {get, onValue, ref, set} from "firebase/database";
 import {dataBase} from "../../../firebase";
 import {setActiveDialogs, setNewDialogs, setUserData} from "../../../redux/actions/dataActions";
+import {toast, ToastContainer} from "react-toastify";
 
 const LogInPage = () => {
+    const notify = () => toast.info('Ошибка входа', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
     const dispatch = useDispatch()
-    const {logInErrorMessage} = useSelector((state) => state.authError)
     const navigate = useNavigate()
     const handleLogin = (email, password) => {
         const auth = getAuth();
@@ -55,7 +64,7 @@ const LogInPage = () => {
                     });
                 navigate('/contentPage/')
             }))
-            .catch(() => dispatch(logInError()))
+            .catch(() => notify())
     }
     const provider = new GoogleAuthProvider();
     const handleRegisterWithGoogle = () => {
@@ -93,7 +102,7 @@ const LogInPage = () => {
                     });
                 navigate('/contentPage/')
             })
-            .catch(() => dispatch(authErrorWithSocials()))
+            .catch(() => notify())
     }
 
     const formik = useFormik({
@@ -110,7 +119,6 @@ const LogInPage = () => {
             }
         }
     )
-
     return (
         <div className={s.authorizationFormConteiner}>
             <div className={s.authorizationForm}>
@@ -133,7 +141,7 @@ const LogInPage = () => {
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
                     />
-                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || logInErrorMessage}</p>
+                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null}</p>
                     <div className={s.footer}>
                         <p className={s.isAccount}>Нет аккаунта? <br/><Link
                             to='/authorization/registration'>Регистрация</Link></p>

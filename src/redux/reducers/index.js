@@ -6,7 +6,6 @@ import authErrorReducer from "./authErrorReducer";
 const rootReducer = combineReducers({
     user: userReducer,
     data: dataReducer,
-    authError: authErrorReducer,
 })
 
 export default rootReducer;

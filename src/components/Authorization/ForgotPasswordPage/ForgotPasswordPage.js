@@ -11,7 +11,7 @@ import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton
 import Input from "../AuthorizationComponents/Input/Input";
 
 const ForgetPassword = () => {
-    const notify = () => toast.info('Проверьте вашу почту', {
+    const notify = (text) => toast.info(text, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -27,8 +27,8 @@ const ForgetPassword = () => {
     const handleResetPassword = async () => {
         await sendPasswordResetEmail(auth, emailInput)
             .then(() => {
-                notify()
-            })
+                notify('Проверьте вашу почту')
+            }).catch(() => notify('Ошибка'))
         await delay(6000)
         navigate('/authorization/login')
     }
