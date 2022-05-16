@@ -15,7 +15,9 @@ const ActiveDialogCardComponent = ({clientName, startTime, dialogData, handleCon
                 <Button color='primary' block
                         onClick={() => handleContinue(dialogData.dialogId)}>Продолжить</Button>
                 <p>{`Начат ${new Date(startTime).getDate()}.${new Date(startTime).getMonth()}.${new Date(startTime).getFullYear()} в ${new Date(startTime).getHours()}:${new Date(startTime).getMinutes()}`}</p>
-                <Button color='primary' block onClick={handleSaveDialog}>Сохранить диалог</Button>
+                <Button color='primary' block
+                        onClick={() => handleSaveDialog(dialogData.dialogId)}
+                >Сохранить диалог</Button>
             </div>
         </div>
     );

@@ -5,61 +5,78 @@ import * as yup from 'yup';
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
-import {authError, authErrorWithSocials, setUser} from '../../../redux/actions/userActions';
+import {setUser} from '../../../redux/actions/userActions';
+import {logInError,authErrorWithSocials} from "../../../redux/actions/authErrorActions";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
-import {get, ref, set} from "firebase/database";
+import {get, onValue, ref, set} from "firebase/database";
 import {dataBase} from "../../../firebase";
 import {setActiveDialogs, setNewDialogs, setUserData} from "../../../redux/actions/dataActions";
 
 const LogInPage = () => {
     const dispatch = useDispatch()
-    const {errorMessage} = useSelector((user) => user.user)
+    const {logInErrorMessage} = useSelector((state) => state.authError)
     const navigate = useNavigate()
     const handleLogin = (email, password) => {
         const auth = getAuth();
         return signInWithEmailAndPassword(auth, email, password)
-            .then(({user}) => {
+            .then(((responce) => {
+                const user = responce.user
+                let savedDialogsId;
+                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
+                get(savedDialogsIdRef).then(
+                    (snapshot) => {
+                        savedDialogsId = snapshot.val();
+                    });
                 dispatch(setUser({
                     email: user.email,
                     id: user.uid,
-                    token: user.accessToken
+                    token: user.accessToken,
+                    savedDialogsId: savedDialogsId,
                 }))
-                navigate('/contentPage/')
+                set(ref(dataBase, `users/${user.uid}/email`), user.email);
+                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
 
                 const newDialogsRef = ref(dataBase, `newDialogs`);
-                get(newDialogsRef, (snapshot) => {
-                    let dialogs = snapshot.val();
-                    dispatch(setNewDialogs(dialogs))
-                });
+                get(newDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setNewDialogs(dialogs))
+                    });
 
                 const activeDialogsRef = ref(dataBase, `activeDialogs`);
-                get(activeDialogsRef, (snapshot) => {
-                    let dialogs = snapshot.val();
-                    dispatch(setActiveDialogs(dialogs))
-                });
-            })
-            .catch(() => dispatch(authError()))
+                get(activeDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setActiveDialogs(dialogs))
+                    });
+                navigate('/contentPage/')
+            }))
+            .catch(() => dispatch(logInError()))
     }
-
     const provider = new GoogleAuthProvider();
     const handleRegisterWithGoogle = () => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((responce) => {
                 const user = responce.user
+                let savedDialogsId;
+                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
+                get(savedDialogsIdRef).then(
+                    (snapshot) => {
+                        savedDialogsId = snapshot.val();
+                    });
                 dispatch(setUser({
                     email: user.email,
                     id: user.uid,
-                    token: user.accessToken
+                    token: user.accessToken,
+                    savedDialogsId: savedDialogsId,
                 }))
-                set(ref(dataBase, `users/${user.uid}`), {
-                    email: user.email,
-                    id: user.uid,
-                });
+                set(ref(dataBase, `users/${user.uid}/email`), user.email);
+                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
 
                 const newDialogsRef = ref(dataBase, `newDialogs`);
                 get(newDialogsRef).then(
@@ -116,7 +133,7 @@ const LogInPage = () => {
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
                     />
-                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
+                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || logInErrorMessage}</p>
                     <div className={s.footer}>
                         <p className={s.isAccount}>Нет аккаунта? <br/><Link
                             to='/authorization/registration'>Регистрация</Link></p>

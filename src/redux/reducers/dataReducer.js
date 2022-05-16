@@ -1,5 +1,3 @@
-import {REMOVE_USER} from "./userReducer";
-
 export const SET_USER_DATA = 'SET_USER_DATA'
 export const SET_NEW_DIALOGS = 'SET_NEW_DIALOGS'
 export const SET_ACTIVE_DIALOGS = 'SET_ACTIVE_DIALOGS'

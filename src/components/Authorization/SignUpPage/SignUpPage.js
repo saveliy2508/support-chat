@@ -5,15 +5,17 @@ import * as yup from 'yup'
 import {Link, useNavigate} from "react-router-dom";
 import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 import {useDispatch, useSelector} from 'react-redux'
-import {authErrorWithSocials, setUser} from "../../../redux/actions/userActions";
+import {setUser} from "../../../redux/actions/userActions";
+import {authErrorWithSocials} from "../../../redux/actions/authErrorActions";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faVk, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
-import {ref, set} from "firebase/database";
+import {get, ref, set} from "firebase/database";
 import {dataBase} from "../../../firebase";
+import {setActiveDialogs, setNewDialogs} from "../../../redux/actions/dataActions";
 
 const AuthorizationForm = () => {
     const {errorMessage} = useSelector((user) => user.user)
@@ -33,6 +35,35 @@ const AuthorizationForm = () => {
                     id: user.uid,
                 });
                 navigate('/contentPage/')
+                let savedDialogsId;
+                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
+                get(savedDialogsIdRef).then(
+                    (snapshot) => {
+                        savedDialogsId = snapshot.val();
+                    });
+                dispatch(setUser({
+                    email: user.email,
+                    id: user.uid,
+                    token: user.accessToken,
+                    savedDialogsId: savedDialogsId,
+                }))
+                set(ref(dataBase, `users/${user.uid}/email`), user.email);
+                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
+
+                const newDialogsRef = ref(dataBase, `newDialogs`);
+                get(newDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setNewDialogs(dialogs))
+                    });
+
+                const activeDialogsRef = ref(dataBase, `activeDialogs`);
+                get(activeDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setActiveDialogs(dialogs))
+                    });
+                navigate('/contentPage/')
             })
             .catch(console.error)
     }
@@ -44,15 +75,34 @@ const AuthorizationForm = () => {
         signInWithPopup(auth, provider)
             .then((responce) => {
                 const user = responce.user
+                let savedDialogsId;
+                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
+                get(savedDialogsIdRef).then(
+                    (snapshot) => {
+                        savedDialogsId = snapshot.val();
+                    });
                 dispatch(setUser({
                     email: user.email,
                     id: user.uid,
-                    token: user.accessToken
+                    token: user.accessToken,
+                    savedDialogsId: savedDialogsId,
                 }))
-                set(ref(dataBase, `users/${user.uid}`), {
-                    email: user.email,
-                    id: user.uid,
-                });
+                set(ref(dataBase, `users/${user.uid}/email`), user.email);
+                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
+
+                const newDialogsRef = ref(dataBase, `newDialogs`);
+                get(newDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setNewDialogs(dialogs))
+                    });
+
+                const activeDialogsRef = ref(dataBase, `activeDialogs`);
+                get(activeDialogsRef).then(
+                    (snapshot) => {
+                        let dialogs = snapshot.val();
+                        dispatch(setActiveDialogs(dialogs))
+                    });
                 navigate('/contentPage/')
             })
             .catch(() => dispatch(authErrorWithSocials()))

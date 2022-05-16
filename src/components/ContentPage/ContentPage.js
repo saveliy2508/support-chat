@@ -8,14 +8,18 @@ import NewDialogsPage from "./dialogsPages/NewDialogsPage/NewDialogsPage";
 import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
 import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
 import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {off, onValue, ref} from "firebase/database";
+import {dataBase} from "../../firebase";
+import {setSavedDialogs} from "../../redux/actions/userActions";
+import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
 
-const ContentPage = () => {
-    const {currentDialog} = useSelector(state => state.user)
-
+const ContentPage = ({handleOff}) => {
+    const {currentDialog, id, email} = useSelector(state => state.user)
+    const dispatch = useDispatch()
     return (
         <div className={s.contentWrapper}>
-            <HeaderContentPage/>
+            <HeaderContentPage handleOff={handleOff}/>
             <div className={s.content}>
                 <div className={s.navBar}>
                     <NavbarContentPage/>

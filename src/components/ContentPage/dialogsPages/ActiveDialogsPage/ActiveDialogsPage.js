@@ -4,7 +4,7 @@ import s from './activeDialogsPage.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentDialog} from "../../../../redux/actions/userActions";
 import {useNavigate} from "react-router-dom";
-import {ref, set} from "firebase/database";
+import {push, ref, set} from "firebase/database";
 import {dataBase} from "../../../../firebase";
 
 const ActiveDialogsPage = () => {
@@ -18,8 +18,11 @@ const ActiveDialogsPage = () => {
     }
 
     const handleSaveDialog = (dialogId) => {
-        console.log('saved!')
-        set(ref(dataBase, `users/${id}/savedDialogsId`), 1);
+        const saveDialogListRef = ref(dataBase, `users/${id}/savedDialogsId`);
+        const saveDialogRef = push(saveDialogListRef);
+        set(saveDialogRef, {
+            dialogId
+        });
     }
 
     return (
@@ -30,7 +33,7 @@ const ActiveDialogsPage = () => {
             <div className={s.dialogsCards}>
                 {activeDialogs ?
                     Object.values(activeDialogs).map((item, index) => (
-                        <div className={s.card}>
+                        <div className={s.card} key={'activeDialogs' + index}>
                             <DialogCardComponent
                                 clientName={item.clientName}
                                 startTime={item.startTime}
