@@ -2,6 +2,7 @@ export const SET_USER = 'SET_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_CURRENT_DIALOG = 'SET_CURRENT_DIALOG'
 export const SET_SAVED_DIALOGS = 'SET_SAVED_DIALOGS'
+export const SET_STARTED_ACTIVE_DIALOGS_ID = 'SET_STARTED_ACTIVE_DIALOGS_ID'
 
 const initialState = {
     email: null,
@@ -9,6 +10,7 @@ const initialState = {
     id: null,
     currentDialog: null,
     savedDialogsId: [],
+    startedActiveDialogsId: []
 }
 
 const userReducer = (state = initialState, action) => {
@@ -19,8 +21,9 @@ const userReducer = (state = initialState, action) => {
                 email: action.payload.email,
                 token: action.payload.token,
                 id: action.payload.id,
+                startedActiveDialogsId: action.payload.startedActiveDialogsId,
                 savedDialogsId: action.payload.savedDialogsId,
-                errorMessage: ''
+                currentDialog: null
             }
         case REMOVE_USER:
             return {
@@ -28,6 +31,7 @@ const userReducer = (state = initialState, action) => {
                 email: null,
                 token: null,
                 id: null,
+                startedActiveDialogsId: null,
                 savedDialogsId: null,
                 currentDialog: null
             }
@@ -35,6 +39,11 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 savedDialogsId: action.payload,
+            }
+        case SET_STARTED_ACTIVE_DIALOGS_ID:
+            return {
+                ...state,
+                startedActiveDialogsId: action.payload,
             }
         case SET_CURRENT_DIALOG:
             return {

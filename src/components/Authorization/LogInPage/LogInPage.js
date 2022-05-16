@@ -70,19 +70,26 @@ const LogInPage = () => {
     const handleRegisterWithGoogle = () => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
-            .then((responce) => {
+            .then(async(responce) => {
                 const user = responce.user
                 let savedDialogsId;
-                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
-                get(savedDialogsIdRef).then(
+                const savedDialogsIdRef = await ref(dataBase, `users/${user.uid}/savedDialogsId`);
+                await get(savedDialogsIdRef).then(
                     (snapshot) => {
                         savedDialogsId = snapshot.val();
+                    });
+                let startedActiveDialogsId;
+                const startedActiveDialogsRef = await ref(dataBase, `users/${user.uid}/startedActiveDialogsId`);
+                await get(startedActiveDialogsRef).then(
+                    (snapshot) => {
+                        startedActiveDialogsId = snapshot.val();
                     });
                 dispatch(setUser({
                     email: user.email,
                     id: user.uid,
                     token: user.accessToken,
                     savedDialogsId: savedDialogsId,
+                    startedActiveDialogsId: startedActiveDialogsId
                 }))
                 set(ref(dataBase, `users/${user.uid}/email`), user.email);
                 set(ref(dataBase, `users/${user.uid}/id`), user.uid);

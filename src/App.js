@@ -5,7 +5,7 @@ import RegistrationForm from "./components/Authorization/SignUpPage/SignUpPage";
 import {Routes, Route, Navigate} from "react-router-dom";
 import './firebase';
 import {useDispatch, useSelector} from "react-redux";
-import {setSavedDialogs} from "./redux/actions/userActions";
+import {setSavedDialogs, setStartedActiveDialogs} from "./redux/actions/userActions";
 import {getAuth} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import ForgetPassword from "./components/Authorization/ForgotPasswordPage/ForgotPasswordPage";
@@ -20,12 +20,14 @@ function App() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const userRef = ref(dataBase, `users/${id}/savedDialogsId`);
+    const startedActiveDialogsRef = ref(dataBase, `users/${id}/startedActiveDialogs`);
     const newDialogsRef = ref(dataBase, `newDialogs`);
     const activeDialogsRef = ref(dataBase, `activeDialogs`);
     const handleOff = () => {
         off(userRef)
         off(newDialogsRef)
         off(activeDialogsRef)
+        off(startedActiveDialogsRef)
     }
     React.useEffect(() => {
         return () => {
@@ -42,6 +44,11 @@ function App() {
             onValue(activeDialogsRef, (snapshot) => {
                 let dialogs = snapshot.val();
                 dispatch(setActiveDialogs(dialogs))
+            });
+
+            onValue(startedActiveDialogsRef, (snapshot) => {
+                let dialogs = snapshot.val();
+                dispatch(setStartedActiveDialogs(dialogs))
             });
         };
     }, []);
