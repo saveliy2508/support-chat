@@ -25,7 +25,7 @@ export const setSavedDialogs = (dialogsId) => ({
     payload: dialogsId
 })
 
-export const setStartedActiveDialogs = (dialogsId) => ({
+export const setStartedActiveDialogsId = (dialogsId) => ({
     type: SET_STARTED_ACTIVE_DIALOGS_ID,
     payload: dialogsId
 })

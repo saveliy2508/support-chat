@@ -15,8 +15,8 @@ import {setSavedDialogs} from "../../redux/actions/userActions";
 import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
 
 const ContentPage = ({handleOff}) => {
-    const {currentDialog, id, email} = useSelector(state => state.user)
-    const dispatch = useDispatch()
+    const {currentDialog, id, email} = useSelector(state => state.user);
+    const dispatch = useDispatch();
     return (
         <div className={s.contentWrapper}>
             <HeaderContentPage handleOff={handleOff}/>

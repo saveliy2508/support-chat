@@ -18,8 +18,7 @@ const ActiveDialogsPage = () => {
     }
 
     const handleSaveDialog = (dialogId) => {
-        const saveDialogListRef = ref(dataBase, `users/${id}/savedDialogsId`);
-        const saveDialogRef = push(saveDialogListRef);
+        const saveDialogRef = ref(dataBase, `users/${id}/savedDialogsId/${dialogId}`);
         set(saveDialogRef, {
             dialogId
         });

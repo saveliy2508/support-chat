@@ -5,7 +5,7 @@ import RegistrationForm from "./components/Authorization/SignUpPage/SignUpPage";
 import {Routes, Route, Navigate} from "react-router-dom";
 import './firebase';
 import {useDispatch, useSelector} from "react-redux";
-import {setSavedDialogs, setStartedActiveDialogs} from "./redux/actions/userActions";
+import {setSavedDialogs, setStartedActiveDialogsId} from "./redux/actions/userActions";
 import {getAuth} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import ForgetPassword from "./components/Authorization/ForgotPasswordPage/ForgotPasswordPage";
@@ -20,14 +20,14 @@ function App() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const userRef = ref(dataBase, `users/${id}/savedDialogsId`);
-    const startedActiveDialogsRef = ref(dataBase, `users/${id}/startedActiveDialogs`);
+    const startedActiveDialogsIdRef = ref(dataBase, `users/${id}/startedActiveDialogsId`);
     const newDialogsRef = ref(dataBase, `newDialogs`);
     const activeDialogsRef = ref(dataBase, `activeDialogs`);
     const handleOff = () => {
         off(userRef)
         off(newDialogsRef)
         off(activeDialogsRef)
-        off(startedActiveDialogsRef)
+        off(startedActiveDialogsIdRef)
     }
     React.useEffect(() => {
         return () => {
@@ -46,9 +46,9 @@ function App() {
                 dispatch(setActiveDialogs(dialogs))
             });
 
-            onValue(startedActiveDialogsRef, (snapshot) => {
+            onValue(startedActiveDialogsIdRef, (snapshot) => {
                 let dialogs = snapshot.val();
-                dispatch(setStartedActiveDialogs(dialogs))
+                dispatch(setStartedActiveDialogsId(dialogs))
             });
         };
     }, []);

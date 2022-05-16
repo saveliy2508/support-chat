@@ -20,7 +20,6 @@ const SavedDialogsPage = () => {
     //Фильтрация
     const activeArray = Object.values(activeDialogs)
     const savedArray = Object.values(Object.values(savedDialogsId))
-    console.log(savedArray)
     return (
         <>
             <div className={s.title}>
