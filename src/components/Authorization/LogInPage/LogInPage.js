@@ -12,7 +12,7 @@ import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
-import {get, onValue, ref, set} from "firebase/database";
+import {equalTo, get, onValue, orderByChild, query, ref, set} from "firebase/database";
 import {dataBase} from "../../../firebase";
 import {setActiveDialogs, setNewDialogs, setUserData} from "../../../redux/actions/dataActions";
 import {toast, ToastContainer} from "react-toastify";
@@ -32,19 +32,26 @@ const LogInPage = () => {
     const handleLogin = (email, password) => {
         const auth = getAuth();
         return signInWithEmailAndPassword(auth, email, password)
-            .then(((responce) => {
+            .then(async(responce) => {
                 const user = responce.user
                 let savedDialogsId;
-                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
-                get(savedDialogsIdRef).then(
+                const savedDialogsIdRef = await ref(dataBase, `users/${user.uid}/savedDialogsId`);
+                await get(savedDialogsIdRef).then(
                     (snapshot) => {
                         savedDialogsId = snapshot.val();
+                    });
+                let startedActiveDialogsId;
+                const startedActiveDialogsRef = await ref(dataBase, `users/${user.uid}/startedActiveDialogsId`);
+                await get(startedActiveDialogsRef).then(
+                    (snapshot) => {
+                        startedActiveDialogsId = snapshot.val();
                     });
                 dispatch(setUser({
                     email: user.email,
                     id: user.uid,
                     token: user.accessToken,
                     savedDialogsId: savedDialogsId,
+                    startedActiveDialogsId: startedActiveDialogsId
                 }))
                 set(ref(dataBase, `users/${user.uid}/email`), user.email);
                 set(ref(dataBase, `users/${user.uid}/id`), user.uid);
@@ -56,16 +63,17 @@ const LogInPage = () => {
                         dispatch(setNewDialogs(dialogs))
                     });
 
-                const activeDialogsRef = ref(dataBase, `activeDialogs`);
+                const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(user.uid))
                 get(activeDialogsRef).then(
                     (snapshot) => {
                         let dialogs = snapshot.val();
                         dispatch(setActiveDialogs(dialogs))
                     });
                 navigate('/contentPage/')
-            }))
+            })
             .catch(() => notify())
     }
+
     const provider = new GoogleAuthProvider();
     const handleRegisterWithGoogle = () => {
         const auth = getAuth();
@@ -101,7 +109,7 @@ const LogInPage = () => {
                         dispatch(setNewDialogs(dialogs))
                     });
 
-                const activeDialogsRef = ref(dataBase, `activeDialogs`);
+                const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(user.uid))
                 get(activeDialogsRef).then(
                     (snapshot) => {
                         let dialogs = snapshot.val();

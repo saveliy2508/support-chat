@@ -4,8 +4,6 @@ import s from './savedDialogsPage.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentDialog} from "../../../../redux/actions/userActions";
 import {useNavigate} from "react-router-dom";
-import {push, ref, set} from "firebase/database";
-import {dataBase} from "../../../../firebase";
 
 const SavedDialogsPage = () => {
     const {activeDialogs} = useSelector(state => state.data)
@@ -17,17 +15,21 @@ const SavedDialogsPage = () => {
         navigate(`/contentPage/${dialogId}`)
     }
 
-    //Фильтрация
-    const activeArray = Object.values(activeDialogs)
-    const savedArray = Object.values(Object.values(savedDialogsId))
+    let activeArray;
+    let savedArray;
+    if (activeDialogs && savedDialogsId) {
+        activeArray = Object.values(activeDialogs)
+        savedArray = Object.values(Object.values(savedDialogsId))
+    }
+
     return (
         <>
             <div className={s.title}>
                 SavedDialogsPage
             </div>
             <div className={s.dialogsCards}>
-                {savedArray ?
-                    activeArray.filter(item => savedArray.find(x => item.dialogId == x.dialogId ? true : null)).map((item, index) => (
+                {savedArray && activeArray ?
+                    activeArray.filter(j => savedArray.find(i => j.dialogId == i.dialogId ? true : null)).map((item, index) => (
                         <div className={s.card} key={'activeDialogs' + index}>
                             <DialogCardComponent
                                 clientName={item.clientName}

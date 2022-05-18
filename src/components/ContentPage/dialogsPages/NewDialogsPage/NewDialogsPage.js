@@ -44,6 +44,7 @@ const NewDialogsPage = () => {
                 dialogId: dialogId,
                 startTime: startTime,
                 messages: messages,
+                operatorId: id,
             })
             set(ref(dataBase, `newDialogs/${dialogId}`), null)
             dispatch(setCurrentDialog(dialogId))

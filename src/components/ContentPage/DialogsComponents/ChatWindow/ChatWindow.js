@@ -13,9 +13,9 @@ const ChatWindow = () => {
     }
     const {currentDialog, email} = useSelector(state => state.user)
     const {activeDialogs} = useSelector(state => state.data)
-    const dialog = activeDialogs[`${currentDialog}`]
+    const dialog = activeDialogs[[`${currentDialog}`]]
     const [textarea, setTextarea] = React.useState('');
-
+    console.log(dialog)
     const handlePushNewMessage = () => {
         const date = new Date()
         const newMessageListRef = ref(dataBase, `activeDialogs/${currentDialog}/messages`);

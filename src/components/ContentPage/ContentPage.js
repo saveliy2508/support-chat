@@ -9,14 +9,47 @@ import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
 import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
 import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
 import {useDispatch, useSelector} from "react-redux";
-import {off, onValue, ref} from "firebase/database";
+import {equalTo, off, onValue, orderByChild, query, ref} from "firebase/database";
 import {dataBase} from "../../firebase";
-import {setSavedDialogs} from "../../redux/actions/userActions";
+import {setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
 import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
 
-const ContentPage = ({handleOff}) => {
+const ContentPage = () => {
     const {currentDialog, id, email} = useSelector(state => state.user);
     const dispatch = useDispatch();
+    const savedDialogsRef = ref(dataBase, `users/${id}/savedDialogsId`);
+    const startedActiveDialogsIdRef = ref(dataBase, `users/${id}/startedActiveDialogsId`);
+    const newDialogsRef = ref(dataBase, `newDialogs`);
+    const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(id))
+    const handleOff = () => {
+        off(savedDialogsRef)
+        off(newDialogsRef)
+        off(activeDialogsRef)
+        off(startedActiveDialogsIdRef)
+    }
+    React.useEffect(() => {
+        return () => {
+            onValue(savedDialogsRef, (snapshot) => {
+                let user = snapshot.val();
+                dispatch(setSavedDialogs(user))
+            });
+
+            onValue(newDialogsRef, (snapshot) => {
+                let dialogs = snapshot.val();
+                dispatch(setNewDialogs(dialogs))
+            });
+
+            onValue(activeDialogsRef, (snapshot) => {
+                let dialogs = snapshot.val();
+                dispatch(setActiveDialogs(dialogs))
+            });
+
+            onValue(startedActiveDialogsIdRef, (snapshot) => {
+                let dialogs = snapshot.val();
+                dispatch(setStartedActiveDialogsId(dialogs))
+            });
+        };
+    }, []);
     return (
         <div className={s.contentWrapper}>
             <HeaderContentPage handleOff={handleOff}/>
