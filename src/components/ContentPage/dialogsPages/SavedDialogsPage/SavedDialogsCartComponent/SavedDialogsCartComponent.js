@@ -1,13 +1,13 @@
 import React from 'react';
-import s from "./savedDialogsCartComponent.module.scss";
 import {Button} from "reactstrap";
 import {useSelector} from "react-redux";
 import {ref, set} from "firebase/database";
 import {dataBase} from "../../../../../firebase";
-import {setCurrentDialog} from "../../../../../redux/actions/userActions";
+
+import s from "./savedDialogsCartComponent.module.scss";
 
 const SavedDialogCardComponent = ({clientName, dialogData, handleContinue, messages}) => {
-    const {savedDialogsId, id} = useSelector(state => state.user)
+    const {id} = useSelector(state => state.user)
     const handleDeleteFromSaved = () => {
         set(ref(dataBase, `users/${id}/savedDialogsId/${dialogData.dialogId}`), null)
     }

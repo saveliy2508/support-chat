@@ -1,32 +1,31 @@
 import React from 'react';
-import HeaderContentPage from "./HeaderContentPage/HeaderContentPage";
-import s from './contentPage.module.scss'
-import NavbarContentPage from "./NavbarContentPage/NavbarContentPage";
 import {Route, Routes} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {equalTo, off, onValue, orderByChild, query, ref} from "firebase/database";
+import {dataBase} from "../../firebase";
+
+import s from './contentPage.module.scss'
+
+import HeaderContentPage from "./HeaderContentPage/HeaderContentPage";
+import NavbarContentPage from "./NavbarContentPage/NavbarContentPage";
 import ActiveDialogsPage from "./dialogsPages/ActiveDialogsPage/ActiveDialogsPage";
 import NewDialogsPage from "./dialogsPages/NewDialogsPage/NewDialogsPage";
 import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
 import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
 import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
-import {useDispatch, useSelector} from "react-redux";
-import {equalTo, off, onValue, orderByChild, query, ref} from "firebase/database";
-import {dataBase} from "../../firebase";
+
 import {setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
 import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
 
 const ContentPage = () => {
-    const {currentDialog, id, email} = useSelector(state => state.user);
+    const {currentDialog, id} = useSelector(state => state.user);
     const dispatch = useDispatch();
+
     const savedDialogsRef = ref(dataBase, `users/${id}/savedDialogsId`);
     const startedActiveDialogsIdRef = ref(dataBase, `users/${id}/startedActiveDialogsId`);
     const newDialogsRef = ref(dataBase, `newDialogs`);
     const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(id))
-    const handleOff = () => {
-        off(savedDialogsRef)
-        off(newDialogsRef)
-        off(activeDialogsRef)
-        off(startedActiveDialogsIdRef)
-    }
+
     React.useEffect(() => {
         return () => {
             onValue(savedDialogsRef, (snapshot) => {
@@ -50,6 +49,16 @@ const ContentPage = () => {
             });
         };
     }, []);
+
+    //Не работает отключение слушателей
+    const handleOff = () => {
+        off(savedDialogsRef)
+        off(newDialogsRef)
+        off(activeDialogsRef)
+        off(startedActiveDialogsIdRef)
+    }
+    //
+
     return (
         <div className={s.contentWrapper}>
             <HeaderContentPage handleOff={handleOff}/>

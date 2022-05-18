@@ -1,5 +1,7 @@
 import React from 'react';
+
 import s from "./activeDialogCardComponent.module.scss";
+
 import {Button} from "reactstrap";
 
 const ActiveDialogCardComponent = ({clientName, startTime, dialogData, handleContinue, messages, handleSaveDialog}) => {

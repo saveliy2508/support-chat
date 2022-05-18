@@ -1,6 +1,7 @@
-import s from "./form.module.scss";
 import React from "react";
 import {ToastContainer} from "react-toastify";
+
+import s from "./form.module.scss";
 
 const Form = ({formTitle}) => {
     return (

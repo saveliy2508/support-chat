@@ -1,24 +1,21 @@
 import React from 'react';
+
 import s from '../AuthorisationStyles.module.scss'
+
 import {useFormik} from 'formik';
 import * as yup from 'yup'
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
-import {useDispatch, useSelector} from 'react-redux'
-import {setUser} from "../../../redux/actions/userActions";
-import {authErrorWithSocials} from "../../../redux/actions/authErrorActions";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faVk, faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {toast} from "react-toastify";
+
 import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
-import {get, ref, set} from "firebase/database";
-import {dataBase} from "../../../firebase";
-import {setActiveDialogs, setNewDialogs} from "../../../redux/actions/dataActions";
-import {toast} from "react-toastify";
 
-const AuthorizationForm = () => {
+const AuthorizationForm = ({loginFunction}) => {
     const notify = () => toast.info('Ошибка', {
         position: "top-right",
         autoClose: 5000,
@@ -28,52 +25,11 @@ const AuthorizationForm = () => {
         draggable: true,
         progress: undefined,
     });
-    const {errorMessage} = useSelector((user) => user.user)
-    const dispatch = useDispatch();
-    const navigate = useNavigate()
     const handleRegister = (email, password) => {
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
-            .then(({user}) => {
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.accessToken
-                }))
-                set(ref(dataBase, `users/${user.uid}`), {
-                    email: user.email,
-                    id: user.uid,
-                });
-                navigate('/contentPage/')
-                let savedDialogsId;
-                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
-                get(savedDialogsIdRef).then(
-                    (snapshot) => {
-                        savedDialogsId = snapshot.val();
-                    });
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.accessToken,
-                    savedDialogsId: savedDialogsId,
-                }))
-                set(ref(dataBase, `users/${user.uid}/email`), user.email);
-                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
-
-                const newDialogsRef = ref(dataBase, `newDialogs`);
-                get(newDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setNewDialogs(dialogs))
-                    });
-
-                const activeDialogsRef = ref(dataBase, `activeDialogs`);
-                get(activeDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setActiveDialogs(dialogs))
-                    });
-                navigate('/contentPage/')
+            .then((responce) => {
+                loginFunction(responce)
             })
             .catch(() => notify())
     }
@@ -84,36 +40,7 @@ const AuthorizationForm = () => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((responce) => {
-                const user = responce.user
-                let savedDialogsId;
-                const savedDialogsIdRef = ref(dataBase, `users/${user.uid}/savedDialogsId`);
-                get(savedDialogsIdRef).then(
-                    (snapshot) => {
-                        savedDialogsId = snapshot.val();
-                    });
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.accessToken,
-                    savedDialogsId: savedDialogsId,
-                }))
-                set(ref(dataBase, `users/${user.uid}/email`), user.email);
-                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
-
-                const newDialogsRef = ref(dataBase, `newDialogs`);
-                get(newDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setNewDialogs(dialogs))
-                    });
-
-                const activeDialogsRef = ref(dataBase, `activeDialogs`);
-                get(activeDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setActiveDialogs(dialogs))
-                    });
-                navigate('/contentPage/')
+                loginFunction(responce)
             })
             .catch(() => notify())
     }
@@ -138,7 +65,7 @@ const AuthorizationForm = () => {
     )
 
     return (
-        <div className={s.authorizationFormConteiner}>
+        <div className={s.authorizationFormContainer}>
             <div className={s.authorizationForm}>
                 <Form formTitle='Регистрация в Rocket support'/>
                 <form onSubmit={formik.handleSubmit}>
@@ -159,8 +86,8 @@ const AuthorizationForm = () => {
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
                     />
-                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
-                    <p className={s.isAccount}>Есть аккаунт? <Link to='/login'>Войти<FontAwesomeIcon
+                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null}</p>
+                    <p className={s.isAccount}>Есть аккаунт? <Link to='/authorization/login'>Войти<FontAwesomeIcon
                         className={s.doorIcon}
                         icon={faDoorOpen}/></Link>
                     </p>

@@ -1,23 +1,20 @@
 import React from 'react';
+
 import s from '../AuthorisationStyles.module.scss';
+
 import {useFormik} from 'formik';
 import * as yup from 'yup';
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from 'react-redux';
+import {Link} from "react-router-dom";
 import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
-import {setUser} from '../../../redux/actions/userActions';
-import {logInError, authErrorWithSocials, clearError} from "../../../redux/actions/authErrorActions";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
+import {toast} from "react-toastify";
+
 import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
-import {equalTo, get, onValue, orderByChild, query, ref, set} from "firebase/database";
-import {dataBase} from "../../../firebase";
-import {setActiveDialogs, setNewDialogs, setUserData} from "../../../redux/actions/dataActions";
-import {toast, ToastContainer} from "react-toastify";
 
-const LogInPage = () => {
+const LogInPage = ({loginFunction}) => {
     const notify = () => toast.info('Ошибка входа', {
         position: "top-right",
         autoClose: 5000,
@@ -27,49 +24,12 @@ const LogInPage = () => {
         draggable: true,
         progress: undefined,
     });
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+
     const handleLogin = (email, password) => {
         const auth = getAuth();
         return signInWithEmailAndPassword(auth, email, password)
-            .then(async(responce) => {
-                const user = responce.user
-                let savedDialogsId;
-                const savedDialogsIdRef = await ref(dataBase, `users/${user.uid}/savedDialogsId`);
-                await get(savedDialogsIdRef).then(
-                    (snapshot) => {
-                        savedDialogsId = snapshot.val();
-                    });
-                let startedActiveDialogsId;
-                const startedActiveDialogsRef = await ref(dataBase, `users/${user.uid}/startedActiveDialogsId`);
-                await get(startedActiveDialogsRef).then(
-                    (snapshot) => {
-                        startedActiveDialogsId = snapshot.val();
-                    });
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.accessToken,
-                    savedDialogsId: savedDialogsId,
-                    startedActiveDialogsId: startedActiveDialogsId
-                }))
-                set(ref(dataBase, `users/${user.uid}/email`), user.email);
-                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
-
-                const newDialogsRef = ref(dataBase, `newDialogs`);
-                get(newDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setNewDialogs(dialogs))
-                    });
-
-                const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(user.uid))
-                get(activeDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setActiveDialogs(dialogs))
-                    });
-                navigate('/contentPage/')
+            .then((responce) => {
+                loginFunction(responce)
             })
             .catch(() => notify())
     }
@@ -78,44 +38,8 @@ const LogInPage = () => {
     const handleRegisterWithGoogle = () => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
-            .then(async(responce) => {
-                const user = responce.user
-                let savedDialogsId;
-                const savedDialogsIdRef = await ref(dataBase, `users/${user.uid}/savedDialogsId`);
-                await get(savedDialogsIdRef).then(
-                    (snapshot) => {
-                        savedDialogsId = snapshot.val();
-                    });
-                let startedActiveDialogsId;
-                const startedActiveDialogsRef = await ref(dataBase, `users/${user.uid}/startedActiveDialogsId`);
-                await get(startedActiveDialogsRef).then(
-                    (snapshot) => {
-                        startedActiveDialogsId = snapshot.val();
-                    });
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.accessToken,
-                    savedDialogsId: savedDialogsId,
-                    startedActiveDialogsId: startedActiveDialogsId
-                }))
-                set(ref(dataBase, `users/${user.uid}/email`), user.email);
-                set(ref(dataBase, `users/${user.uid}/id`), user.uid);
-
-                const newDialogsRef = ref(dataBase, `newDialogs`);
-                get(newDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setNewDialogs(dialogs))
-                    });
-
-                const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(user.uid))
-                get(activeDialogsRef).then(
-                    (snapshot) => {
-                        let dialogs = snapshot.val();
-                        dispatch(setActiveDialogs(dialogs))
-                    });
-                navigate('/contentPage/')
+            .then((responce) => {
+                loginFunction(responce)
             })
             .catch(() => notify())
     }
@@ -135,7 +59,7 @@ const LogInPage = () => {
         }
     )
     return (
-        <div className={s.authorizationFormConteiner}>
+        <div className={s.authorizationFormContainer}>
             <div className={s.authorizationForm}>
                 <Form formTitle='Войти в Rocket support'/>
                 <form onSubmit={formik.handleSubmit}>
@@ -165,7 +89,7 @@ const LogInPage = () => {
                     </div>
                     <div className={s.registrationWith}>
                         <div>Войти через <br/>
-                            <FontAwesomeIcon className={s.vkIcon} icon={faVk}/></div>
+                            <FontAwesomeIcon className={s.vkIcon} icon={faVk}/><br/>(не работает)</div>
                         <div onClick={handleRegisterWithGoogle}>Войти через <br/>
                             <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
                     </div>

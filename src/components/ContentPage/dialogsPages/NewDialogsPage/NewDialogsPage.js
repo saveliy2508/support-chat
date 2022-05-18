@@ -1,11 +1,13 @@
 import React from 'react';
-import NewDialogCardComponent from "./NewDialogCardComponent/NewDialogCardComponent";
-import s from './newDialogsPage.module.scss'
-import {Button, Input} from "reactstrap";
+import {useNavigate} from "react-router-dom";
 import {dataBase} from "../../../../firebase";
 import {set, ref, push} from "firebase/database";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {Button, Input} from "reactstrap";
+
+import s from './newDialogsPage.module.scss'
+
+import NewDialogCardComponent from "./NewDialogCardComponent/NewDialogCardComponent";
 import {setCurrentDialog} from "../../../../redux/actions/userActions";
 
 const NewDialogsPage = () => {
@@ -16,6 +18,7 @@ const NewDialogsPage = () => {
 
         const dispatch = useDispatch()
         const navigate = useNavigate()
+
         const {newDialogs} = useSelector(state => state.data)
         const {id} = useSelector(state => state.user)
 

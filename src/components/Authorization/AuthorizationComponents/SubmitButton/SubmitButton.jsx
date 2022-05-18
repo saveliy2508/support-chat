@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from "reactstrap";
+
 import s from './submitButton.module.scss'
 
 const SubmitButton = ({handleClick, text}) => {

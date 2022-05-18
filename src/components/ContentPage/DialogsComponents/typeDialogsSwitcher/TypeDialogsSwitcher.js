@@ -1,7 +1,8 @@
 import React from 'react';
-import s from "./typeDialogsSwitcher.module.scss";
 import {Link} from "react-router-dom";
 import {Button} from "reactstrap";
+
+import s from "./typeDialogsSwitcher.module.scss";
 
 const TypeDialogsSwitcher = ({path, title, counter, text}) => {
     return (

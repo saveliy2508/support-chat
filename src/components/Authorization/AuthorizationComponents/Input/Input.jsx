@@ -1,6 +1,7 @@
 import React from 'react';
-import s from './input.module.scss'
 import {Input} from "reactstrap";
+
+import s from './input.module.scss'
 
 const authInput = ({type, name, onChange, onBlur, value}) => {
     return (

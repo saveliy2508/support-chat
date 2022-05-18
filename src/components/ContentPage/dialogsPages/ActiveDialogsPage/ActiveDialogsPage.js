@@ -1,17 +1,21 @@
 import React from 'react';
-import DialogCardComponent from "./ActiveDialogsCardComponent/ActiveDialogCardComponent";
-import s from './activeDialogsPage.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {setCurrentDialog} from "../../../../redux/actions/userActions";
 import {useNavigate} from "react-router-dom";
-import {push, ref, set} from "firebase/database";
+import {ref, set} from "firebase/database";
 import {dataBase} from "../../../../firebase";
+
+import s from './activeDialogsPage.module.scss'
+
+import DialogCardComponent from "./ActiveDialogsCardComponent/ActiveDialogCardComponent";
+import {setCurrentDialog} from "../../../../redux/actions/userActions";
 
 const ActiveDialogsPage = () => {
     const {activeDialogs} = useSelector(state => state.data)
     const {id} = useSelector(state => state.user)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     const handleContinue = (dialogId) => {
         dispatch(setCurrentDialog(dialogId))
         navigate(`/contentPage/${dialogId}`)

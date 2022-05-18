@@ -1,15 +1,19 @@
 import React from 'react';
-import DialogCardComponent from "./SavedDialogsCartComponent/SavedDialogsCartComponent";
-import s from './savedDialogsPage.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {setCurrentDialog} from "../../../../redux/actions/userActions";
 import {useNavigate} from "react-router-dom";
+
+import s from './savedDialogsPage.module.scss'
+
+import {setCurrentDialog} from "../../../../redux/actions/userActions";
+import DialogCardComponent from "./SavedDialogsCartComponent/SavedDialogsCartComponent";
 
 const SavedDialogsPage = () => {
     const {activeDialogs} = useSelector(state => state.data)
-    const {id, savedDialogsId} = useSelector(state => state.user)
+    const {savedDialogsId} = useSelector(state => state.user)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     const handleContinue = (dialogId) => {
         dispatch(setCurrentDialog(dialogId))
         navigate(`/contentPage/${dialogId}`)
@@ -29,7 +33,7 @@ const SavedDialogsPage = () => {
             </div>
             <div className={s.dialogsCards}>
                 {savedArray && activeArray ?
-                    activeArray.filter(j => savedArray.find(i => j.dialogId == i.dialogId ? true : null)).map((item, index) => (
+                    activeArray.filter(j => savedArray.find(i => j.dialogId === i.dialogId ? true : null)).map((item, index) => (
                         <div className={s.card} key={'activeDialogs' + index}>
                             <DialogCardComponent
                                 clientName={item.clientName}

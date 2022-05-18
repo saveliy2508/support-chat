@@ -1,6 +1,8 @@
 import React from 'react';
-import s from "./newDialogCardComponent.module.scss";
 import {Button} from "reactstrap";
+
+import s from "./newDialogCardComponent.module.scss";
+
 
 const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToActiveDialogs, messages}) => {
     return (
