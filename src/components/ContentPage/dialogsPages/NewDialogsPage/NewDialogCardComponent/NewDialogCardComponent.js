@@ -5,6 +5,7 @@ import s from "./newDialogCardComponent.module.scss";
 
 
 const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToActiveDialogs, messages}) => {
+    // console.log(Object.values(messages)[0])
     return (
         <div className={s.dialogCard}>
             <div className={s.clientInfo}>

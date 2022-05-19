@@ -3,7 +3,9 @@ import {useNavigate} from "react-router-dom";
 import {dataBase} from "../../../../firebase";
 import {set, ref, push} from "firebase/database";
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Input} from "reactstrap";
+import {ButtonGroup, Button, Input} from "reactstrap";
+import debounce from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 
 import s from './newDialogsPage.module.scss'
 
@@ -21,6 +23,13 @@ const NewDialogsPage = () => {
 
         const {newDialogs} = useSelector(state => state.data)
         const {id} = useSelector(state => state.user)
+
+        //Фильтрация по имени и по последнему сообщению + debounce
+        const [radioButton, setRadioButton] = React.useState('имени');
+        const [filterInput, setFilterInput] = React.useState('');
+        const setFilter = (e) => setFilterInput(e.target.value);
+        const debounceFilterInput = debounce(setFilter, 400)
+        //
 
         const handleAddNewDialog = () => {
             const date = new Date()
@@ -61,29 +70,56 @@ const NewDialogsPage = () => {
 
         return (
             <>
-                <div className={s.title}>
-                    Страница новых диалогов
-                    {/* На время тестов, пока нет приложения для клиента. После - удалить */}
-                    <Input placeholder='Имя клиента' value={clientName} onChange={(e) => setClientName(e.target.value)}/>
-                    <Input placeholder='Первое сообщение' value={firstMessage}
-                           onChange={(e) => setFirstMessage(e.target.value)}/>
-                    <Button onClick={handleAddNewDialog}>Добавить новый диалог</Button>
-                    {/*    */}
+                <div className={s.header}>
+                    <div className={s.title}>
+                        Страница новых диалогов
+                    </div>
+                    <div className={s.input}>
+                        Поиск по:
+                        <ButtonGroup>
+                            <Button
+                                color="secondary"
+                                onClick={() => setRadioButton('имени')}
+                            >
+                                Имени
+                            </Button>
+                            <Button
+                                color="secondary"
+                                onClick={() => setRadioButton('сообщению')}
+                            >
+                                Сообщению
+                            </Button>
+                        </ButtonGroup>
+                        <Input placeholder={`поиск по ${radioButton}`}
+                               onChange={debounceFilterInput}/>
+                    </div>
                 </div>
+
+                {/* На время тестов, пока нет приложения для клиента. После - удалить */}
+                <Input placeholder='Имя клиента' value={clientName} onChange={(e) => setClientName(e.target.value)}
+                       className={s.filterInput}/>
+                <Input placeholder='Первое сообщение' value={firstMessage}
+                       onChange={(e) => setFirstMessage(e.target.value)}/>
+                <Button onClick={handleAddNewDialog}>Добавить новый диалог</Button>
+                {/*    */}
                 <div className={s.dialogsCards}>
                     {newDialogs ?
-                        Object.values(newDialogs).map((item, index) => (
-                            <div className={s.card} key={item.dialogId + index}>
-                                <NewDialogCardComponent
-                                    clientName={item.clientName}
-                                    startTime={item.startTime}
-                                    dialogData={item}
-                                    handleAddToActiveDialogs={handleAddToActiveDialogs}
-                                    messages={item.messages}
-                                    senderName={item.senderName}
-                                />
-                            </div>
-                        ))
+                        Object.values(newDialogs)
+                            .filter(radioButton == 'имени'
+                                ? item => item.clientName.toLowerCase().includes(filterInput.toLowerCase())
+                                : item => Object.values(item.messages)[Object.values(item.messages).length - 1].text.toLowerCase().includes(filterInput.toLowerCase()))
+                            .map((item, index) => (
+                                <div className={s.card} key={item.dialogId + index}>
+                                    <NewDialogCardComponent
+                                        clientName={item.clientName}
+                                        startTime={item.startTime}
+                                        dialogData={item}
+                                        handleAddToActiveDialogs={handleAddToActiveDialogs}
+                                        messages={item.messages}
+                                        senderName={item.senderName}
+                                    />
+                                </div>
+                            ))
                         :
                         null
                     }

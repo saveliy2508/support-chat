@@ -1,7 +1,15 @@
-.title {
+.header {
+  display: flex;
+  justify-content: space-between;
   font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 20px;
+  .title {
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+}
+
+.filterInput{
+  margin-top: 15px;
 }
 
 .dialogsCards{
