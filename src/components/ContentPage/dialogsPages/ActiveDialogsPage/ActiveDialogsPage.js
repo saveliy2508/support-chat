@@ -9,7 +9,7 @@ import s from './activeDialogsPage.module.scss'
 import DialogCardComponent from "./ActiveDialogsCardComponent/ActiveDialogCardComponent";
 import {setCurrentDialog} from "../../../../redux/actions/userActions";
 
-const ActiveDialogsPage = () => {
+const ActiveDialogsPage = ({addDialogToEnded}) => {
     const {activeDialogs} = useSelector(state => state.data)
     const {id} = useSelector(state => state.user)
 
@@ -35,9 +35,10 @@ const ActiveDialogsPage = () => {
             </div>
             <div className={s.dialogsCards}>
                 {activeDialogs ?
-                    Object.values(activeDialogs).map((item, index) => (
+                    Object.values(activeDialogs).filter(item => item.ended !== true).map((item, index) => (
                         <div className={s.card} key={'activeDialogs' + index}>
                             <DialogCardComponent
+                                addDialogToEnded={addDialogToEnded}
                                 clientName={item.clientName}
                                 startTime={item.startTime}
                                 dialogData={item}

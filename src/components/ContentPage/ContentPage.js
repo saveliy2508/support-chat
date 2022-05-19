@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {equalTo, off, onValue, orderByChild, query, ref} from "firebase/database";
+import {equalTo, off, onValue, orderByChild, query, ref, set} from "firebase/database";
 import {dataBase} from "../../firebase";
 
 import s from './contentPage.module.scss'
@@ -59,6 +59,11 @@ const ContentPage = () => {
     }
     //
 
+    const addDialogToEnded = (dialogId) => {
+        const addToEndDialogRef = ref(dataBase, `activeDialogs/${dialogId}/ended`);
+        set(addToEndDialogRef, true);
+    }
+
     return (
         <div className={s.contentWrapper}>
             <HeaderContentPage handleOff={handleOff}/>
@@ -69,7 +74,7 @@ const ContentPage = () => {
                 <div className={s.dialogs}>
                     <Routes>
                         <Route path='newDialogs' element={<NewDialogsPage/>}/>
-                        <Route path='activeDialogs' element={<ActiveDialogsPage/>}/>
+                        <Route path='activeDialogs' element={<ActiveDialogsPage addDialogToEnded={addDialogToEnded}/>}/>
                         <Route path='savedDialogs' element={<SavedDialogsPage/>}/>
                         <Route path='endedDialogs' element={<EndedDialogsPage/>}/>
                         <Route path={currentDialog} element={<ChatWindow/>}/>

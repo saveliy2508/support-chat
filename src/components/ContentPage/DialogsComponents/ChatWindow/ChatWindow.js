@@ -27,7 +27,6 @@ const ChatWindow = () => {
             senderName: email,
         });
     }
-
     return (
         <div className={s.chatWindow}>
             <div className={s.title}>
@@ -49,22 +48,25 @@ const ChatWindow = () => {
                         )
                     )}
                 </div>
-                <div className={s.answerForm}>
-                    <div className={s.answerInput}>
-                        Введите ответ:
-                        <Input
-                            value={textarea}
-                            onChange={e => setTextarea(e.target.value)}
-                            className={s.textarea}
-                            bsSize="sm"
-                            type="textarea"
-                        />
-                        <Button onClick={handlePushNewMessage}>Отправить</Button>
+                {activeDialogs[`${currentDialog}`].ended !== true ?
+                    <div className={s.answerForm}>
+                        <div className={s.answerInput}>
+                            Введите ответ:
+                            <Input
+                                value={textarea}
+                                onChange={e => setTextarea(e.target.value)}
+                                className={s.textarea}
+                                bsSize="sm"
+                                type="textarea"
+                            />
+                            <Button onClick={handlePushNewMessage}>Отправить</Button>
+                        </div>
+                        <div className={s.template}>
+                            Выбрать из готовых (in process)
+                        </div>
                     </div>
-                    <div className={s.template}>
-                        Выбрать из готовых (in process)
-                    </div>
-                </div>
+                    : null
+                }
             </div>
         </div>
     );
