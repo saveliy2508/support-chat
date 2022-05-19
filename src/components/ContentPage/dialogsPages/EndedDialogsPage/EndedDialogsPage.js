@@ -46,6 +46,7 @@ const EndedDialogsPage = () => {
                                     messages={item.messages}
                                     handleContinue={handleContinue}
                                     handleSaveDialog={handleSaveDialog}
+                                    grade={item.grade}
                                 />
                             </div>
                         ))

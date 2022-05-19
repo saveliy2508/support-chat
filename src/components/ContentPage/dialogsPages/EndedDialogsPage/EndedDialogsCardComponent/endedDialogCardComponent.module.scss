@@ -14,10 +14,9 @@
 
   .dialogInfo {
     padding-right: 10px;
-    p{
-      margin: 10px auto;
-      font-size: 12px;
-      font-weight: 700;
+    .grade{
+      margin: 10px 0;
+      text-align: center;
     }
   }
 }

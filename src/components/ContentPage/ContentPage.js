@@ -59,9 +59,11 @@ const ContentPage = () => {
     }
     //
 
-    const addDialogToEnded = (dialogId) => {
+    const addDialogToEnded = (dialogId, grade) => {
         const addToEndDialogRef = ref(dataBase, `activeDialogs/${dialogId}/ended`);
         set(addToEndDialogRef, true);
+        const addGradeRef = ref(dataBase, `activeDialogs/${dialogId}/grade`);
+        set(addGradeRef, grade);
     }
 
     return (

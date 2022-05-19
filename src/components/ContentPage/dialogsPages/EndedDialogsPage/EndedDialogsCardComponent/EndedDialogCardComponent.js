@@ -1,17 +1,23 @@
 import React from 'react';
+import {Button} from "reactstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import s from "./endedDialogCardComponent.module.scss";
-
-import {Button} from "reactstrap";
+import {faStar} from "@fortawesome/free-solid-svg-icons";
 
 const EndedDialogCardComponent = ({
-                                       clientName,
-                                       startTime,
-                                       dialogData,
-                                       handleContinue,
-                                       messages,
-                                       handleSaveDialog,
-                                   }) => {
+                                      clientName,
+                                      dialogData,
+                                      handleContinue,
+                                      messages,
+                                      handleSaveDialog,
+                                      grade
+                                  }) => {
+    //Логика отображения количества звезд по оценке(grade)
+    let stars = []
+    for (let i = 0; i < grade; i++) {
+        stars.push('0')
+    }
     return (
         <div className={s.dialogCard}>
             <div className={s.clientInfo}>
@@ -23,7 +29,9 @@ const EndedDialogCardComponent = ({
             <div className={s.dialogInfo}>
                 <Button color='primary' block
                         onClick={() => handleContinue(dialogData.dialogId)}>Читать</Button>
-                <p>{`Начат ${new Date(startTime).getDate()}.${new Date(startTime).getMonth()}.${new Date(startTime).getFullYear()} в ${new Date(startTime).getHours()}:${new Date(startTime).getMinutes()}`}</p>
+                <p className={s.grade}>
+                    {stars.map(item => <FontAwesomeIcon className={s.star} icon={faStar}/>)}
+                </p>
                 <Button color='primary' block
                         onClick={() => handleSaveDialog(dialogData.dialogId)}
                 >Сохранить диалог</Button>

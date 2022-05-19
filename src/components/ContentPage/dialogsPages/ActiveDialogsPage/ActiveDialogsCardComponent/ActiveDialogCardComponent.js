@@ -13,16 +13,20 @@ const ActiveDialogCardComponent = ({
                                        handleSaveDialog,
                                        addDialogToEnded
                                    }) => {
+    const [grade, setGrade] = React.useState('');
     return (
         <div className={s.dialogCard}>
             <div className={s.clientInfo}>
                 {clientName}
-                <br/>
-                <br/>
-                <br/>
-                <button onClick={() => addDialogToEnded(dialogData.dialogId)}>Закончить диалог
-                    (временно)
-                </button>
+                <div className={s.test}>
+                    <br/>
+                    <br/>
+                    <input type="number" placeholder='оценка от 1 до 5' value={grade}
+                           onChange={e => setGrade(e.target.value)}/>
+                    <button onClick={() => addDialogToEnded(dialogData.dialogId, grade)}>Закончить диалог
+                        (временно)
+                    </button>
+                </div>
             </div>
             <div className={s.lastMessage}>
                 {Object.values(messages)[Object.values(messages).length - 1].text}
