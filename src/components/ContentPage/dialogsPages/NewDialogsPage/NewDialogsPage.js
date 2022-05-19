@@ -53,8 +53,7 @@ const NewDialogsPage = () => {
             dispatch(setCurrentDialog(dialogId))
             navigate(`/contentPage/${dialogId}`)
 
-            const startedActiveDialogsIdListRef = ref(dataBase, `users/${id}/startedActiveDialogsId`);
-            const startedActiveDialogsIdRef = push(startedActiveDialogsIdListRef);
+            const startedActiveDialogsIdRef = ref(dataBase, `users/${id}/startedActiveDialogsId/${dialogId}`);
             set(startedActiveDialogsIdRef, {
                 dialogId
             });
