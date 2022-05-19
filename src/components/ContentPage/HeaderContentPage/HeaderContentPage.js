@@ -9,14 +9,18 @@ import s from './headerContentPage.module.scss'
 import {removeUser} from "../../../redux/actions/userActions";
 import {removeData} from "../../../redux/actions/dataActions";
 
-const HeaderContentPage = ({handleOff}) => {
+const HeaderContentPage = () => {
     const dispatch = useDispatch()
 
     const {email} = useSelector(state => state.user)
 
+    const delay = (ms) => new Promise(res => setTimeout(res, ms))
+
     const handleSignOut = async () => {
-        await handleOff()
         await signOut(auth)
+        dispatch(removeUser())
+        dispatch(removeData())
+        await delay(1000)
         dispatch(removeUser())
         dispatch(removeData())
     }

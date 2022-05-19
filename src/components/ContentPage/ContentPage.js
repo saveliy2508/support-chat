@@ -14,50 +14,49 @@ import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
 import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
 import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
 
-import {setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
-import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
+import {removeUser, setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
+import {removeData, setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
 
 const ContentPage = () => {
     const {currentDialog, id} = useSelector(state => state.user);
     const dispatch = useDispatch();
 
-    const savedDialogsRef = ref(dataBase, `users/${id}/savedDialogsId`);
-    const startedActiveDialogsIdRef = ref(dataBase, `users/${id}/startedActiveDialogsId`);
-    const newDialogsRef = ref(dataBase, `newDialogs`);
-    const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(id))
 
     React.useEffect(() => {
         return () => {
+
+            const savedDialogsRef = ref(dataBase, `users/${id}/savedDialogsId`);
             onValue(savedDialogsRef, (snapshot) => {
                 let user = snapshot.val();
                 dispatch(setSavedDialogs(user))
             });
 
+            const newDialogsRef = ref(dataBase, `newDialogs`);
             onValue(newDialogsRef, (snapshot) => {
                 let dialogs = snapshot.val();
                 dispatch(setNewDialogs(dialogs))
             });
 
+            const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(id))
             onValue(activeDialogsRef, (snapshot) => {
                 let dialogs = snapshot.val();
                 dispatch(setActiveDialogs(dialogs))
             });
 
+            const startedActiveDialogsIdRef = ref(dataBase, `users/${id}/startedActiveDialogsId`);
             onValue(startedActiveDialogsIdRef, (snapshot) => {
                 let dialogs = snapshot.val();
                 dispatch(setStartedActiveDialogsId(dialogs))
             });
+
+            return function () {
+                off(savedDialogsRef)
+                off(newDialogsRef)
+                off(activeDialogsRef)
+                off(startedActiveDialogsIdRef)
+            }
         };
     }, []);
-
-    //Не работает отключение слушателей
-    const handleOff = () => {
-        off(savedDialogsRef)
-        off(newDialogsRef)
-        off(activeDialogsRef)
-        off(startedActiveDialogsIdRef)
-    }
-    //
 
     const addDialogToEnded = (dialogId, grade) => {
         const addToEndDialogRef = ref(dataBase, `activeDialogs/${dialogId}/ended`);
@@ -68,7 +67,7 @@ const ContentPage = () => {
 
     return (
         <div className={s.contentWrapper}>
-            <HeaderContentPage handleOff={handleOff}/>
+            <HeaderContentPage/>
             <div className={s.content}>
                 <div className={s.navBar}>
                     <NavbarContentPage/>
