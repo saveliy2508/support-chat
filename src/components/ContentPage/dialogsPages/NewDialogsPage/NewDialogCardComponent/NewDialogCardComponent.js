@@ -2,10 +2,11 @@ import React from 'react';
 import {Button} from "reactstrap";
 
 import s from "./newDialogCardComponent.module.scss";
+import moment from "moment";
 
 
 const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToActiveDialogs, messages}) => {
-    // console.log(Object.values(messages)[0])
+    const lastActivity = moment(startTime).locale('ru').fromNow();
     return (
         <div className={s.dialogCard}>
             <div className={s.clientInfo}>
@@ -21,7 +22,7 @@ const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToA
                     color='primary' block
                     onClick={() => handleAddToActiveDialogs(clientName, dialogData.dialogId, startTime, messages)}>Начать</Button>
                 <p>
-                    {`Начат ${new Date(startTime).getDate()}.${new Date(startTime).getMonth()}.${new Date(startTime).getFullYear()} в ${new Date(startTime).getHours()}:${new Date(startTime).getMinutes()}`}
+                    Последняя активность {lastActivity}
                 </p>
             </div>
         </div>

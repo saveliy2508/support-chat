@@ -5,7 +5,7 @@ import {set, ref, push} from "firebase/database";
 import {useDispatch, useSelector} from "react-redux";
 import {ButtonGroup, Button, Input} from "reactstrap";
 import debounce from 'lodash.debounce'
-import throttle from 'lodash.throttle'
+import moment from "moment";
 
 import s from './newDialogsPage.module.scss'
 
@@ -27,8 +27,7 @@ const NewDialogsPage = () => {
         //Фильтрация по имени и по последнему сообщению + debounce
         const [radioButton, setRadioButton] = React.useState('имени');
         const [filterInput, setFilterInput] = React.useState('');
-        const setFilter = (e) => setFilterInput(e.target.value);
-        const debounceFilterInput = debounce(setFilter, 400)
+        const debounceFilterInput = debounce((e) => setFilterInput(e.target.value), 400)
         //
 
         const handleAddNewDialog = () => {
@@ -67,7 +66,6 @@ const NewDialogsPage = () => {
                 dialogId
             });
         }
-
         return (
             <>
                 <div className={s.header}>
@@ -103,6 +101,7 @@ const NewDialogsPage = () => {
                 <Button onClick={handleAddNewDialog}>Добавить новый диалог</Button>
                 {/*    */}
                 <div className={s.dialogsCards}>
+
                     {newDialogs ?
                         Object.values(newDialogs)
                             .filter(radioButton == 'имени'
