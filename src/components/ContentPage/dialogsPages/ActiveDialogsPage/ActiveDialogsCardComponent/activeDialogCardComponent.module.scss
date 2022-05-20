@@ -1,0 +1,23 @@
+.dialogCard {
+  height: 150px;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 100px 1fr 150px;
+
+  .clientInfo {
+    font-weight: 700;
+  }
+
+  .lastMessage {
+    margin: 0 20px;
+  }
+
+  .dialogInfo {
+    padding-right: 10px;
+    p{
+      margin: 10px auto;
+      font-size: 12px;
+      font-weight: 700;
+    }
+  }
+}

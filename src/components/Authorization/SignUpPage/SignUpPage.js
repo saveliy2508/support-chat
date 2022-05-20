@@ -1,39 +1,37 @@
 import React from 'react';
+
 import s from '../AuthorisationStyles.module.scss'
+
 import {useFormik} from 'formik';
 import * as yup from 'yup'
-import {Link, useNavigate} from "react-router-dom";
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithPopup,
-    GoogleAuthProvider
-} from "firebase/auth";
-import {useDispatch, useSelector} from 'react-redux'
-import {authErrorWithSocials, setUser} from "../../../redux/actions/userActions";
+import {Link} from "react-router-dom";
+import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faVk, faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {toast} from "react-toastify";
+
 import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
 
-const AuthorizationForm = (props) => {
-    const {errorMessage} = useSelector((user) => user.user)
-    const dispatch = useDispatch();
-    const navigate = useNavigate()
+const AuthorizationForm = ({loginFunction}) => {
+    const notify = () => toast.info('Ошибка', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
     const handleRegister = (email, password) => {
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
-            .then(({user}) => {
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.accessToken
-                }))
-                navigate('/')
+            .then((responce) => {
+                loginFunction(responce)
             })
-            .catch(console.error)
+            .catch(() => notify())
     }
 
 
@@ -42,15 +40,9 @@ const AuthorizationForm = (props) => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((responce) => {
-                const user = responce.user
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.accessToken
-                }))
-                navigate('/')
+                loginFunction(responce)
             })
-            .catch(() => dispatch(authErrorWithSocials()))
+            .catch(() => notify())
     }
     const formik = useFormik({
             initialValues: {
@@ -73,38 +65,41 @@ const AuthorizationForm = (props) => {
     )
 
     return (
-        <div className={s.authorizationForm}>
-            <Form formTitle='Регистрация в Rocket support'/>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="email">Почта</label>
-                <Input
-                    type="text"
-                    name='email'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                />
-                <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
-                <label htmlFor="password">Пароль</label>
-                <Input
-                    type="password"
-                    name='password'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                />
-                <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null || errorMessage}</p>
-                <p className={s.isAccount}>Есть аккаунт? <Link to='/login'>Войти<FontAwesomeIcon className={s.doorIcon}
-                                                                                                 icon={faDoorOpen}/></Link>
-                </p>
-                <div className={s.registrationWith}>
-                    <div>Войти через <br/>
-                        <FontAwesomeIcon className={s.vkIcon} icon={faVk}/></div>
-                    <div onClick={handleLoginWithGoogle}>Войти через <br/>
-                        <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
-                </div>
-                <SubmitButton handleClick={handleRegister} text='Отправить ссылку'/>
-            </form>
+        <div className={s.authorizationFormContainer}>
+            <div className={s.authorizationForm}>
+                <Form formTitle='Регистрация в Rocket support'/>
+                <form onSubmit={formik.handleSubmit}>
+                    <label htmlFor="email">Почта</label>
+                    <Input
+                        type="text"
+                        name='email'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email}
+                    />
+                    <p className={s.error}>{formik.errors.email && formik.touched.email ? formik.errors.email : null}</p>
+                    <label htmlFor="password">Пароль</label>
+                    <Input
+                        type="password"
+                        name='password'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.password}
+                    />
+                    <p className={s.error}>{formik.errors.password && formik.touched.password ? formik.errors.password : null}</p>
+                    <p className={s.isAccount}>Есть аккаунт? <Link to='/authorization/login'>Войти<FontAwesomeIcon
+                        className={s.doorIcon}
+                        icon={faDoorOpen}/></Link>
+                    </p>
+                    <div className={s.registrationWith}>
+                        <div>Войти через <br/>
+                            <FontAwesomeIcon className={s.vkIcon} icon={faVk}/></div>
+                        <div onClick={handleLoginWithGoogle}>Войти через <br/>
+                            <FontAwesomeIcon className={s.googleIcon} icon={faGoogle}/></div>
+                    </div>
+                    <SubmitButton handleClick={handleRegister} text='Зарегистрироваться'/>
+                </form>
+            </div>
         </div>
     );
 };

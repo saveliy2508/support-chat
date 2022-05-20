@@ -1,12 +1,18 @@
-.img {
-    width: 100px;
-    margin: 30px auto 40px auto;
-    display: block;
-    text-align: center;
-}
+.headerForm {
+  .imgWrapper {
+    height: 100px;
 
-.text {
+    .img {
+      width: 100px;
+      margin: 30px auto 40px auto;
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .text {
     text-align: center;
     font-size: 22px;
     font-weight: bold;
+  }
 }

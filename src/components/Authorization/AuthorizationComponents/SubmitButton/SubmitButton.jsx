@@ -1,18 +1,19 @@
 import React from 'react';
 import {Button} from "reactstrap";
+
 import s from './submitButton.module.scss'
 
-const SubmitButton = (props) => {
+const SubmitButton = ({handleClick, text}) => {
     return (
             <Button
-                onClick={props.handleClick}
+                onClick={handleClick}
                 className={s.button}
                 block
                 color="primary"
                 size="lg"
                 type='submit'
             >
-                {props.text}
+                {text}
             </Button>
     );
 };

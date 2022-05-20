@@ -1,17 +1,18 @@
 import React from 'react';
-import s from "../AuthorisationStyles.module.scss";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {auth} from "../../../firebase";
 import {sendPasswordResetEmail} from 'firebase/auth'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useNavigate} from "react-router-dom";
+
+import s from "../AuthorisationStyles.module.scss";
+
 import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
 
-const ForgetPassword = (props) => {
-    const notify = () => toast.info('Проверьте вашу почту', {
+const ForgetPassword = () => {
+    const notify = (text) => toast.info(text, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -20,21 +21,23 @@ const ForgetPassword = (props) => {
         draggable: true,
         progress: undefined,
     });
+
     const navigate = useNavigate()
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
     const [emailInput, setEmailInput] = React.useState('');
 
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
     const handleResetPassword = async () => {
         await sendPasswordResetEmail(auth, emailInput)
             .then(() => {
-                notify()
-            })
+                notify('Проверьте вашу почту')
+            }).catch(() => notify('Ошибка'))
         await delay(6000)
-        navigate('/login')
+        navigate('/authorization/login')
     }
 
     return (
-        <>
+        <div className={s.authorizationFormContainer}>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -56,15 +59,14 @@ const ForgetPassword = (props) => {
                         value={emailInput}
                         onChange={e => setEmailInput(e.target.value)}
                     />
-                    <p className={s.error}></p>
                     <SubmitButton handleClick={handleResetPassword} text='Отправить ссылку'/>
                 </div>
                 <div className={s.directions}>
-                    <Link to='/login'>Войти</Link>
-                    <Link to='/registration'>Регистрация</Link>
+                    <Link to='/authorization/login'>Войти</Link>
+                    <Link to='/authorization/registration'>Регистрация</Link>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

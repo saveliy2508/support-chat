@@ -1,0 +1,15 @@
+.contentWrapper {
+  margin: 0 30px;
+  display: grid;
+  grid-template-rows: 110px 1fr;
+  height: 100%;
+  .content{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    height: 100%;
+    .dialogs {
+      margin: 0 30px;
+      height: 100%;
+    }
+  }
+}

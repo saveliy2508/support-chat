@@ -1,13 +1,16 @@
 export const SET_USER = 'SET_USER'
 export const REMOVE_USER = 'REMOVE_USER'
-export const AUTHORIZATION_ERROR = 'AUTHORIZATION_ERROR'
-export const AUTHORIZATION_ERROR_WITH_SOCIAL = 'AUTHORIZATION_ERROR_WITH_SOCIAL'
+export const SET_CURRENT_DIALOG = 'SET_CURRENT_DIALOG'
+export const SET_SAVED_DIALOGS = 'SET_SAVED_DIALOGS'
+export const SET_STARTED_ACTIVE_DIALOGS_ID = 'SET_STARTED_ACTIVE_DIALOGS_ID'
 
 const initialState = {
     email: null,
     token: null,
     id: null,
-    errorMessage: ''
+    currentDialog: null,
+    savedDialogsId: [],
+    startedActiveDialogsId: []
 }
 
 const userReducer = (state = initialState, action) => {
@@ -18,17 +21,9 @@ const userReducer = (state = initialState, action) => {
                 email: action.payload.email,
                 token: action.payload.token,
                 id: action.payload.id,
-                errorMessage: ''
-            }
-        case AUTHORIZATION_ERROR:
-            return{
-                ...state,
-                errorMessage: 'Неверная почта или пароль'
-            }
-        case AUTHORIZATION_ERROR_WITH_SOCIAL:
-            return{
-                ...state,
-                errorMessage: 'Ошибка входа'
+                startedActiveDialogsId: action.payload.startedActiveDialogsId,
+                savedDialogsId: action.payload.savedDialogsId,
+                currentDialog: null
             }
         case REMOVE_USER:
             return {
@@ -36,7 +31,24 @@ const userReducer = (state = initialState, action) => {
                 email: null,
                 token: null,
                 id: null,
-                errorMessage: ''
+                startedActiveDialogsId: null,
+                savedDialogsId: null,
+                currentDialog: null
+            }
+        case SET_SAVED_DIALOGS:
+            return {
+                ...state,
+                savedDialogsId: action.payload,
+            }
+        case SET_STARTED_ACTIVE_DIALOGS_ID:
+            return {
+                ...state,
+                startedActiveDialogsId: action.payload,
+            }
+        case SET_CURRENT_DIALOG:
+            return {
+                ...state,
+                currentDialog: action.payload,
             }
     }
     return state
