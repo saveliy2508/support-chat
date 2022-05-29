@@ -19,13 +19,13 @@ import {setActiveDialogs, setNewDialogs} from "./redux/actions/dataActions";
 
 function App() {
     const dispatch = useDispatch()
+
     const navigate = useNavigate()
 
     const {email} = useSelector((state) => state.user)
 
-
-    const loginFunction = async (responce) => {
-        const user = responce.user
+    const loginFunction = async (response) => {
+        const user = response.user
 
         let savedDialogsId;
         const savedDialogsIdRef = await ref(dataBase, `users/${user.uid}/savedDialogsId`);
@@ -55,14 +55,22 @@ function App() {
         const newDialogsRef = ref(dataBase, `newDialogs`);
         get(newDialogsRef).then(
             (snapshot) => {
-                let dialogs = snapshot.val();
+                let dialogs = [];
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val()
+                    dialogs.push(data)
+                })
                 dispatch(setNewDialogs(dialogs))
             });
 
         const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(user.uid))
         get(activeDialogsRef).then(
             (snapshot) => {
-                let dialogs = snapshot.val();
+                let dialogs = [];
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val()
+                    dialogs.push(data)
+                })
                 dispatch(setActiveDialogs(dialogs))
             });
         navigate('/contentPage/')

@@ -30,7 +30,7 @@ const EndedDialogCardComponent = ({
                 <Button color='primary' block
                         onClick={() => handleContinue(dialogData.dialogId)}>Читать</Button>
                 <p className={s.grade}>
-                    {stars.map(item => <FontAwesomeIcon className={s.star} icon={faStar}/>)}
+                    {stars.map((item, index) => <FontAwesomeIcon key={`star${index}`} className={s.star} icon={faStar}/>)}
                 </p>
                 <Button color='primary' block
                         onClick={() => handleSaveDialog(dialogData.dialogId)}

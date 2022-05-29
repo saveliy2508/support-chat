@@ -5,7 +5,6 @@ import {set, ref, push} from "firebase/database";
 import {useDispatch, useSelector} from "react-redux";
 import {ButtonGroup, Button, Input} from "reactstrap";
 import debounce from 'lodash.debounce'
-import moment from "moment";
 
 import s from './newDialogsPage.module.scss'
 
@@ -19,6 +18,7 @@ const NewDialogsPage = () => {
         //
 
         const dispatch = useDispatch()
+
         const navigate = useNavigate()
 
         const {newDialogs} = useSelector(state => state.data)
@@ -103,7 +103,7 @@ const NewDialogsPage = () => {
                 <div className={s.dialogsCards}>
 
                     {newDialogs ?
-                        Object.values(newDialogs)
+                        newDialogs
                             .filter(radioButton == 'имени'
                                 ? item => item.clientName.toLowerCase().includes(filterInput.toLowerCase())
                                 : item => Object.values(item.messages)[Object.values(item.messages).length - 1].text.toLowerCase().includes(filterInput.toLowerCase()))

@@ -12,10 +12,11 @@ const TypeDialogsSwitcher = ({path, title, counter, text}) => {
                     {title}
                 </Button>
             </Link>
-            <div className={s.dialogsCounter}>
-                <p className={s.counter}>{counter}</p>
-                <p className={s.text}>{text}</p>
-            </div>
+            {counter !== -1 ?
+                <div className={s.dialogsCounter}>
+                    <p className={s.counter}>{counter}</p>
+                    <p className={s.text}>{text}</p>
+                </div> : null}
         </div>
     );
 };

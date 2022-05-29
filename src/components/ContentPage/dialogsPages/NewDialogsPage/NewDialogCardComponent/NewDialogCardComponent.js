@@ -6,7 +6,7 @@ import moment from "moment";
 
 
 const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToActiveDialogs, messages}) => {
-    const lastActivity = moment(startTime).locale('ru').fromNow();
+    const startMoment = moment(startTime).locale('ru').fromNow();
     return (
         <div className={s.dialogCard}>
             <div className={s.clientInfo}>
@@ -22,7 +22,7 @@ const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToA
                     color='primary' block
                     onClick={() => handleAddToActiveDialogs(clientName, dialogData.dialogId, startTime, messages)}>Начать</Button>
                 <p>
-                    Последняя активность {lastActivity}
+                    Начат {startMoment}
                 </p>
             </div>
         </div>

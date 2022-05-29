@@ -1,7 +1,4 @@
 import React from 'react';
-
-import s from '../AuthorisationStyles.module.scss';
-
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import {Link} from "react-router-dom";
@@ -9,6 +6,8 @@ import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
 import {toast} from "react-toastify";
+
+import s from '../AuthorisationStyles.module.scss';
 
 import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";

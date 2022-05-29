@@ -38,7 +38,7 @@ const EndedDialogsPage = () => {
                 <div className={s.dialogsCards}>
                     {activeDialogs ?
                         Object.values(activeDialogs).filter(item => item.ended == true).map((item, index) => (
-                            <div className={s.card} key={'activeDialogs' + index}>
+                            <div className={s.card} key={'endedDialogs' + index}>
                                 <DialogCardComponent
                                     clientName={item.clientName}
                                     startTime={item.startTime}

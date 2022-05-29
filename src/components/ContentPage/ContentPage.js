@@ -14,8 +14,8 @@ import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
 import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
 import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
 
-import {removeUser, setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
-import {removeData, setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
+import {setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
+import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
 
 const ContentPage = () => {
     const {currentDialog, id} = useSelector(state => state.user);
@@ -33,13 +33,21 @@ const ContentPage = () => {
 
             const newDialogsRef = ref(dataBase, `newDialogs`);
             onValue(newDialogsRef, (snapshot) => {
-                let dialogs = snapshot.val();
+                let dialogs = [];
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val()
+                    dialogs.push(data)
+                })
                 dispatch(setNewDialogs(dialogs))
             });
 
             const activeDialogsRef = query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(id))
             onValue(activeDialogsRef, (snapshot) => {
-                let dialogs = snapshot.val();
+                let dialogs = [];
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val()
+                    dialogs.push(data)
+                })
                 dispatch(setActiveDialogs(dialogs))
             });
 
