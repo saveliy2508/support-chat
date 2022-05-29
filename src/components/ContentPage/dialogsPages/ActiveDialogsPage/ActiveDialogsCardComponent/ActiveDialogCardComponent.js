@@ -1,4 +1,6 @@
 import React from 'react';
+import moment from "moment";
+import 'moment/locale/ru'
 
 import s from "./activeDialogCardComponent.module.scss";
 
@@ -14,6 +16,9 @@ const ActiveDialogCardComponent = ({
                                        addDialogToEnded
                                    }) => {
     const [grade, setGrade] = React.useState('');
+
+    const startMoment = moment(startTime).locale('ru').fromNow();
+
     return (
         <div className={s.dialogCard}>
             <div className={s.clientInfo}>
@@ -34,7 +39,7 @@ const ActiveDialogCardComponent = ({
             <div className={s.dialogInfo}>
                 <Button color='primary' block
                         onClick={() => handleContinue(dialogData.dialogId)}>Продолжить</Button>
-                <p>{`Начат ${new Date(startTime).getDate()}.${new Date(startTime).getMonth()}.${new Date(startTime).getFullYear()} в ${new Date(startTime).getHours()}:${new Date(startTime).getMinutes()}`}</p>
+                <p>Начат {startMoment}</p>
                 <Button color='primary' block
                         onClick={() => handleSaveDialog(dialogData.dialogId)}
                 >Сохранить диалог</Button>

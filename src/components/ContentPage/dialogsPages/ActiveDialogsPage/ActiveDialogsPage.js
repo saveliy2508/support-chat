@@ -10,6 +10,7 @@ import DialogCardComponent from "./ActiveDialogsCardComponent/ActiveDialogCardCo
 import {setCurrentDialog} from "../../../../redux/actions/userActions";
 
 const ActiveDialogsPage = ({addDialogToEnded}) => {
+
     const {activeDialogs} = useSelector(state => state.data)
     const {id} = useSelector(state => state.user)
 
@@ -34,21 +35,19 @@ const ActiveDialogsPage = ({addDialogToEnded}) => {
                 ActiveDialogsPage
             </div>
             <div className={s.dialogsCards}>
-                {activeDialogs ?
-                    Object.values(activeDialogs).filter(item => item.ended !== true).map((item, index) => (
-                        <div className={s.card} key={'activeDialogs' + index}>
-                            <DialogCardComponent
-                                addDialogToEnded={addDialogToEnded}
-                                clientName={item.clientName}
-                                startTime={item.startTime}
-                                dialogData={item}
-                                messages={item.messages}
-                                handleContinue={handleContinue}
-                                handleSaveDialog={handleSaveDialog}
-                            />
-                        </div>
-                    ))
-                    : null
+                {activeDialogs.filter(item => item.ended !== true).map((item, index) => (
+                    <div className={s.card} key={'activeDialogs' + index}>
+                        <DialogCardComponent
+                            addDialogToEnded={addDialogToEnded}
+                            clientName={item.clientName}
+                            startTime={item.startTime}
+                            dialogData={item}
+                            messages={item.messages}
+                            handleContinue={handleContinue}
+                            handleSaveDialog={handleSaveDialog}
+                        />
+                    </div>
+                ))
                 }
             </div>
         </>

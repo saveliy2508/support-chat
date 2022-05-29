@@ -54,7 +54,7 @@ const ChatWindow = () => {
                         )
                     )}
                 </div>
-                {activeDialogs[1].ended !== true ?
+                {dialog.ended !== true &&
                     <div className={s.answerForm}>
                         <div className={s.answerInput}>
                             Введите ответ:
@@ -71,7 +71,6 @@ const ChatWindow = () => {
                             Выбрать из готовых (in process)
                         </div>
                     </div>
-                    : null
                 }
             </div>
         </div>

@@ -1,8 +1,9 @@
 import React from 'react';
 import {Button} from "reactstrap";
+import moment from "moment";
+import 'moment/locale/ru'
 
 import s from "./newDialogCardComponent.module.scss";
-import moment from "moment";
 
 
 const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToActiveDialogs, messages}) => {

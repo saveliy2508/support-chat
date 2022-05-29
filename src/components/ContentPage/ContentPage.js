@@ -19,8 +19,8 @@ import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
 
 const ContentPage = () => {
     const {currentDialog, id} = useSelector(state => state.user);
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
 
     React.useEffect(() => {
         return () => {
