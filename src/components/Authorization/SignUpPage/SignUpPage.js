@@ -13,8 +13,11 @@ import s from '../AuthorisationStyles.module.scss'
 import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
+import {useDispatch} from "react-redux";
 
 const AuthorizationForm = ({loginFunction}) => {
+    const dispatch = useDispatch()
+
     const notify = () => toast.info('Ошибка', {
         position: "top-right",
         autoClose: 5000,
@@ -24,6 +27,7 @@ const AuthorizationForm = ({loginFunction}) => {
         draggable: true,
         progress: undefined,
     });
+
     const handleRegister = (email, password) => {
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
@@ -39,10 +43,11 @@ const AuthorizationForm = ({loginFunction}) => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((responce) => {
-                loginFunction(responce)
+                dispatch({type: 'LOGIN_SAGA', response: responce})
             })
             .catch(() => notify())
     }
+
     const formik = useFormik({
             initialValues: {
                 email: '',

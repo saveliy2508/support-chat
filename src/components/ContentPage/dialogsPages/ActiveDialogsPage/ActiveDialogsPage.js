@@ -35,7 +35,7 @@ const ActiveDialogsPage = ({addDialogToEnded}) => {
                 ActiveDialogsPage
             </div>
             <div className={s.dialogsCards}>
-                {activeDialogs.filter(item => item.ended !== true).map((item, index) => (
+                {activeDialogs && activeDialogs.filter(item => item.ended !== true).map((item, index) => (
                     <div className={s.card} key={'activeDialogs' + index}>
                         <DialogCardComponent
                             addDialogToEnded={addDialogToEnded}

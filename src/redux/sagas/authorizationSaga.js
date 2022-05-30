@@ -1,16 +1,61 @@
-import {put, takeLatest, call} from 'redux-saga/effects'
+import {put, takeLatest} from 'redux-saga/effects'
 import {setUser} from "../actions/userActions";
-import {SET_USER} from "../reducers/userReducer";
+import {equalTo, get, orderByChild, query, ref, set} from "firebase/database";
+import {dataBase} from "../../firebase";
+import {setActiveDialogs, setNewDialogs} from "../actions/dataActions";
 
 
-// const authorizationFromApi =()=> fetch('https://jsonplaceholder.typicode.com/users')
+export function* loginFunctionWorker({response}) {
+    const user = yield response.user;
 
-function* authorizationWorker () {
-    // const data = yield call(authorizationFromApi)
-    // const json = yield(data.data)
-    // yield put(setUser(json))
+    let savedDialogsId;
+    const savedDialogsIdRef = yield ref(dataBase, `users/${user.uid}/savedDialogsId`);
+    yield get(savedDialogsIdRef).then(
+        (snapshot) => {
+            savedDialogsId = snapshot.val();
+        });
+
+    let startedActiveDialogsId;
+    const startedActiveDialogsRef = yield ref(dataBase, `users/${user.uid}/startedActiveDialogsId`);
+    yield get(startedActiveDialogsRef).then(
+        (snapshot) => {
+            startedActiveDialogsId = snapshot.val();
+        });
+
+    yield put(setUser({
+        email: user.email,
+        id: user.uid,
+        token: user.accessToken,
+        savedDialogsId: savedDialogsId,
+        startedActiveDialogsId: startedActiveDialogsId
+    }))
+
+    yield set(ref(dataBase, `users/${user.uid}/email`), user.email);
+    yield set(ref(dataBase, `users/${user.uid}/id`), user.uid);
+
+    const newDialogsRef = yield ref(dataBase, `newDialogs`);
+    let newDialogs = [];
+    yield get(newDialogsRef).then(
+        (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const data = childSnapshot.val()
+                newDialogs.push(data)
+            })
+        });
+    yield put(setNewDialogs(newDialogs))
+
+    const activeDialogsRef = yield query(ref(dataBase, 'activeDialogs'), orderByChild('operatorId'), equalTo(user.uid))
+    let activeDialogs = [];
+    yield get(activeDialogsRef).then(
+        (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const data = childSnapshot.val()
+                activeDialogs.push(data)
+            })
+        });
+    yield put(setActiveDialogs(activeDialogs))
 }
 
-export function* authorizationWatcher(){
-    // yield takeLatest(SET_USER, authorizationWorker)
+export function* loginFunctionWatcher() {
+    yield takeLatest('LOGIN_SAGA', loginFunctionWorker)
 }

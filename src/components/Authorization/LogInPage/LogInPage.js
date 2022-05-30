@@ -1,7 +1,7 @@
 import React from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle, faVk} from "@fortawesome/free-brands-svg-icons";
@@ -12,8 +12,13 @@ import s from '../AuthorisationStyles.module.scss';
 import Form from './../AuthorizationComponents/Form/Form';
 import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton";
 import Input from "../AuthorizationComponents/Input/Input";
+import {useDispatch} from "react-redux";
 
 const LogInPage = ({loginFunction}) => {
+    const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+
     const notify = () => toast.info('Ошибка входа', {
         position: "top-right",
         autoClose: 5000,
@@ -28,7 +33,8 @@ const LogInPage = ({loginFunction}) => {
         const auth = getAuth();
         return signInWithEmailAndPassword(auth, email, password)
             .then((responce) => {
-                loginFunction(responce)
+                dispatch({type: 'LOGIN_SAGA', response: responce})
+                navigate('/contentPage/')
             })
             .catch(() => notify())
     }
@@ -38,7 +44,8 @@ const LogInPage = ({loginFunction}) => {
         const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((responce) => {
-                loginFunction(responce)
+                dispatch({type: 'LOGIN_SAGA', response: responce})
+                navigate('/contentPage/')
             })
             .catch(() => notify())
     }

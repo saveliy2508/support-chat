@@ -102,7 +102,7 @@ const NewDialogsPage = () => {
                 {/*    */}
                 <div className={s.dialogsCards}>
 
-                    {newDialogs.filter(radioButton == 'имени'
+                    {newDialogs && newDialogs.filter(radioButton == 'имени'
                         ? item => item.clientName.toLowerCase().includes(filterInput.toLowerCase())
                         : item => Object.values(item.messages)[Object.values(item.messages).length - 1].text.toLowerCase().includes(filterInput.toLowerCase()))
                         .map((item, index) => (
