@@ -4,8 +4,10 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {push, ref, set} from "firebase/database";
 import {dataBase} from "../../../../firebase";
+import Select from 'react-select'
 
 import s from './chatWindow.module.scss'
+import ChatMessage from "./ChatMessage";
 
 const ChatWindow = () => {
     const navigate = useNavigate()
@@ -55,6 +57,12 @@ const ChatWindow = () => {
         setOpenInput(false)
     }
 
+    const options = [
+        {value: 'chocolate', label: 'Chocolate'},
+        {value: 'strawberry', label: 'Strawberry'},
+        {value: 'vanilla', label: 'Vanilla'}
+    ]
+
     return (
         <div className={s.chatWindow}>
             <div className={s.title}>
@@ -65,22 +73,18 @@ const ChatWindow = () => {
             <div className={s.chat}>
                 <div className={s.messages}>
                     {Object.values(dialog.messages).map((item, index) => (
-                            <div key={'currentDialog' + index} className={s.message}>
-                                <div className={s.text}>
-                                    {item.text ? item.text :
-                                        <img className={s.messageImg} src={item.imgSrc} alt='Image Error'/>}
-                                </div>
-                                <div className={s.name}>
-                                    {item.senderName}
-                                </div>
-                                <div className={s.name}>
-                                    {item.timestamp}
-                                </div>
-                            </div>
+                            <ChatMessage
+                                key={'currentDialog' + index}
+                                index={index}
+                                text={item.text}
+                                senderName={item.senderName}
+                                timestamp={item.timestamp}
+                                imgSrc={item.imgSrc}
+                            />
                         )
                     )}
                 </div>
-                {dialog.ended !== true &&
+                {dialog.ended !== true ?
                     <div className={s.answerForm}>
                         <div className={s.answerInput}>
                             Введите ответ:
@@ -89,8 +93,14 @@ const ChatWindow = () => {
                                 onChange={e => setTextarea(e.target.value)}
                                 className={s.textarea}
                                 bsSize="sm"
-                                type="textarea"
+                                type='text'
+                                list='answers'
                             />
+                            <datalist id='answers'>
+                                <option value={`Здравствуйте, меня зовут ${email}, сейчас я Вам помогу`}/>
+                                <option value="Ваша заявка обрабатывается..."/>
+                                <option value="Чем могу еще помочь?"/>
+                            </datalist>
                             <Button onClick={handlePushNewMessage}>Отправить</Button>
                         </div>
                         {/* выбрать из готовых */}
@@ -104,17 +114,10 @@ const ChatWindow = () => {
                                     placeholder='Введите ссылку на изображение'
                                     type="text"
                                 />}
-                            {/*Выберите из готовых:*/}
-                            {/*<Input list='answers'/>*/}
-                            {/*<datalist id='answers'>*/}
-                            {/*    <option value="Ke11k11" />*/}
-                            {/*    <option value="222 sadasd asd as asdasd aw olds sdf ksdf sdlf sldflsdfl sdf ldslfsdlf ldlsflsdlf" />*/}
-                            {/*    <option value="333" />*/}
-                            {/*    <option value="ke444k" />*/}
-                            {/*    <option value="ke555k" />*/}
-                            {/*</datalist>*/}
                         </div>
                     </div>
+                    :
+                    <div>Диалог завершен</div>
                 }
             </div>
         </div>
