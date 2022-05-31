@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./chatWindow.module.scss";
 
-const MyComponent = ({index, text, senderName, timestamp, imgSrc}) => {
+const MyComponent = ({text, senderName, timestamp, imgSrc}) => {
     const dateTimestamp = new Date(timestamp)
 
     return (

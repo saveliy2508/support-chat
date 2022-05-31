@@ -4,12 +4,13 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {push, ref, set} from "firebase/database";
 import {dataBase} from "../../../../firebase";
-import Select from 'react-select'
+import Picker from 'emoji-picker-react'
 
 import s from './chatWindow.module.scss'
 import ChatMessage from "./ChatMessage";
 
 const ChatWindow = () => {
+
     const navigate = useNavigate()
 
     const handleNavigateBack = () => {
@@ -25,6 +26,8 @@ const ChatWindow = () => {
 
     const [openInput, setOpenInput] = React.useState(false);
     const [inputImgValue, setInputImgValue] = React.useState('');
+
+    const [showPicker, setShowPicker] = React.useState('false');
 
 
     const handlePushNewMessage = () => {
@@ -57,11 +60,9 @@ const ChatWindow = () => {
         setOpenInput(false)
     }
 
-    const options = [
-        {value: 'chocolate', label: 'Chocolate'},
-        {value: 'strawberry', label: 'Strawberry'},
-        {value: 'vanilla', label: 'Vanilla'}
-    ]
+    const onEmojiClick = (event, emojiObject) => {
+        setTextarea(prevInput => prevInput + emojiObject.emoji)
+    }
 
     return (
         <div className={s.chatWindow}>
@@ -107,6 +108,7 @@ const ChatWindow = () => {
                         <div className={s.template}>
                             {openInput ? <Button onClick={handlePushNewImgMessage}>Отправить изображение</Button> :
                                 <Button onClick={() => setOpenInput(true)}>Добавить изображение</Button>}
+                            <Button onClick={() => setShowPicker(!showPicker)}>Эмодзи</Button>
                             {openInput &&
                                 <Input
                                     value={inputImgValue}
@@ -114,6 +116,10 @@ const ChatWindow = () => {
                                     placeholder='Введите ссылку на изображение'
                                     type="text"
                                 />}
+                            {!showPicker &&
+                                <div className={s.picker}>
+                                    <Picker onEmojiClick={onEmojiClick}/>
+                                </div>}
                         </div>
                     </div>
                     :
