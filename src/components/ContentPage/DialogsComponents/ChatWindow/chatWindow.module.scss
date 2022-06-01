@@ -7,6 +7,11 @@
   }
 
   .chat {
+    .isDialogEnded {
+      font-size: 20px;
+      padding: 30px;
+    }
+
     .messages {
       overflow-y: auto;
       height: 400px;
@@ -39,7 +44,8 @@
       grid-template-columns: 1fr 1fr;
       margin-top: 30px;
       position: relative;
-      .picker{
+
+      .picker {
         position: absolute;
         bottom: 150px;
       }

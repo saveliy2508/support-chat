@@ -20,21 +20,14 @@ const SavedDialogsPage = () => {
         navigate(`/contentPage/${dialogId}`)
     }
 
-    let activeArray;
-    let savedArray;
-    if (activeDialogs && savedDialogsId) {
-        activeArray = Object.values(activeDialogs)
-        savedArray = Object.values(Object.values(savedDialogsId))
-    }
-
     return (
         <>
             <div className={s.title}>
                 SavedDialogsPage
             </div>
             <div className={s.dialogsCards}>
-                {savedArray && activeArray ?
-                    activeArray.filter(activeDialogItem => savedArray.find(savedDialogId => activeDialogItem.dialogId === savedDialogId.dialogId ? true : null)).map((item, index) => (
+                {savedDialogsId && activeDialogs ?
+                    activeDialogs.filter(activeDialogItem => Object.values(savedDialogsId).find(savedDialogId => activeDialogItem.dialogId === savedDialogId.dialogId ? true : null)).map((item, index) => (
                         <div className={s.card} key={'activeDialogs' + index}>
                             <DialogCardComponent
                                 clientName={item.clientName}

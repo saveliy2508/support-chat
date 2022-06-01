@@ -20,7 +20,7 @@ const ChatWindow = () => {
     const {currentDialog, email} = useSelector(state => state.user)
     const {activeDialogs} = useSelector(state => state.data)
 
-    const dialog = activeDialogs[activeDialogs.indexOf(activeDialogs.find(item => item.dialogId == currentDialog))]
+    const dialog = activeDialogs[activeDialogs.indexOf(activeDialogs.find(item => item.dialogId === currentDialog))]
 
     const [textarea, setTextarea] = React.useState('');
 
@@ -104,7 +104,6 @@ const ChatWindow = () => {
                             </datalist>
                             <Button onClick={handlePushNewMessage}>Отправить</Button>
                         </div>
-                        {/* выбрать из готовых */}
                         <div className={s.template}>
                             {openInput ? <Button onClick={handlePushNewImgMessage}>Отправить изображение</Button> :
                                 <Button onClick={() => setOpenInput(true)}>Добавить изображение</Button>}
@@ -123,7 +122,7 @@ const ChatWindow = () => {
                         </div>
                     </div>
                     :
-                    <div>Диалог завершен</div>
+                    <div className={s.isDialogEnded}>Диалог завершен</div>
                 }
             </div>
         </div>
