@@ -1,10 +1,12 @@
 import React from 'react';
-import s from './navbarContentPage.module.scss'
-import TypeDialogsSwitcher from "../DialogsComponents/typeDialogsSwitcher/TypeDialogsSwitcher";
 import {useSelector} from "react-redux";
 
+import s from './navbarContentPage.module.scss'
+
+import TypeDialogsSwitcher from "../DialogsComponents/typeDialogsSwitcher/TypeDialogsSwitcher";
+
 const NavbarContentPage = () => {
-    const {newDialogs, activeDialogs} = useSelector(state => state.data)
+    const {newDialogs} = useSelector(state => state.data)
     const newDialogsCounter = newDialogs? Object.keys(newDialogs).length : 0;
     return (
         <div className={s.navbarWrapper}>
