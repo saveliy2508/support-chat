@@ -30,8 +30,12 @@ const HeaderContentPage = ({setIsOpenModal}) => {
     return (
         <div className={s.headerWrapper}>
             <div className={s.text}>{email}</div>
-            <div className={s.text}><FontAwesomeIcon icon={faGear} className={s.gear}
-                                                     onClick={() => setIsOpenModal(true)}/></div>
+            <div className={s.text}>
+                <FontAwesomeIcon icon={faGear}
+                                 className={s.gear}
+                                 onClick={() => setIsOpenModal(true)}
+                />
+            </div>
             <Button color='primary' onClick={handleSignOut} className={s.exitButton}>Выйти</Button>
         </div>
     );

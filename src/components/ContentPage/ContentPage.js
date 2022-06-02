@@ -4,8 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {equalTo, off, onValue, orderByChild, query, ref, set} from "firebase/database";
 import {dataBase} from "../../firebase";
 import ReactModal from "react-modal";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
 import s from './contentPage.module.scss'
 
@@ -16,6 +14,7 @@ import NewDialogsPage from "./dialogsPages/NewDialogsPage/NewDialogsPage";
 import SavedDialogsPage from "./dialogsPages/SavedDialogsPage/SavedDialogsPage";
 import EndedDialogsPage from "./dialogsPages/EndedDialogsPage/EndedDialogsPage";
 import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
+import ModalSettings from "./ModalSettings/ModalSettings";
 
 import {setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
 import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
@@ -85,7 +84,8 @@ const ContentPage = () => {
     return (
         <>
             <ReactModal
-                isOpen={isOpenModal}
+                //isOpen={isOpenModal}
+                isOpen={true}
                 shouldCloseOnOverlayClick={true}
                 onRequestClose={() => setIsOpenModal(false)}
                 style={
@@ -97,16 +97,7 @@ const ContentPage = () => {
                     }
                 }
             >
-                <div className={s.modal}>
-                    <div className={s.modalHeader}>
-                        <div className={s.title}>
-                            Настройки
-                        </div>
-                        <div className={s.xmark}>
-                            <FontAwesomeIcon icon={faXmark} onClick={() => setIsOpenModal(false)}/>
-                        </div>
-                    </div>
-                </div>
+                <ModalSettings setIsOpenModal={setIsOpenModal}/>
             </ReactModal>
             <div className={s.contentWrapper}>
                 <HeaderContentPage setIsOpenModal={setIsOpenModal}/>

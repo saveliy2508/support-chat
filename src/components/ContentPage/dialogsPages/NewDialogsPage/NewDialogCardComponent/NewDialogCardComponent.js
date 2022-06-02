@@ -15,7 +15,7 @@ const NewDialogCardComponent = ({clientName, startTime, dialogData, handleAddToA
             </div>
             <div className={s.lastMessage}>
                 <div>
-                    {Object.values(messages)[Object.values(messages).length - 1].text}
+                    {messages && Object.values(messages)[Object.values(messages).length - 1].text}
                 </div>
             </div>
             <div className={s.dialogInfo}>
