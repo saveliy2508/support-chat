@@ -14,7 +14,7 @@ import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton
 import Input from "../AuthorizationComponents/Input/Input";
 import {useDispatch} from "react-redux";
 
-const LogInPage = ({loginFunction}) => {
+const LogInPage = () => {
     const navigate = useNavigate()
 
     const dispatch = useDispatch()

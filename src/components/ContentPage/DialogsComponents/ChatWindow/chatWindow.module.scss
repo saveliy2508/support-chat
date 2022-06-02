@@ -5,13 +5,16 @@
     font-size: 24px;
     font-weight: 700;
   }
+  .typeIndicator {
+    height: 10px;
+    margin-bottom: -20px;
+  }
 
   .chat {
     .isDialogEnded {
       font-size: 20px;
       padding: 30px;
     }
-
     .messages {
       overflow-y: auto;
       height: 400px;

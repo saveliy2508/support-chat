@@ -3,6 +3,9 @@ import {Route, Routes} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {equalTo, off, onValue, orderByChild, query, ref, set} from "firebase/database";
 import {dataBase} from "../../firebase";
+import ReactModal from "react-modal";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
 import s from './contentPage.module.scss'
 
@@ -16,6 +19,8 @@ import ChatWindow from "./DialogsComponents/ChatWindow/ChatWindow";
 
 import {setSavedDialogs, setStartedActiveDialogsId} from "../../redux/actions/userActions";
 import {setActiveDialogs, setNewDialogs} from "../../redux/actions/dataActions";
+
+ReactModal.setAppElement('#root')
 
 const ContentPage = () => {
     const {currentDialog, id} = useSelector(state => state.user);
@@ -73,24 +78,55 @@ const ContentPage = () => {
         set(addGradeRef, grade);
     }
 
+    // React Modal
+    const [isOpenModal, setIsOpenModal] = React.useState(false);
+
+
     return (
-        <div className={s.contentWrapper}>
-            <HeaderContentPage/>
-            <div className={s.content}>
-                <div className={s.navBar}>
-                    <NavbarContentPage/>
+        <>
+            <ReactModal
+                isOpen={isOpenModal}
+                shouldCloseOnOverlayClick={true}
+                onRequestClose={() => setIsOpenModal(false)}
+                style={
+                    {
+                        content: {
+                            maxWidth: '1024px',
+                            margin: '-10px auto 0 auto',
+                        }
+                    }
+                }
+            >
+                <div className={s.modal}>
+                    <div className={s.modalHeader}>
+                        <div className={s.title}>
+                            Настройки
+                        </div>
+                        <div className={s.xmark}>
+                            <FontAwesomeIcon icon={faXmark} onClick={() => setIsOpenModal(false)}/>
+                        </div>
+                    </div>
                 </div>
-                <div className={s.dialogs}>
-                    <Routes>
-                        <Route path='newDialogs' element={<NewDialogsPage/>}/>
-                        <Route path='activeDialogs' element={<ActiveDialogsPage addDialogToEnded={addDialogToEnded}/>}/>
-                        <Route path='savedDialogs' element={<SavedDialogsPage/>}/>
-                        <Route path='endedDialogs' element={<EndedDialogsPage/>}/>
-                        <Route path={currentDialog} element={<ChatWindow/>}/>
-                    </Routes>
+            </ReactModal>
+            <div className={s.contentWrapper}>
+                <HeaderContentPage setIsOpenModal={setIsOpenModal}/>
+                <div className={s.content}>
+                    <div className={s.navBar}>
+                        <NavbarContentPage/>
+                    </div>
+                    <div className={s.dialogs}>
+                        <Routes>
+                            <Route path='newDialogs' element={<NewDialogsPage/>}/>
+                            <Route path='activeDialogs'
+                                   element={<ActiveDialogsPage addDialogToEnded={addDialogToEnded}/>}/>
+                            <Route path='savedDialogs' element={<SavedDialogsPage/>}/>
+                            <Route path='endedDialogs' element={<EndedDialogsPage/>}/>
+                            <Route path={currentDialog} element={<ChatWindow/>}/>
+                        </Routes>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
