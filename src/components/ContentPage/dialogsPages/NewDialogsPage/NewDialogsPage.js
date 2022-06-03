@@ -102,7 +102,9 @@ const NewDialogsPage = () => {
                 {/*    */}
                 <div className={s.dialogsCards}>
 
-                    {newDialogs
+                    {newDialogs && newDialogs.filter(radioButton == 'имени'
+                        ? item => item.clientName.toLowerCase().includes(filterInput.toLowerCase())
+                        : item => Object.values(item.messages)[Object.values(item.messages).length - 1].text.toLowerCase().includes(filterInput.toLowerCase()))
                         .map((item, index) => (
                             <div className={s.card} key={item.dialogId + index}>
                                 <NewDialogCardComponent

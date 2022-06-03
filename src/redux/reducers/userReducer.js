@@ -8,6 +8,8 @@ const initialState = {
     email: null,
     token: null,
     id: null,
+    name: null,
+    avatar: null,
     currentDialog: null,
     savedDialogsId: [],
     startedActiveDialogsId: []
@@ -21,6 +23,8 @@ const userReducer = (state = initialState, action) => {
                 email: action.payload.email,
                 token: action.payload.token,
                 id: action.payload.id,
+                name: action.payload.name,
+                avatar: action.payload.avatar,
                 startedActiveDialogsId: action.payload.startedActiveDialogsId,
                 savedDialogsId: action.payload.savedDialogsId,
                 currentDialog: null
@@ -31,6 +35,8 @@ const userReducer = (state = initialState, action) => {
                 email: null,
                 token: null,
                 id: null,
+                name: null,
+                avatar: null,
                 startedActiveDialogsId: null,
                 savedDialogsId: null,
                 currentDialog: null

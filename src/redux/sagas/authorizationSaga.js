@@ -8,6 +8,15 @@ import {setActiveDialogs, setNewDialogs} from "../actions/dataActions";
 export function* loginFunctionWorker({response}) {
     const user = yield response.user;
 
+    let name;
+    let avatarImg;
+    const userDataIdRef = yield ref(dataBase, `users/${user.uid}`);
+    yield get(userDataIdRef).then(
+        (snapshot) => {
+            name = snapshot.val().name;
+            avatarImg = snapshot.val().avatar;
+        });
+
     let savedDialogsId;
     const savedDialogsIdRef = yield ref(dataBase, `users/${user.uid}/savedDialogsId`);
     yield get(savedDialogsIdRef).then(
@@ -26,6 +35,8 @@ export function* loginFunctionWorker({response}) {
         email: user.email,
         id: user.uid,
         token: user.accessToken,
+        name: name,
+        avatar: avatarImg,
         savedDialogsId: savedDialogsId,
         startedActiveDialogsId: startedActiveDialogsId
     }))
