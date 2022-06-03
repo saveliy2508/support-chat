@@ -84,8 +84,7 @@ const ContentPage = () => {
     return (
         <>
             <ReactModal
-                //isOpen={isOpenModal}
-                isOpen={false}
+                isOpen={isOpenModal}
                 shouldCloseOnOverlayClick={true}
                 onRequestClose={() => setIsOpenModal(false)}
                 style={

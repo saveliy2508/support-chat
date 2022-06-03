@@ -3,6 +3,7 @@ export const REMOVE_USER = 'REMOVE_USER'
 export const SET_CURRENT_DIALOG = 'SET_CURRENT_DIALOG'
 export const SET_SAVED_DIALOGS = 'SET_SAVED_DIALOGS'
 export const SET_STARTED_ACTIVE_DIALOGS_ID = 'SET_STARTED_ACTIVE_DIALOGS_ID'
+export const SET_NAME_AVATAR = 'SET_NAME_AVATAR'
 
 const initialState = {
     email: null,
@@ -55,6 +56,12 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentDialog: action.payload,
+            }
+        case SET_NAME_AVATAR:
+            return{
+                ...state,
+                name: action.payload.name,
+                avatar: action.payload.avatar,
             }
     }
     return state

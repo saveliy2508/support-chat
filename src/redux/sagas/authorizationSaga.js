@@ -13,8 +13,13 @@ export function* loginFunctionWorker({response}) {
     const userDataIdRef = yield ref(dataBase, `users/${user.uid}`);
     yield get(userDataIdRef).then(
         (snapshot) => {
-            name = snapshot.val().name;
-            avatarImg = snapshot.val().avatar;
+            let data = snapshot.val();
+            if (data.hasOwnProperty('name')) {
+                name = data.name;
+            }
+            if (data.hasOwnProperty('avatar')) {
+                avatarImg = data.avatar;
+            }
         });
 
     let savedDialogsId;

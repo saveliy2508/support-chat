@@ -7,6 +7,7 @@ import {faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faVk, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 import s from '../AuthorisationStyles.module.scss'
 
@@ -15,8 +16,10 @@ import SubmitButton from "./../AuthorizationComponents/SubmitButton/SubmitButton
 import Input from "../AuthorizationComponents/Input/Input";
 import {useDispatch} from "react-redux";
 
-const AuthorizationForm = ({loginFunction}) => {
+const AuthorizationForm = () => {
     const dispatch = useDispatch()
+
+    const navigate = useNavigate()
 
     const notify = () => toast.info('Ошибка', {
         position: "top-right",
@@ -32,7 +35,8 @@ const AuthorizationForm = ({loginFunction}) => {
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
             .then((responce) => {
-                loginFunction(responce)
+                dispatch({type: 'LOGIN_SAGA', response: responce})
+                navigate('/contentPage/')
             })
             .catch(() => notify())
     }
@@ -44,6 +48,7 @@ const AuthorizationForm = ({loginFunction}) => {
         signInWithPopup(auth, provider)
             .then((responce) => {
                 dispatch({type: 'LOGIN_SAGA', response: responce})
+                navigate('/contentPage/')
             })
             .catch(() => notify())
     }

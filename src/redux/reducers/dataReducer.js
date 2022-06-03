@@ -4,8 +4,6 @@ export const SET_ACTIVE_DIALOGS = 'SET_ACTIVE_DIALOGS'
 export const REMOVE_DATA = 'REMOVE_DATA'
 
 const initialState = {
-    email: null,
-    id: null,
     newDialogs: null,
     activeDialogs: null,
 }
@@ -15,8 +13,6 @@ const dataReducer = (state = initialState, action) => {
         case SET_USER_DATA:
             return {
                 ...state,
-                email: action.payload.email,
-                id: action.payload.id,
                 newDialogs: action.payload.activeDialogs,
             }
         case SET_NEW_DIALOGS:
@@ -32,8 +28,6 @@ const dataReducer = (state = initialState, action) => {
         case REMOVE_DATA:
             return {
                 ...state,
-                email: null,
-                id: null,
                 newDialogs: null,
                 activeDialogs: null,
             }

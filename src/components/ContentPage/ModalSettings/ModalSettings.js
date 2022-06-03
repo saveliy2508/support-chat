@@ -2,32 +2,53 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Form, Field} from "react-final-form";
+import {Input, Button} from "reactstrap";
+import {get, ref, set} from "firebase/database";
+import {dataBase} from "../../../firebase";
+import {useDispatch, useSelector} from "react-redux";
 
 import s from "./modalSetting.module.scss";
-import {Input, Button} from "reactstrap";
-import {ref, set} from "firebase/database";
-import {dataBase} from "../../../firebase";
-import {useSelector} from "react-redux";
+
+
+import {setNameAvatar} from "../../../redux/actions/userActions";
 
 const ModalSettings = ({setIsOpenModal}) => {
-    const {id} = useSelector(state => state.user)
+    const {id, name, avatar} = useSelector(state => state.user)
 
-    const onSubmit = ({name, avatar}) => {
-        set(ref(dataBase, `users/${id}/name`), name);
-        set(ref(dataBase, `users/${id}/avatar`), avatar);
+    const dispatch = useDispatch()
+
+    const onSubmit = async ({name, avatar}) => {
+        if (name) {
+            await set(ref(dataBase, `users/${id}/name`), name);
+        }
+        if (avatar) {
+            await set(ref(dataBase, `users/${id}/avatar`), avatar);
+        }
+
+        const userDataIdRef = ref(dataBase, `users/${id}`);
+        await get(userDataIdRef).then(
+            (snapshot) => {
+                let data = snapshot.val();
+                let name;
+                let avatar;
+                if (data.hasOwnProperty('name')) {
+                    name = data.name;
+                }
+                if (data.hasOwnProperty('avatarImg')) {
+                    avatar = data.avatar;
+                }
+                dispatch(setNameAvatar({
+                    name: name,
+                    avatar: avatar,
+                }))
+            });
     };
-
-    // const setImageUrl = (e) => {
-    //     // setAvatarImageUrl(avatar)
-    //     console.log(e)
-    // }
 
     const validate = (e) => {
         console.log(e);
     };
 
-    const [avatarImageUrl, setAvatarImageUrl] = React.useState('');
-
+    const initialData = {name: name, avatar: avatar}
     return (
         <div className={s.modal}>
             <div className={s.modalHeader}>
@@ -43,6 +64,7 @@ const ModalSettings = ({setIsOpenModal}) => {
                 <Form
                     onSubmit={onSubmit}
                     validate={validate}
+                    initialValues={initialData}
                     render={({handleSubmit}) => (
                         <form onSubmit={handleSubmit}>
                             <div className={s.name}>
@@ -51,7 +73,7 @@ const ModalSettings = ({setIsOpenModal}) => {
                                     render={({input}) => (
                                         <div>
                                             <label className={s.text}>Имя:</label>
-                                            <Input {...input} autoComplete='new-password' placeholder='Введите имя...'/>
+                                            <Input {...input} autoComplete='off' placeholder='Введите имя...'/>
                                         </div>
                                     )}
                                 />
@@ -63,41 +85,26 @@ const ModalSettings = ({setIsOpenModal}) => {
                                         <div>
                                             <label className={s.text}>Аватар:</label>
                                             <span className={s.avatarImg}>
-                                                {true ? <FontAwesomeIcon icon={faUser} className={s.userIcon}/> : <img src={avatarImageUrl} alt="аватар"/>}
+                                                {avatar ? <img src={avatar} alt="аватар"/> :
+                                                    <FontAwesomeIcon icon={faUser} className={s.userIcon}/>}
                                             </span>
-                                            <Button className={s.uploadButton}>Загрузить
-                                                фото</Button>
-                                            <Input {...input} autoComplete='new-password' placeholder='Введите url адрес изображения...' className={s.avatarImgInput}/>
+                                            <Button className={s.uploadButton}>Проверить фото</Button>
+                                            <Input {...input} autoComplete='no'
+                                                   placeholder='Введите url адрес изображения...'
+                                                   className={s.avatarImgInput}/>
                                         </div>
                                     )}
                                 />
                             </div>
-                            <div className={s.avatar}>
-                                <Field
-                                    name="password"
-                                    render={({input}) => (
-                                        <div>
-                                            <label className={s.text}>Пароль:</label>
-                                            <Input {...input} autoComplete='new-password' placeholder='Введите пароль...' />
-                                        </div>
-                                    )}
-                                />
-                            </div>
-                            <div className={s.avatar}>
-                                <Field
-                                    name="passwordComfirmation"
-                                    render={({input}) => (
-                                        <div>
-                                            <label className={s.text}>Подтверждение пароля:</label>
-                                            <Input {...input} autoComplete='new-password' placeholder='Повторите пароль...'/>
-                                        </div>
-                                    )}
-                                />
-                            </div>
-                            <Button type="submit">Сохранить изменения</Button>
+                            <br/>
+                            <Button type="submit">Сохранить изменения имени и аватара</Button>
                         </form>
                     )}
                 />
+                <div className={s.passwordChange}>
+                    <div className={s.text}>Изменение пароля</div>
+                    <Button type="submit">Отправить письмо на почту</Button>
+                </div>
             </div>
         </div>
     );

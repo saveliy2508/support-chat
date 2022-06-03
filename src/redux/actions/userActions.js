@@ -3,7 +3,8 @@ import {
     REMOVE_USER,
     SET_CURRENT_DIALOG,
     SET_SAVED_DIALOGS,
-    SET_STARTED_ACTIVE_DIALOGS_ID
+    SET_STARTED_ACTIVE_DIALOGS_ID,
+    SET_NAME_AVATAR
 } from '../reducers/userReducer'
 
 export const setUser = (user) => ({
@@ -28,4 +29,9 @@ export const setSavedDialogs = (dialogsId) => ({
 export const setStartedActiveDialogsId = (dialogsId) => ({
     type: SET_STARTED_ACTIVE_DIALOGS_ID,
     payload: dialogsId
+})
+
+export const setNameAvatar = (payload) => ({
+    type: SET_NAME_AVATAR,
+    payload: payload
 })

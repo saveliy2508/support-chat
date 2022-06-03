@@ -10,7 +10,6 @@ import PubNub from "pubnub";
 import s from "./chatWindow.module.scss";
 
 import ChatMessage from "./ChatMessage";
-import ReactModal from "react-modal";
 
 const ChatWindow = () => {
 
@@ -31,20 +30,6 @@ const ChatWindow = () => {
         subscribeKey: "sub-c-9bc9e87c-2b1a-4bcb-8320-f81758e0101e",
         uuid: email,
     });
-
-    // function plus() {
-    //     pubnub.publish({
-    //         message: 'typing_on',
-    //         channel: currentDialog
-    //     });
-    // }
-    //
-    // function minus() {
-    //     pubnub.publish({
-    //         message: 'typing_off',
-    //         channel: currentDialog
-    //     });
-    // }
 
     pubnub.subscribe({
         channels: [currentDialog],
@@ -122,7 +107,7 @@ const ChatWindow = () => {
             setTimeout(() => pubnub.publish({
                 message: 'typing_off',
                 channel: currentDialog
-            }), 5000)
+            }), 3000)
         }
         if (e.target.value === "") {
             pubnub.publish({
