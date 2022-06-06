@@ -29,14 +29,16 @@ const ModalSettings = ({setIsOpenModal}) => {
         await get(userDataIdRef).then(
             (snapshot) => {
                 let data = snapshot.val();
+
                 let name;
                 let avatar;
                 if (data.hasOwnProperty('name')) {
                     name = data.name;
                 }
-                if (data.hasOwnProperty('avatarImg')) {
+                if (data.hasOwnProperty('avatar')) {
                     avatar = data.avatar;
                 }
+
                 dispatch(setNameAvatar({
                     name: name,
                     avatar: avatar,
@@ -44,11 +46,13 @@ const ModalSettings = ({setIsOpenModal}) => {
             });
     };
 
+    const [currentAvatarInput, setCurrentAvatarInput] = React.useState(avatar);
+
     const validate = (e) => {
-        console.log(e);
+        setCurrentAvatarInput(e.avatar)
     };
 
-    const initialData = {name: name, avatar: avatar}
+    const initialData = {name: name, avatar: currentAvatarInput}
     return (
         <div className={s.modal}>
             <div className={s.modalHeader}>
@@ -85,10 +89,9 @@ const ModalSettings = ({setIsOpenModal}) => {
                                         <div>
                                             <label className={s.text}>Аватар:</label>
                                             <span className={s.avatarImg}>
-                                                {avatar ? <img src={avatar} alt="аватар"/> :
-                                                    <FontAwesomeIcon icon={faUser} className={s.userIcon}/>}
+                                                {currentAvatarInput ? <img src={currentAvatarInput} alt="аватар" className={s.img}/> :
+                                                    <FontAwesomeIcon icon={faUser} className={s.userIcon} className={s.img}/>}
                                             </span>
-                                            <Button className={s.uploadButton}>Проверить фото</Button>
                                             <Input {...input} autoComplete='no'
                                                    placeholder='Введите url адрес изображения...'
                                                    className={s.avatarImgInput}/>
