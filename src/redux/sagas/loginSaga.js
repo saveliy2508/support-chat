@@ -4,6 +4,8 @@ import { equalTo, get, orderByChild, query, ref, set } from 'firebase/database'
 import { dataBase } from '../../firebase'
 import { setActiveDialogs, setNewDialogs } from '../actions/dataActions'
 
+export const LOGIN_SAGA = 'LOGIN_SAGA'
+
 export function* loginFunctionWorker({ response }) {
 	const user = yield response.user
 
@@ -11,21 +13,22 @@ export function* loginFunctionWorker({ response }) {
 	let avatarImg
 	let templatePhrases
 	let autoGreeting
+
 	const userDataIdRef = yield ref(dataBase, `users/${user.uid}`)
 	yield get(userDataIdRef).then((snapshot) => {
 		let data = snapshot.val()
-		if (data.hasOwnProperty('name')) {
+		if (data?.hasOwnProperty('name')) {
 			name = data.name
 		}
-		if (data.hasOwnProperty('avatar')) {
+		if (data?.hasOwnProperty('avatar')) {
 			avatarImg = data.avatar
 		}
-		if (data.hasOwnProperty('templatePhrases')) {
+		if (data?.hasOwnProperty('templatePhrases')) {
 			templatePhrases = Object.values(data.templatePhrases).map(
 				(item) => item.text
 			)
 		}
-		if (data.hasOwnProperty('autoGreeting')) {
+		if (data?.hasOwnProperty('autoGreeting')) {
 			autoGreeting = data.autoGreeting
 		}
 	})
@@ -91,5 +94,5 @@ export function* loginFunctionWorker({ response }) {
 }
 
 export function* loginFunctionWatcher() {
-	yield takeLatest('LOGIN_SAGA', loginFunctionWorker)
+	yield takeLatest(LOGIN_SAGA, loginFunctionWorker)
 }

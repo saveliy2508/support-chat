@@ -4,27 +4,16 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { Field, Form } from 'react-final-form'
 import { Button, Input } from 'reactstrap'
 import { get, ref, set } from 'firebase/database'
-import { auth, dataBase } from '../../../../firebase'
+import { dataBase } from '../../../../firebase'
 import { useDispatch, useSelector } from 'react-redux'
 
 import s from './profileSettings.module.scss'
 
 import { setProfileSettings } from '../../../../redux/actions/userActions'
-import { sendPasswordResetEmail } from 'firebase/auth'
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
+import { resetPasswordSaga } from '../../../../redux/actions/sagaAuthorizationActions'
 
 const ProfileSettings = ({ setIsOpenModal }) => {
-	const notify = (text) =>
-		toast.info(text, {
-			position: 'top-right',
-			autoClose: 5000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-			progress: undefined
-		})
-
 	const { id, name, avatar, email } = useSelector((state) => state.user)
 
 	const dispatch = useDispatch()
@@ -67,11 +56,7 @@ const ProfileSettings = ({ setIsOpenModal }) => {
 	}
 
 	const handleResetPassword = async () => {
-		await sendPasswordResetEmail(auth, email)
-			.then(() => {
-				notify('Проверьте вашу почту')
-			})
-			.catch(() => notify('Ошибка'))
+		dispatch(resetPasswordSaga(email))
 	}
 
 	const initialData = { name: name, avatar: currentAvatarInput }
@@ -124,11 +109,7 @@ const ProfileSettings = ({ setIsOpenModal }) => {
 														className={s.img}
 													/>
 												) : (
-													<FontAwesomeIcon
-														icon={faUser}
-														className={s.userIcon}
-														className={s.img}
-													/>
+													<FontAwesomeIcon icon={faUser} className={s.img} />
 												)}
 											</span>
 											<Input

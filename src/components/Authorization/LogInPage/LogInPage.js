@@ -18,6 +18,7 @@ import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from './../AuthorizationComponents/SubmitButton/SubmitButton'
 import Input from '../AuthorizationComponents/Input/Input'
 import { useDispatch } from 'react-redux'
+import { loginSaga } from '../../../redux/actions/sagaAuthorizationActions'
 
 const LogInPage = () => {
 	const navigate = useNavigate()
@@ -38,8 +39,8 @@ const LogInPage = () => {
 	const handleLogin = (email, password) => {
 		const auth = getAuth()
 		return signInWithEmailAndPassword(auth, email, password)
-			.then((responce) => {
-				dispatch({ type: 'LOGIN_SAGA', response: responce })
+			.then((response) => {
+				dispatch(loginSaga(response))
 				navigate('/contentPage/')
 			})
 			.catch(() => notify())
@@ -49,8 +50,8 @@ const LogInPage = () => {
 	const handleRegisterWithGoogle = () => {
 		const auth = getAuth()
 		signInWithPopup(auth, provider)
-			.then((responce) => {
-				dispatch({ type: 'LOGIN_SAGA', response: responce })
+			.then((response) => {
+				dispatch(loginSaga(response))
 				navigate('/contentPage/')
 			})
 			.catch(() => notify())

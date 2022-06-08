@@ -1,25 +1,25 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
-	getAuth,
 	createUserWithEmailAndPassword,
-	signInWithPopup,
-	GoogleAuthProvider
+	getAuth,
+	GoogleAuthProvider,
+	signInWithPopup
 } from 'firebase/auth'
 import { faDoorOpen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faVk, faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { faGoogle, faVk } from '@fortawesome/free-brands-svg-icons'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import s from '../AuthorisationStyles.module.scss'
 
 import Form from './../AuthorizationComponents/Form/Form'
 import SubmitButton from './../AuthorizationComponents/SubmitButton/SubmitButton'
 import Input from '../AuthorizationComponents/Input/Input'
-import { useDispatch } from 'react-redux'
+import { loginSaga } from '../../../redux/actions/sagaAuthorizationActions'
 
 const AuthorizationForm = () => {
 	const dispatch = useDispatch()
@@ -40,8 +40,8 @@ const AuthorizationForm = () => {
 	const handleRegister = (email, password) => {
 		const auth = getAuth()
 		createUserWithEmailAndPassword(auth, email, password)
-			.then((responce) => {
-				dispatch({ type: 'LOGIN_SAGA', response: responce })
+			.then((response) => {
+				dispatch(loginSaga(response))
 				navigate('/contentPage/')
 			})
 			.catch(() => notify())
@@ -51,8 +51,8 @@ const AuthorizationForm = () => {
 	const handleLoginWithGoogle = () => {
 		const auth = getAuth()
 		signInWithPopup(auth, provider)
-			.then((responce) => {
-				dispatch({ type: 'LOGIN_SAGA', response: responce })
+			.then((response) => {
+				dispatch(loginSaga(response))
 				navigate('/contentPage/')
 			})
 			.catch(() => notify())

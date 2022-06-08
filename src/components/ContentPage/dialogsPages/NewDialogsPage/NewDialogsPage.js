@@ -150,7 +150,7 @@ const NewDialogsPage = () => {
 				{newDialogs &&
 					newDialogs
 						.filter(
-							radioButton == 'имени'
+							radioButton === 'имени'
 								? (item) =>
 										item.clientName
 											.toLowerCase()

@@ -1,8 +1,9 @@
 import { all } from 'redux-saga/effects'
-import { loginFunctionWatcher } from './authorizationSaga'
+import { loginFunctionWatcher } from './loginSaga'
+import { resetPasswordWatcher } from './resetPasswordSaga'
 
 function* rootWatcher() {
-	yield all([loginFunctionWatcher()])
+	yield all([loginFunctionWatcher(), resetPasswordWatcher()])
 }
 
 export default rootWatcher

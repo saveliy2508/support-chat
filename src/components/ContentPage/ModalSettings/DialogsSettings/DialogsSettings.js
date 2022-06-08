@@ -45,7 +45,7 @@ const DialogsSettings = () => {
 
 	return (
 		<>
-			<div className={s.greeding}>
+			<div className={s.greeting}>
 				<div className={s.text}>Автоматическое приветствие:</div>
 				<Input
 					value={autoGreeting}
