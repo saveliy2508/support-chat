@@ -4,36 +4,36 @@ export const AUTHORIZATION_ERROR_WITH_SOCIAL = 'AUTHORIZATION_ERROR_WITH_SOCIAL'
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR'
 
 const initialState = {
-    logInErrorMessage: '',
-    signUpErrorMessage: ''
+	logInErrorMessage: '',
+	signUpErrorMessage: ''
 }
 
 const userReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case LOG_IN_ERROR:
-            return {
-                ...state,
-                logInErrorMessage: 'Ошибка входа'
-            }
-        case SIGN_UP_ERROR:
-            return {
-                ...state,
-                signUpErrorMessage: 'Ошибка регистрации'
-            }
-        case AUTHORIZATION_ERROR_WITH_SOCIAL:
-            return {
-                ...state,
-                logInErrorMessage: 'Ошибка входа через социальные сети',
-                signUpErrorMessage: 'Ошибка входа через социальные сети'
-            }
-        case CLEAR_AUTH_ERROR:
-            return {
-                ...state,
-                logInErrorMessage: '',
-                signUpErrorMessage: ''
-            }
-    }
-    return state
+	switch (action.type) {
+		case LOG_IN_ERROR:
+			return {
+				...state,
+				logInErrorMessage: 'Ошибка входа'
+			}
+		case SIGN_UP_ERROR:
+			return {
+				...state,
+				signUpErrorMessage: 'Ошибка регистрации'
+			}
+		case AUTHORIZATION_ERROR_WITH_SOCIAL:
+			return {
+				...state,
+				logInErrorMessage: 'Ошибка входа через социальные сети',
+				signUpErrorMessage: 'Ошибка входа через социальные сети'
+			}
+		case CLEAR_AUTH_ERROR:
+			return {
+				...state,
+				logInErrorMessage: '',
+				signUpErrorMessage: ''
+			}
+	}
+	return state
 }
 
-export default userReducer;
+export default userReducer

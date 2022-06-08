@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react'
 // import App from './App';
-import AuthorizationForm from "./components/Authorization/SignUpPage/SignUpPage";
+import AuthorizationForm from './components/Authorization/SignUpPage/SignUpPage'
 
 // test('renders learn react link', () => {
 //   render(<App />);
@@ -9,5 +9,5 @@ import AuthorizationForm from "./components/Authorization/SignUpPage/SignUpPage"
 // });
 
 test('render auth form', () => {
-  const {myComponent} = render(<AuthorizationForm />);
+	const { myComponent } = render(<AuthorizationForm />)
 })

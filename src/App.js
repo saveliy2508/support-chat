@@ -43,7 +43,7 @@ function App() {
 							!!email ? (
 								<Navigate to="/contentPage/newDialogs" />
 							) : (
-								<RegistrationForm фв />
+								<RegistrationForm />
 							)
 						}
 					/>
@@ -65,7 +65,6 @@ function App() {
 					/>
 				</Routes>
 			</div>
-
 			<div className={s.footer}></div>
 		</div>
 	)
