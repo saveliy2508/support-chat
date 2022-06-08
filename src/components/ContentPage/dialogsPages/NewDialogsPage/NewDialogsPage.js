@@ -22,7 +22,7 @@ const NewDialogsPage = () => {
         const navigate = useNavigate()
 
         const {newDialogs} = useSelector(state => state.data)
-        const {id} = useSelector(state => state.user)
+        const {id, autoGreeting, email} = useSelector(state => state.user)
 
         //Фильтрация по имени и по последнему сообщению + debounce
         const [radioButton, setRadioButton] = React.useState('имени');
@@ -50,6 +50,7 @@ const NewDialogsPage = () => {
         }
 
         const handleAddToActiveDialogs = (clientName, dialogId, startTime, messages) => {
+            const date = new Date()
             set(ref(dataBase, `activeDialogs/${dialogId}`), {
                 clientName: clientName,
                 dialogId: dialogId,
@@ -65,6 +66,16 @@ const NewDialogsPage = () => {
             set(startedActiveDialogsIdRef, {
                 dialogId
             });
+            if(autoGreeting){
+                const autoGreetingListRef = ref(dataBase, `activeDialogs/${dialogId}/messages`);
+                const autoGreetingRef = push(autoGreetingListRef);
+                set(autoGreetingRef, {
+                    messageId: autoGreetingRef._path.pieces_[Object.keys(autoGreetingRef._path.pieces_).length - 1],
+                    text: autoGreeting,
+                    timestamp: date.getTime(),
+                    senderName: email
+                });
+            }
         }
         return (
             <>
@@ -100,8 +111,8 @@ const NewDialogsPage = () => {
                        onChange={(e) => setFirstMessage(e.target.value)}/>
                 <Button onClick={handleAddNewDialog}>Добавить новый диалог</Button>
                 {/*    */}
-                <div className={s.dialogsCards}>
 
+                <div className={s.dialogsCards}>
                     {newDialogs && newDialogs.filter(radioButton == 'имени'
                         ? item => item.clientName.toLowerCase().includes(filterInput.toLowerCase())
                         : item => Object.values(item.messages)[Object.values(item.messages).length - 1].text.toLowerCase().includes(filterInput.toLowerCase()))
