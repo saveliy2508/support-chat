@@ -9,10 +9,10 @@ import {useDispatch, useSelector} from "react-redux";
 
 import s from "./profileSettings.module.scss";
 
-
 import {setProfileSettings} from "../../../../redux/actions/userActions";
 import {sendPasswordResetEmail} from "firebase/auth";
 import {toast, ToastContainer} from "react-toastify";
+
 
 const ProfileSettings = ({setIsOpenModal}) => {
     const notify = (text) => toast.info(text, {

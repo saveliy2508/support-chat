@@ -48,7 +48,9 @@ const NewDialogsPage = () => {
                 senderName: 'client'
             });
         }
-
+        
+        
+        
         const handleAddToActiveDialogs = (clientName, dialogId, startTime, messages) => {
             const date = new Date()
             set(ref(dataBase, `activeDialogs/${dialogId}`), {
