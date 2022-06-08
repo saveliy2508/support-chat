@@ -10,6 +10,8 @@ export function* loginFunctionWorker({response}) {
 
     let name;
     let avatarImg;
+    let templatePhrases;
+    let autoGreeting;
     const userDataIdRef = yield ref(dataBase, `users/${user.uid}`);
     yield get(userDataIdRef).then(
         (snapshot) => {
@@ -19,6 +21,12 @@ export function* loginFunctionWorker({response}) {
             }
             if (data.hasOwnProperty('avatar')) {
                 avatarImg = data.avatar;
+            }
+            if (data.hasOwnProperty('templatePhrases')) {
+                templatePhrases = Object.values(data.templatePhrases).map(item => item.text);
+            }
+            if (data.hasOwnProperty('autoGreeting')) {
+                autoGreeting = data.autoGreeting;
             }
         });
 
@@ -42,6 +50,8 @@ export function* loginFunctionWorker({response}) {
         token: user.accessToken,
         name: name,
         avatar: avatarImg,
+        templatePhrases: templatePhrases,
+        autoGreeting: autoGreeting,
         savedDialogsId: savedDialogsId,
         startedActiveDialogsId: startedActiveDialogsId
     }))

@@ -36,7 +36,7 @@ const ModalSettings = ({setIsOpenModal}) => {
                     />
                 </div>
             </div>
-            {settingsType === 'profile' ? <ProfileSettings setIsOpenModal={setIsOpenModal}/> : <DialogsSettings/>}
+            {settingsType === 'profile' ? <ProfileSettings setIsOpenModal={setIsOpenModal}/> : <DialogsSettings />}
         </>
     );
 };

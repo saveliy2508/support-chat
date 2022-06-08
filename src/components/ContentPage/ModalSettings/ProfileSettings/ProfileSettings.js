@@ -1,19 +1,31 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faXmark, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {Form, Field} from "react-final-form";
 import {Input, Button} from "reactstrap";
 import {get, ref, set} from "firebase/database";
-import {dataBase} from "../../../../firebase";
+import {auth, dataBase} from "../../../../firebase";
 import {useDispatch, useSelector} from "react-redux";
 
 import s from "./profileSettings.module.scss";
 
 
-import {setNameAvatar} from "../../../../redux/actions/userActions";
+import {setProfileSettings} from "../../../../redux/actions/userActions";
+import {sendPasswordResetEmail} from "firebase/auth";
+import {toast, ToastContainer} from "react-toastify";
 
 const ProfileSettings = ({setIsOpenModal}) => {
-    const {id, name, avatar} = useSelector(state => state.user)
+    const notify = (text) => toast.info(text, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
+
+    const {id, name, avatar, email} = useSelector(state => state.user)
 
     const dispatch = useDispatch()
 
@@ -39,7 +51,7 @@ const ProfileSettings = ({setIsOpenModal}) => {
                     avatar = data.avatar;
                 }
 
-                dispatch(setNameAvatar({
+                dispatch(setProfileSettings({
                     name: name,
                     avatar: avatar,
                 }))
@@ -53,9 +65,27 @@ const ProfileSettings = ({setIsOpenModal}) => {
         setCurrentAvatarInput(e.avatar)
     };
 
+    const handleResetPassword = async () => {
+        await sendPasswordResetEmail(auth, email)
+            .then(() => {
+                notify('Проверьте вашу почту')
+            }).catch(() => notify('Ошибка'))
+    }
+
     const initialData = {name: name, avatar: currentAvatarInput}
     return (
         <div className={s.modal}>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <div className={s.settings}>
                 <Form
                     onSubmit={onSubmit}
@@ -98,7 +128,7 @@ const ProfileSettings = ({setIsOpenModal}) => {
                 />
                 <div className={s.passwordChange}>
                     <div className={s.text}>Изменение пароля</div>
-                    <Button type="submit">Отправить письмо на почту</Button>
+                    <Button type="submit" onClick={handleResetPassword}>Отправить письмо на почту</Button>
                 </div>
             </div>
         </div>

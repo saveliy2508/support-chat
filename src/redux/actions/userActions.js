@@ -4,7 +4,7 @@ import {
     SET_CURRENT_DIALOG,
     SET_SAVED_DIALOGS,
     SET_STARTED_ACTIVE_DIALOGS_ID,
-    SET_NAME_AVATAR
+    SET_PROFILE_SETTINGS, SET_DIALOGS_SETTINGS, SET_AUTO_GREETING
 } from '../reducers/userReducer'
 
 export const setUser = (user) => ({
@@ -31,7 +31,17 @@ export const setStartedActiveDialogsId = (dialogsId) => ({
     payload: dialogsId
 })
 
-export const setNameAvatar = (payload) => ({
-    type: SET_NAME_AVATAR,
+export const setProfileSettings = (payload) => ({
+    type: SET_PROFILE_SETTINGS,
+    payload: payload
+})
+
+export const setDialogsSettings = (payload) => ({
+    type: SET_DIALOGS_SETTINGS,
+    payload: payload
+})
+
+export const setAutoGreening = (payload) => ({
+    type: SET_AUTO_GREETING,
     payload: payload
 })

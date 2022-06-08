@@ -19,7 +19,7 @@ const ChatWindow = () => {
         navigate(-1);
     };
 
-    const {currentDialog, email} = useSelector((state) => state.user);
+    const {currentDialog, email, templatePhrases} = useSelector((state) => state.user);
     const {activeDialogs} = useSelector((state) => state.data);
 
     const [typeIndicator, setTypeIndicator] = React.useState('typing_off');
@@ -165,11 +165,8 @@ const ChatWindow = () => {
                                 list="answers"
                             />
                             <datalist id="answers">
-                                <option
-                                    value={`Здравствуйте, меня зовут ${email}, сейчас я Вам помогу`}
-                                />
-                                <option value="Ваша заявка обрабатывается..."/>
-                                <option value="Чем могу еще помочь?"/>
+                                {templatePhrases && templatePhrases.map(item => <option value={item}/>
+                                )}
                             </datalist>
                             <Button onClick={handlePushNewMessage}>Отправить</Button>
                         </div>
