@@ -1,0 +1,32 @@
+.modal {
+  .passwordChange {
+  margin-top: 50px;
+  }
+
+  .avatar {
+    .text {
+      display: inline-block;
+    }
+    .avatarImg {
+      display: inline-block;
+      height: 100px;
+      width: 100px;
+
+      .userIcon {
+        height: 70px;
+        margin: 10px 0;
+      }
+
+      .img {
+        height: 80px;
+        margin: 10px 0;
+        display: block;
+      }
+    }
+  }
+
+  .text {
+    margin: 15px 25px 15px 0;
+    font-size: 16px;
+  }
+}

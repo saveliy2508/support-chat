@@ -1,6 +1,7 @@
-.authorizationFormContainer{
+.authorizationFormContainer {
   padding-top: 50px;
 }
+
 .authorizationForm {
   max-width: 400px;
   margin: auto;
@@ -10,6 +11,7 @@
   .footer {
     display: flex;
     justify-content: space-between;
+
     :visited {
       color: black;
     }
@@ -30,19 +32,23 @@
     height: 16px;
     margin: 5px 0 10px 0;
   }
-  .isAccount{
+
+  .isAccount {
     padding-bottom: 15px;
     font-size: 14px;
     opacity: 0.5;
+
     a {
       font-weight: 700;
       color: black;
     }
   }
+
   .doorIcon {
     margin-left: 10px;
     opacity: 1;
   }
+
   .registrationWith {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -52,6 +58,7 @@
     position: relative;
     right: 10px;
     margin-bottom: 20px;
+
     div {
       border: 2px solid #00b1f0;
       padding: 10px;
@@ -59,20 +66,24 @@
       margin-left: 20px;
       cursor: pointer;
     }
+
     .vkIcon, .googleIcon {
       height: 30px;
       margin-top: 10px;
     }
   }
+
   .directions {
     display: flex;
     justify-content: space-between;
     margin: 50px 15px;
     font-size: 14px;
     font-weight: 700;
+
     :visited {
       color: black;
     }
+
     a {
       padding: 5px;
     }

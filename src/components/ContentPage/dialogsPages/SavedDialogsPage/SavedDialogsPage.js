@@ -12,18 +12,12 @@ const SavedDialogsPage = () => {
     const {savedDialogsId} = useSelector(state => state.user)
 
     const dispatch = useDispatch()
+
     const navigate = useNavigate()
 
     const handleContinue = (dialogId) => {
         dispatch(setCurrentDialog(dialogId))
         navigate(`/contentPage/${dialogId}`)
-    }
-
-    let activeArray;
-    let savedArray;
-    if (activeDialogs && savedDialogsId) {
-        activeArray = Object.values(activeDialogs)
-        savedArray = Object.values(Object.values(savedDialogsId))
     }
 
     return (
@@ -32,8 +26,8 @@ const SavedDialogsPage = () => {
                 SavedDialogsPage
             </div>
             <div className={s.dialogsCards}>
-                {savedArray && activeArray ?
-                    activeArray.filter(j => savedArray.find(i => j.dialogId === i.dialogId ? true : null)).map((item, index) => (
+                {savedDialogsId && activeDialogs ?
+                    activeDialogs.filter(activeDialogItem => Object.values(savedDialogsId).find(savedDialogId => activeDialogItem.dialogId === savedDialogId.dialogId ? true : null)).map((item, index) => (
                         <div className={s.card} key={'activeDialogs' + index}>
                             <DialogCardComponent
                                 clientName={item.clientName}
