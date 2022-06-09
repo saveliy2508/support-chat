@@ -170,7 +170,9 @@ const ChatWindow = () => {
 							/>
 							<datalist id="answers">
 								{templatePhrases &&
-									templatePhrases.map((item) => <option value={item} />)}
+									templatePhrases.map((item, index) => (
+										<option key={`operator${index}`} value={item} />
+									))}
 							</datalist>
 							<Button onClick={handlePushNewMessage}>Отправить</Button>
 						</div>
