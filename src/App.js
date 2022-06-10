@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import './firebase'
+import * as Sentry from '@sentry/react'
 
 import s from './App.module.scss'
 
@@ -70,4 +71,4 @@ function App() {
 	)
 }
 
-export default App
+export default Sentry.withProfiler(App)

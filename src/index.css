@@ -4,6 +4,6 @@ body > div {
     height: 100%;
 }
 
-html {
-    overflow: hidden;
+.ReactModalPortal {
+    height: 0;
 }

@@ -7,9 +7,7 @@ const MyComponent = ({ text, senderName, timestamp, imgSrc }) => {
 	return (
 		<div className={s.message}>
 			<div className={s.text}>
-				{text ? (
-					text
-				) : (
+				{text ?? (
 					<img className={s.messageImg} src={imgSrc} alt="Image Error" />
 				)}
 			</div>

@@ -1,10 +1,12 @@
 import React from 'react'
-import ProfileSettings from './ProfileSettings/ProfileSettings'
-import s from './modalSettings.module.scss'
+import { Button, ButtonGroup } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
+import s from './modalSettings.module.scss'
+
 import DialogsSettings from './DialogsSettings/DialogsSettings'
-import { Button, ButtonGroup } from 'reactstrap'
+import ProfileSettings from './ProfileSettings/ProfileSettings'
 
 const ModalSettings = ({ setIsOpenModal }) => {
 	const [settingsType, setSettingsType] = React.useState('profile')

@@ -7,7 +7,9 @@ import TypeDialogsSwitcher from '../DialogsComponents/typeDialogsSwitcher/TypeDi
 
 const NavbarContentPage = () => {
 	const { newDialogs } = useSelector((state) => state.data)
+
 	const newDialogsCounter = newDialogs ? Object.keys(newDialogs).length : 0
+
 	return (
 		<div className={s.navbarWrapper}>
 			<TypeDialogsSwitcher

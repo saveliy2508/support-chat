@@ -1,11 +1,13 @@
 .modalHeader {
-  display: flex;
-  justify-content: space-between;
-  font-size: 28px;
-  .settingsType {
-    padding-left: 30px;
-  }
-  .xmark {
-    cursor: pointer;
-  }
+	display: flex;
+	justify-content: space-between;
+	font-size: 28px;
+
+	.settingsType {
+		padding-left: 30px;
+	}
+
+	.xmark {
+		cursor: pointer;
+	}
 }

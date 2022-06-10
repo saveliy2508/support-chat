@@ -156,7 +156,7 @@ const ChatWindow = () => {
 				<div className={s.typeIndicator}>
 					{typeIndicator === 'typing_on' && <div>собеседник печатает...</div>}
 				</div>
-				{dialog.ended !== true ? (
+				{!dialog.ended ? (
 					<div className={s.answerForm}>
 						<div className={s.answerInput}>
 							Введите ответ:
