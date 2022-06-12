@@ -53,7 +53,7 @@ const ChatWindow = () => {
 	const [openInput, setOpenInput] = React.useState(false)
 	const [inputImgValue, setInputImgValue] = React.useState('')
 
-	const [showPicker, setShowPicker] = React.useState('false')
+	const [showPicker, setShowPicker] = React.useState(false)
 
 	const handlePushNewMessage = () => {
 		if (textarea) {
@@ -72,6 +72,7 @@ const ChatWindow = () => {
 				timestamp: date.getTime(),
 				senderName: email
 			})
+			setTextarea('')
 		}
 	}
 
@@ -122,6 +123,7 @@ const ChatWindow = () => {
 	}
 
 	const onEmojiClick = (event, emojiObject) => {
+		setShowPicker(!showPicker)
 		setTextarea((prevInput) => prevInput + emojiObject.emoji)
 	}
 
@@ -142,72 +144,71 @@ const ChatWindow = () => {
 			</div>
 			<div className={s.chat}>
 				<div className={s.messages}>
-					{Object.values(dialog.messages).map((item, index) => (
-						<ChatMessage
-							key={'currentDialog' + index}
-							index={index}
-							text={item.text}
-							senderName={item.senderName}
-							timestamp={item.timestamp}
-							imgSrc={item.imgSrc}
-						/>
-					))}
+					{dialog?.messages &&
+						Object.values(dialog.messages).map((item, index) => (
+							<ChatMessage
+								key={'currentDialog' + index}
+								index={index}
+								text={item.text}
+								senderName={item.senderName}
+								timestamp={item.timestamp}
+								imgSrc={item.imgSrc}
+							/>
+						))}
 					<div className={s.typeIndicator}>
 						{typeIndicator === 'typing_on' && <div>собеседник печатает...</div>}
 					</div>
 				</div>
 			</div>
-			<div>
-				{!dialog.ended ? (
-					<div className={s.answerForm}>
-						<div className={s.answerInput}>
-							Введите ответ:
-							<Input
-								value={textarea}
-								onChange={(e) => handleTextareaChange(e)}
-								className={s.textarea}
-								bsSize="sm"
-								type="text"
-								list="answers"
-							/>
-							<datalist id="answers">
-								{templatePhrases &&
-									templatePhrases.map((item, index) => (
-										<option key={`operator${index}`} value={item} />
-									))}
-							</datalist>
-							<Button onClick={handlePushNewMessage}>Отправить</Button>
-						</div>
-						<div className={s.template}>
-							{openInput ? (
-								<Button onClick={handlePushNewImgMessage}>
-									Отправить изображение
-								</Button>
-							) : (
-								<Button onClick={() => setOpenInput(true)}>
-									Добавить изображение
-								</Button>
-							)}
-							<Button onClick={() => setShowPicker(!showPicker)}>Эмодзи</Button>
-							{openInput && (
-								<Input
-									value={inputImgValue}
-									onChange={(e) => setInputImgValue(e.target.value)}
-									placeholder="Введите ссылку на изображение"
-									type="text"
-								/>
-							)}
-							{!showPicker && (
-								<div className={s.picker}>
-									<Picker onEmojiClick={onEmojiClick} />
-								</div>
-							)}
-						</div>
+			{!dialog.ended ? (
+				<div className={s.answerForm}>
+					<div className={s.answerInput}>
+						Введите ответ:
+						<Input
+							value={textarea}
+							onChange={(e) => handleTextareaChange(e)}
+							className={s.textarea}
+							bsSize="sm"
+							type="text"
+							list="answers"
+						/>
+						<datalist id="answers">
+							{templatePhrases &&
+								templatePhrases.map((item, index) => (
+									<option key={`operator${index}`} value={item} />
+								))}
+						</datalist>
+						<Button onClick={handlePushNewMessage}>Отправить</Button>
 					</div>
-				) : (
-					<div className={s.isDialogEnded}>Диалог завершен</div>
-				)}
-			</div>
+					<div className={s.template}>
+						{openInput ? (
+							<Button onClick={handlePushNewImgMessage}>
+								Отправить изображение
+							</Button>
+						) : (
+							<Button onClick={() => setOpenInput(true)}>
+								Добавить изображение
+							</Button>
+						)}
+						<Button onClick={() => setShowPicker(!showPicker)}>Эмодзи</Button>
+						{openInput && (
+							<Input
+								value={inputImgValue}
+								onChange={(e) => setInputImgValue(e.target.value)}
+								placeholder="Введите ссылку на изображение"
+								type="text"
+							/>
+						)}
+						{showPicker && (
+							<div className={s.picker}>
+								<Picker onEmojiClick={onEmojiClick} />
+							</div>
+						)}
+					</div>
+				</div>
+			) : (
+				<div className={s.isDialogEnded}>Диалог завершен</div>
+			)}
 		</div>
 	)
 }

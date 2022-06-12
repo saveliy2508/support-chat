@@ -3,6 +3,7 @@
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
+	position: relative;
 
 	.title {
 		display: flex;
@@ -56,12 +57,7 @@
 			display: grid;
 			grid-template-columns: 1fr 1fr;
 			margin-top: 30px;
-			position: relative;
-
-			.picker {
-				position: absolute;
-				bottom: 150px;
-			}
+			margin-bottom: 40px;
 
 			.answerInput {
 				.textarea {
@@ -71,4 +67,10 @@
 			}
 		}
 	}
+}
+
+.picker {
+	position: absolute;
+	top: 0;
+	right: 0;
 }

@@ -12,7 +12,6 @@
 		grid-template-columns: 200px 1fr;
 		height: 100%;
 		overflow: auto;
-		margin-top: 10px;
 		@media (max-width: 769px) {
 			grid-template-columns: 100px 1fr;
 		}

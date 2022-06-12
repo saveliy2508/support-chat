@@ -66,7 +66,6 @@ function App() {
 					/>
 				</Routes>
 			</div>
-			<div className={s.footer}></div>
 		</div>
 	)
 }
