@@ -32,7 +32,7 @@ const ActiveDialogsPage = ({ addDialogToEnded }) => {
 	}
 
 	return (
-		<>
+		<div className={s.activeDialogs}>
 			<div className={s.title}>ActiveDialogsPage</div>
 			<div className={s.dialogsCards}>
 				{activeDialogs &&
@@ -52,7 +52,7 @@ const ActiveDialogsPage = ({ addDialogToEnded }) => {
 							</div>
 						))}
 			</div>
-		</>
+		</div>
 	)
 }
 

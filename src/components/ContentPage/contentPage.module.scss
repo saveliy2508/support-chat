@@ -1,15 +1,36 @@
 .contentWrapper {
-  margin: 0 30px;
-  display: grid;
-  grid-template-rows: 110px 1fr;
-  height: 100%;
-  .content{
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    height: 100%;
-    .dialogs {
-      margin: 0 30px;
-      height: 100%;
-    }
-  }
+	margin: 0 30px;
+	display: grid;
+	grid-template-rows: 110px 1fr;
+	height: 100%;
+	@media (max-width: 621px) {
+		margin: 0 10px;
+	}
+
+	.content {
+		display: grid;
+		grid-template-columns: 200px 1fr;
+		height: 100%;
+		overflow: auto;
+		margin-top: 10px;
+		@media (max-width: 769px) {
+			grid-template-columns: 100px 1fr;
+		}
+		@media (max-width: 621px) {
+			grid-template-columns: 0 1fr;
+		}
+
+		.navBar {
+			@media (max-width: 621px) {
+				visibility: hidden;
+			}
+		}
+
+		.dialogs {
+			margin: 0 30px;
+			overflow: auto;
+			height: 100%;
+			position: relative;
+		}
+	}
 }

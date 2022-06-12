@@ -108,7 +108,7 @@ const NewDialogsPage = () => {
 		}
 	}
 	return (
-		<>
+		<div className={s.newDialogs}>
 			<div className={s.header}>
 				<div className={s.title}>Страница новых диалогов</div>
 				<div className={s.input}>
@@ -147,35 +147,37 @@ const NewDialogsPage = () => {
 			{/*    */}
 
 			<div className={s.dialogsCards}>
-				{newDialogs &&
-					newDialogs
-						.filter(
-							radioButton === 'имени'
-								? (item) =>
-										item.clientName
-											.toLowerCase()
-											.includes(filterInput.toLowerCase())
-								: (item) =>
-										Object.values(item.messages)
-											[
-												Object.values(item.messages).length - 1
-											].text.toLowerCase()
-											.includes(filterInput.toLowerCase())
-						)
-						.map((item, index) => (
-							<div className={s.card} key={item.dialogId + index}>
-								<NewDialogCardComponent
-									clientName={item.clientName}
-									startTime={item.startTime}
-									dialogData={item}
-									handleAddToActiveDialogs={handleAddToActiveDialogs}
-									messages={item.messages}
-									senderName={item.senderName}
-								/>
-							</div>
-						))}
+				<div className={s.content}>
+					{newDialogs &&
+						newDialogs
+							.filter(
+								radioButton === 'имени'
+									? (item) =>
+											item.clientName
+												.toLowerCase()
+												.includes(filterInput.toLowerCase())
+									: (item) =>
+											Object.values(item.messages)
+												[
+													Object.values(item.messages).length - 1
+												].text.toLowerCase()
+												.includes(filterInput.toLowerCase())
+							)
+							.map((item, index) => (
+								<div className={s.card} key={item.dialogId + index}>
+									<NewDialogCardComponent
+										clientName={item.clientName}
+										startTime={item.startTime}
+										dialogData={item}
+										handleAddToActiveDialogs={handleAddToActiveDialogs}
+										messages={item.messages}
+										senderName={item.senderName}
+									/>
+								</div>
+							))}
+				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 

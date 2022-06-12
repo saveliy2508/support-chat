@@ -1,28 +1,35 @@
 .dialogCard {
-  height: 150px;
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: 100px 1fr 150px;
+	height: 150px;
+	margin-top: 20px;
+	display: grid;
+	grid-template-columns: 100px 1fr 150px;
+	@media (max-width: 500px) {
+		display: flex;
+		flex-direction: column;
+		.lastMessage {
+			padding: 15px;
+		}
+	}
 
-  .continueButton {
-    margin-bottom: 20px;
-  }
+	.continueButton {
+		margin-bottom: 20px;
+	}
 
-  .clientInfo {
-    font-weight: 700;
-  }
+	.clientInfo {
+		font-weight: 700;
+	}
 
-  .lastMessage {
-    margin: 0 20px;
-  }
+	.lastMessage {
+		margin: 0 20px;
+	}
 
-  .dialogInfo {
-    padding-right: 10px;
+	.dialogInfo {
+		padding-right: 10px;
 
-    p {
-      margin: 10px auto;
-      font-size: 12px;
-      font-weight: 700;
-    }
-  }
+		p {
+			margin: 10px auto;
+			font-size: 12px;
+			font-weight: 700;
+		}
+	}
 }

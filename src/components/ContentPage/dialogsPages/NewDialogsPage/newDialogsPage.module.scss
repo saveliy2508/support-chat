@@ -1,18 +1,26 @@
 .header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-  .title {
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
+	display: flex;
+	justify-content: space-between;
+	font-size: 24px;
+	flex-wrap: wrap;
+
+	.title {
+		font-weight: 700;
+		margin-bottom: 20px;
+	}
 }
 
-.filterInput{
-  margin-top: 15px;
+.newDialogs {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
-.dialogsCards{
-  overflow-y: auto;
-  height: 400px;
+.dialogsCards {
+	overflow: auto;
+	height: 100%;
+}
+
+.filterInput {
+	margin-top: 15px;
 }

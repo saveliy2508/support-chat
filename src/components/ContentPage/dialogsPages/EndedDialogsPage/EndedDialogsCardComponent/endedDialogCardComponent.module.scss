@@ -3,6 +3,13 @@
   margin-top: 20px;
   display: grid;
   grid-template-columns: 100px 1fr 150px;
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    .lastMessage {
+      padding: 15px;
+    }
+  }
 
   .clientInfo {
     font-weight: 700;
@@ -14,7 +21,8 @@
 
   .dialogInfo {
     padding-right: 10px;
-    .grade{
+
+    .grade {
       margin: 10px 0;
       text-align: center;
     }

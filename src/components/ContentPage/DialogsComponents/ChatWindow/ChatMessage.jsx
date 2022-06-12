@@ -1,4 +1,5 @@
 import React from 'react'
+
 import s from './chatWindow.module.scss'
 
 const MyComponent = ({ text, senderName, timestamp, imgSrc }) => {

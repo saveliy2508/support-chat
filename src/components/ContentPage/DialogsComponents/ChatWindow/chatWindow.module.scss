@@ -1,64 +1,74 @@
 .chatWindow {
-  .title {
-    display: flex;
-    justify-content: space-between;
-    font-size: 24px;
-    font-weight: 700;
-  }
-  .typeIndicator {
-    height: 10px;
-    margin-bottom: -20px;
-  }
+	height: 100%;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
 
-  .chat {
-    .isDialogEnded {
-      font-size: 20px;
-      padding: 30px;
-    }
-    .messages {
-      overflow-y: auto;
-      height: 400px;
-      margin: 15px;
+	.title {
+		display: flex;
+		justify-content: space-between;
+		font-size: 24px;
+		font-weight: 700;
+	}
 
-      .message {
-        margin: 5px 0;
+	.typeIndicator {
+		height: 10px;
+		margin-bottom: -20px;
+	}
 
-        .text {
-          display: inline-block;
-          font-size: 14px;
-          padding: 5px 5px;
-          border: 1px solid blue;
-          border-radius: 7px;
+	.chat {
+		height: 100%;
+		overflow-y: auto;
 
-          .messageImg {
-            max-width: 300px;
-          }
-        }
+		.isDialogEnded {
+			font-size: 20px;
+			padding: 30px;
+		}
 
-        .name {
-          opacity: 0.7;
-          font-size: 10px;
-        }
-      }
-    }
+		.messages {
+			margin: 15px;
 
-    .answerForm {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      margin-top: 30px;
-      position: relative;
+			.message {
+				margin: 5px 0;
 
-      .picker {
-        position: absolute;
-        bottom: 150px;
-      }
+				.text {
+					display: block;
+					font-size: 14px;
+					padding: 5px 5px;
+					border: 1px solid blue;
+					border-radius: 7px;
+					word-wrap: break-word;
+					max-height: 100%;
 
-      .answerInput {
-        .textarea {
-          padding: 5px;
-          height: 70px;
-        }
-      }
-    }
-  }
+					.messageImg {
+						max-width: 300px;
+					}
+				}
+
+				.name {
+					opacity: 0.7;
+					font-size: 10px;
+				}
+			}
+		}
+
+		.answerForm {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			margin-top: 30px;
+			position: relative;
+
+			.picker {
+				position: absolute;
+				bottom: 150px;
+			}
+
+			.answerInput {
+				.textarea {
+					padding: 5px;
+					height: 70px;
+				}
+			}
+		}
+	}
 }

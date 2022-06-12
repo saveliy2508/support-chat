@@ -13,14 +13,17 @@ const NewDialogCardComponent = ({
 	messages
 }) => {
 	const startMoment = moment(startTime).locale('ru').fromNow()
+
 	return (
 		<div className={s.dialogCard}>
 			<div className={s.clientInfo}>{clientName}</div>
 			<div className={s.lastMessage}>
-				<div>
-					{messages &&
-						Object.values(messages)[Object.values(messages).length - 1].text}
-				</div>
+				{`${
+					messages &&
+					Object.values(messages)[
+						Object.values(messages).length - 1
+					].text.slice(0, 80)
+				}...`}
 			</div>
 			<div className={s.dialogInfo}>
 				<Button

@@ -152,10 +152,12 @@ const ChatWindow = () => {
 							imgSrc={item.imgSrc}
 						/>
 					))}
+					<div className={s.typeIndicator}>
+						{typeIndicator === 'typing_on' && <div>собеседник печатает...</div>}
+					</div>
 				</div>
-				<div className={s.typeIndicator}>
-					{typeIndicator === 'typing_on' && <div>собеседник печатает...</div>}
-				</div>
+			</div>
+			<div>
 				{!dialog.ended ? (
 					<div className={s.answerForm}>
 						<div className={s.answerInput}>

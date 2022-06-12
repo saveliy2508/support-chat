@@ -32,29 +32,27 @@ const EndedDialogsPage = () => {
 	}
 
 	return (
-		<div>
-			<>
-				<div className={s.title}>EndedDialogsPage</div>
-				<div className={s.dialogsCards}>
-					{activeDialogs
-						? Object.values(activeDialogs)
-								.filter((item) => item.ended === true)
-								.map((item, index) => (
-									<div className={s.card} key={'endedDialogs' + index}>
-										<DialogCardComponent
-											clientName={item.clientName}
-											startTime={item.startTime}
-											dialogData={item}
-											messages={item.messages}
-											handleContinue={handleContinue}
-											handleSaveDialog={handleSaveDialog}
-											grade={item.grade}
-										/>
-									</div>
-								))
-						: null}
-				</div>
-			</>
+		<div className={s.endedDialogs}>
+			<div className={s.title}>EndedDialogsPage</div>
+			<div className={s.dialogsCards}>
+				{activeDialogs
+					? Object.values(activeDialogs)
+							.filter((item) => item.ended === true)
+							.map((item, index) => (
+								<div className={s.card} key={'endedDialogs' + index}>
+									<DialogCardComponent
+										clientName={item.clientName}
+										startTime={item.startTime}
+										dialogData={item}
+										messages={item.messages}
+										handleContinue={handleContinue}
+										handleSaveDialog={handleSaveDialog}
+										grade={item.grade}
+									/>
+								</div>
+							))
+					: null}
+			</div>
 		</div>
 	)
 }

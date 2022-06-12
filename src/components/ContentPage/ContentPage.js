@@ -32,6 +32,7 @@ import {
 	setActiveDialogs,
 	setNewDialogs
 } from '../../redux/actions/dataActions'
+import BurgerMenu from './NavbarContentPage/BurgerMenu/BurgerMenu'
 
 ReactModal.setAppElement('#root')
 
@@ -99,6 +100,7 @@ const ContentPage = () => {
 
 	// React Modal
 	const [isOpenModal, setIsOpenModal] = React.useState(false)
+	const [isOpenBurger, setIsOpenBurger] = React.useState(false)
 
 	return (
 		<>
@@ -116,12 +118,18 @@ const ContentPage = () => {
 				<ModalSettings setIsOpenModal={setIsOpenModal} />
 			</ReactModal>
 			<div className={s.contentWrapper}>
-				<HeaderContentPage setIsOpenModal={setIsOpenModal} />
+				<HeaderContentPage
+					setIsOpenModal={setIsOpenModal}
+					setIsOpenBurger={() => setIsOpenBurger(!isOpenBurger)}
+				/>
 				<div className={s.content}>
 					<div className={s.navBar}>
 						<NavbarContentPage />
 					</div>
 					<div className={s.dialogs}>
+						{isOpenBurger && (
+							<BurgerMenu setIsOpenBurger={() => setIsOpenBurger(false)} />
+						)}
 						<Routes>
 							<Route path="newDialogs" element={<NewDialogsPage />} />
 							<Route

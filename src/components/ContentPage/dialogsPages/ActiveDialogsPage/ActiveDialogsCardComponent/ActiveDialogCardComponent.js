@@ -38,9 +38,12 @@ const ActiveDialogCardComponent = ({
 				</div>
 			</div>
 			<div className={s.lastMessage}>
-				{`${Object.values(messages)[
-					Object.values(messages).length - 1
-				].text.slice(0, 80)}...`}
+				{`${
+					messages &&
+					Object.values(messages)[
+						Object.values(messages).length - 1
+					].text.slice(0, 80)
+				}...`}
 			</div>
 			<div className={s.dialogInfo}>
 				<Button
