@@ -155,14 +155,17 @@ const ChatWindow = () => {
 								imgSrc={item.imgSrc}
 							/>
 						))}
-					<div className={s.typeIndicator}>
-						{typeIndicator === 'typing_on' && <div>собеседник печатает...</div>}
-					</div>
 				</div>
 			</div>
+			{typeIndicator === 'typing_on' && <>собеседник печатает...</>}
 			{!dialog.ended ? (
 				<div className={s.answerForm}>
 					<div className={s.answerInput}>
+						{/*<div className={s.typeIndicator}>*/}
+						{/*	{typeIndicator === 'typing_on' && (*/}
+						{/*		<>собеседник печатает...</>*/}
+						{/*	)}*/}
+						{/*</div>*/}
 						Введите ответ:
 						<Input
 							value={textarea}
