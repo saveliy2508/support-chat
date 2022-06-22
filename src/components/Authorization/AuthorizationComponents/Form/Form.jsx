@@ -1,5 +1,6 @@
 import React from 'react'
 import { ToastContainer } from 'react-toastify'
+import PropTypes from 'prop-types'
 
 import s from './form.module.scss'
 
@@ -30,3 +31,7 @@ const Form = ({ formTitle }) => {
 }
 
 export default Form
+
+Form.propTypes = {
+	formTitle: PropTypes.string.isRequired
+}
